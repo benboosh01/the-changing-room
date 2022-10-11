@@ -58,7 +58,7 @@ export default {
         <label for="username" >username</label>
         <input id="username" v-model="username" placeholder="Enter username" required>
         <label for="avatar">Avatar</label>
-        <input id="avatar" type="text" v-model="avatar_url" placeholder="Enter image url">
+        <input id="avatar" type="url" v-on:change="avatar_url" placeholder="Enter image url">
         <label for="location">Location</label>
         <input id="location" type="text" v-model="location" placeholder="Enter postcode" required>
         <input
