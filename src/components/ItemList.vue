@@ -16,17 +16,11 @@
 </template>
 <script>
 import { supabase } from "../supabase";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUpdated } from "vue";
 import ItemImage from "./ItemImage.vue";
 
 export default {
   components: { ItemImage },
-  //   data() {
-  //     return {
-  //       categoryName: "",
-  //       categoryId: 0,
-  //     };
-  //   },
 
   setup() {
     const loading = ref(true);
@@ -46,15 +40,16 @@ export default {
       }
     }
     async function getItems() {
-      const query = supabase.from("items").select();
-      if (categoryName) {
-        categoryList.forEach((category) => {
+      let query = supabase.from("items").select();
+      console.log(categoryName.value)
+      if (categoryName.value) {
+        categoryList.value.forEach((category) => {
           if (category.category_name === categoryName) {
-            categoryId = category.id
-          };
+            categoryId = category.id;
+          }
         });
-        console.log(categoryId);
-        query = query.eq("category_id", categoryId);
+        console.log(categoryId.value);
+        query = query.eq("category_id", categoryId.value);
       }
 
       try {
@@ -72,6 +67,9 @@ export default {
     onMounted(() => {
       getCategories();
       getItems();
+    });
+    onUpdated(() => {
+      getCategories();
     });
     return { itemList, categoryList, categoryName, categoryId };
   },
