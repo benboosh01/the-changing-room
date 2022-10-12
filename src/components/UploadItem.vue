@@ -4,15 +4,18 @@ import { ref } from "vue";
 export default {
   setup() {
     const loading = ref(false);
-    const item_name = ref('');
-    const description = ref('');
+    const item_name = ref("");
+    const description = ref("");
     const category_id = ref(null);
-    const condition = ref('');
-    const item_preview_url = ref('');
+    const condition = ref("");
+    let item_preview_url = ref("");
 
     async function uploadItemForm() {
+
       try {
         loading.value = true;
+
+        const file = item_preview_url.value[0];
 
         // todo - owner_id is hardcoded, user login must be working to send this
         const data = {
@@ -20,11 +23,15 @@ export default {
           description: description.value,
           category_id: category_id.value,
           condition: condition.value,
-          item_preview_url: item_preview_url.value,
+          item_preview_url: file.name,
           owner_id: "c205d247-4a22-46ad-8458-45d6d1964d0f",
         };
-        console.log("DATAAAAAA", data);
+
         const { error } = await supabase.from("items").insert(data);
+
+        let { error: uploadError } = await supabase.storage
+          .from("avatars")
+          .upload(file.name, file);
 
         if (error) throw error;
       } catch (error) {
@@ -41,6 +48,14 @@ export default {
       }
     }
 
+    function onFileSelected(event) {
+      if (event.target.files.length === 0) {
+        return;
+      }
+
+      item_preview_url.value = event.target.files;
+    }
+
     return {
       loading,
       item_name,
@@ -49,16 +64,9 @@ export default {
       condition,
       item_preview_url,
       uploadItemForm,
+      onFileSelected,
     };
   },
-      watch: {
-        item_preview_url(newItemPreviewUrl, oldItemPreviewUrl) {
-            if (!newItemPreviewUrl
-                  .match(/(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/)) {
-                alert('item preview url must be a valid url')
-            } 
-        }
-    }
 };
 </script>
 
@@ -86,9 +94,7 @@ export default {
     <label for="category_id">Category</label>
 
     <select v-model="category_id" required>
-      <option value="0" selected disabled>
-        ---- Select Category ----
-      </option>
+      <option value="0" selected disabled>---- Select Category ----</option>
       <option value="1">Formal Wear</option>
       <option value="2">Outdoor Gear</option>
       <option value="3">Coats and Jackets</option>
@@ -109,9 +115,10 @@ export default {
     <label for="item_preview_url">Image</label>
     <input
       id="item_preview_url"
-      type="text"
-      v-model="item_preview_url"
-      placeholder="Enter image url"
+      type="file"
+      @change="onFileSelected($event)"
+      placeholder="Choose file to upload"
+      accept="image/jpeg, image/png, image/jpg"
       required
     />
 
@@ -123,3 +130,5 @@ export default {
     />
   </form>
 </template>
+
+<!-- v-model="item_preview_url" -->
