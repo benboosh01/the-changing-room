@@ -13,8 +13,8 @@
     <label htmlFor="location">Location</label>
     <input v-model="location" />
     <label htmlFor="avatar">Profile picture</label>
-    <input v-model="avatar_url" />
-    <br/>
+    <input type="file" v-on:change="setFiles" />
+    <br />
     <button>Submit</button>
   </form>
 </template>
@@ -29,10 +29,16 @@ const userId = ref("");
 const username = ref("");
 const location = ref("");
 const avatar_url = ref("");
+const avatarFile = ref("");
 const image = ref("");
 let clicked = ref(false);
 
-async function onClick() {
+function setFiles(event) {
+  avatarFile.value = event.target.files[0];
+  avatar_url.value = `${username.value}_avatar`;
+}
+
+function onClick() {
   clicked.value = true;
 }
 async function onSubmit() {
@@ -42,18 +48,25 @@ async function onSubmit() {
     location: location.value,
   };
   try {
-    console.log('updating')
     loading.value = true;
     const { error } = await supabase
       .from("users")
       .update(updatedDetails)
       .eq("id", userId.value);
-  } catch (error) {
-    alert(error.message);
+
+    const { image, error1 } = await supabase.storage
+      .from("public/avatars")
+      .update(avatar_url.value, avatarFile.value, { upsert: true });
+    console.log("updating");
+
+    if (error1) throw error1;
+  } catch (error1) {
+    console.log(error)
+    alert(error1.message);
   } finally {
     loading.value = false;
     clicked.value = false;
-    alert('details updated')
+    // alert("details updated");
   }
 }
 
@@ -84,8 +97,8 @@ async function getProfile() {
     }
     const { data, error } = await supabase.storage
       .from("avatars")
-      .download(avatar_url.value);
-    image.value = URL.createObjectURL(data);
+      .getPublicUrl(avatar_url.value);
+    image.value = data.publicURL;
   } catch (error) {
     alert(error.message);
   } finally {
