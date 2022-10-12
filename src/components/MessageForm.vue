@@ -1,20 +1,20 @@
 <script>
 import { ref } from "vue";
+import { store } from "../store";
 import { supabase } from "../supabase";
 
 export default {
   setup() {
     const messageBody = ref("");
-    const username = ref("");
+    const user = ref(store.user);
 
     async function handleMessage() {
       try {
         const data = {
-          user_from_id: "c205d247-4a22-46ad-8458-45d6d1964d0e", // TODO: from user should be dynamic
-          user_to_id: "c205d247-4a22-46ad-8458-45d6d1964d0f", // TODO: to user should be dynamic
+          user_from_id: user.value.id,
+          user_to_id: user.value.id, // TODO: user_to_id should be dynamic, and the recipients id
           text: messageBody.value,
         };
-
         const { error } = await supabase.from("messages").insert(data);
         alert(error ? "Message failed to send" : "Succesfully sent message");
       } catch (error) {
@@ -26,7 +26,7 @@ export default {
 
     return {
       messageBody,
-      username,
+      user,
       handleMessage,
     };
   },
@@ -35,7 +35,7 @@ export default {
 
 <template>
   <!-- Replace to_user with the recipients username -->
-  <h2>Send a message to {{ to_user }}</h2>
+  <h2>Send a message to {{ user.username }}</h2>
   <form @submit.prevent="handleMessage">
     <label for="message-body" />
     <textarea
