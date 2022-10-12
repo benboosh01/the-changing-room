@@ -1,7 +1,7 @@
 <template>
   <h1>Available Items</h1>
-  <label htmlFor="category">Category</label>
-  <select v-model="categoryName">
+  <label htmlFor="categoryName">Category</label>
+  <select v-model="categoryName" @change="getItems(categoryName)">
     <option v-for="element in categoryList">{{ element.category_name }}</option>
   </select>
   <div v-if="categoryName">Displaying results for {{ categoryName }}</div>
@@ -14,20 +14,15 @@
     </li>
   </ul>
 </template>
-<script>
+<script setup>
 import { supabase } from "../supabase";
-import { ref, onMounted, onUpdated } from "vue";
+import { ref, onMounted } from "vue";
 import ItemImage from "./ItemImage.vue";
 
-export default {
-  components: { ItemImage },
-
-  setup() {
     const loading = ref(true);
     const itemList = ref([]);
     const categoryList = ref([]);
-    const categoryName = ref("");
-    const categoryId = ref(0);
+    let categoryId = ref(0);
 
     async function getCategories() {
       try {
@@ -39,17 +34,15 @@ export default {
         alert(error.message);
       }
     }
-    async function getItems() {
+    async function getItems(categoryName) {
       let query = supabase.from("items").select();
-      console.log(categoryName.value)
-      if (categoryName.value) {
+      if (categoryName) {
         categoryList.value.forEach((category) => {
           if (category.category_name === categoryName) {
             categoryId = category.id;
           }
         });
-        console.log(categoryId.value);
-        query = query.eq("category_id", categoryId.value);
+        query = query.eq("category_id", categoryId);
       }
 
       try {
@@ -68,10 +61,4 @@ export default {
       getCategories();
       getItems();
     });
-    onUpdated(() => {
-      getCategories();
-    });
-    return { itemList, categoryList, categoryName, categoryId };
-  },
-};
 </script>
