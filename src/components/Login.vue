@@ -42,7 +42,7 @@ export default {
         alert(error.message);
       } finally {
         loading.value = false;
-        router.push('/userItems');
+        router.push('/profile');
       }
     }
 
