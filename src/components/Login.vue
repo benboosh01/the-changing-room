@@ -12,33 +12,45 @@
   </form>
 </template>
 
-<script setup>
+<script>
 import { supabase } from '../supabase';
 import { ref } from 'vue';
 import { store } from '../store';
+import router from '../router';
 
-const loading = ref(false);
-const username = ref('');
+export default {
+  data() {
+    const loading = ref(false);
+    const username = ref('');
 
-async function loginUser() {
-  try {
-    loading.value = true;
+    async function loginUser() {
+      try {
+        loading.value = true;
 
-    const { data, error, status } = await supabase
-      .from('users')
-      .select('*')
-      .eq('username', username.value)
-      .single();
+        const { data, error, status } = await supabase
+          .from('users')
+          .select('*')
+          .eq('username', username.value)
+          .single();
 
-    if (error && status !== 406) throw error;
+        if (error && status !== 406) throw error;
 
-    if (data) {
-      store.user = data;
+        if (data) {
+          store.user = data;
+        }
+      } catch (error) {
+        alert(error.message);
+      } finally {
+        loading.value = false;
+        router.push('/userItems');
+      }
     }
-  } catch (error) {
-    alert(error.message);
-  } finally {
-    loading.value = false;
-  }
-}
+
+    return {
+      loading,
+      username,
+      loginUser,
+    };
+  },
+};
 </script>
