@@ -9,19 +9,14 @@ export default {
     const user = ref(store.user);
 
     async function handleMessage() {
-      try {
-        const data = {
-          user_from_id: user.value.id,
-          user_to_id: user.value.id, // TODO: user_to_id should be dynamic, and the recipients id
-          text: messageBody.value,
-        };
-        const { error } = await supabase.from("messages").insert(data);
-        alert(error ? "Message failed to send" : "Succesfully sent message");
-      } catch (error) {
-        alert(error);
-      } finally {
-        messageBody.value = "";
-      }
+      const data = {
+        user_from_id: user.value.id,
+        user_to_id: user.value.id, // TODO: user_to_id should be dynamic, and be the recipients id
+        text: messageBody.value,
+      };
+      const { error } = await supabase.from("messages").insert(data);
+      alert(error ? "Message failed to send" : "Succesfully sent message");
+      messageBody.value = "";
     }
 
     return {
