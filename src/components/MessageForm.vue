@@ -6,22 +6,25 @@ import { supabase } from "../supabase";
 export default {
   setup() {
     const messageBody = ref("");
-    const user = ref(store.user);
 
     async function handleMessage() {
       const data = {
-        user_from_id: user.value.id,
-        user_to_id: user.value.id, // TODO: user_to_id should be dynamic, and be the recipients id
+        user_from_id: store.user.id,
+        user_to_id: store.user.id, // TODO: user_to_id should be dynamic, and be the recipients id
         text: messageBody.value,
       };
       const { error } = await supabase.from("messages").insert(data);
-      alert(error ? "Message failed to send" : "Succesfully sent message");
-      messageBody.value = "";
+      if (error) {
+        alert("Message failed to send");
+      } else {
+        alert("Succesfully sent message");
+        messageBody.value = "";
+      }
     }
 
     return {
       messageBody,
-      user,
+      store,
       handleMessage,
     };
   },
@@ -29,8 +32,8 @@ export default {
 </script>
 
 <template>
-  <!-- Replace to_user with the recipients username -->
-  <h2>Send a message to {{ user.username }}</h2>
+  <!-- Replace 'store.user.username' with the recipients username -->
+  <h2>Send a message to {{ store.user.username }}</h2>
   <form @submit.prevent="handleMessage">
     <label for="message-body" />
     <textarea
