@@ -12,6 +12,7 @@ import { onMounted, ref } from "vue";
 const props = defineProps(["url"]);
 const loading = ref(true);
 const imageSrc = ref("");
+
 async function getItemImage() {
   try {
     const { data, error } = await supabase.storage
