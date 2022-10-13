@@ -35,33 +35,39 @@ let clicked = ref(false);
 
 function setFiles(event) {
   avatarFile.value = event.target.files[0];
-  avatar_url.value = `${username.value}_avatar`;
 }
 
 function onClick() {
   clicked.value = true;
 }
 async function onSubmit() {
-  const updatedDetails = {
-    username: username.value,
-    avatar_url: avatar_url.value,
-    location: location.value,
-  };
+ 
   try {
     loading.value = true;
-    const { error } = await supabase
-      .from("users")
-      .update(updatedDetails)
-      .eq("id", userId.value);
-
+    console.log(avatar_url.value)
+    
     const { data, error1 } = await supabase.storage
       .from("avatars")
       .remove([avatar_url.value]);
 
+      avatar_url.value = avatar_url.value + new Date().getTime()
+
+    console.log(avatar_url.value)
+
     const { image, error2 } = await supabase.storage
       .from("avatars")
       .upload(avatar_url.value, avatarFile.value, { upsert: true });
-    console.log("updating");
+
+    const updatedDetails = {
+      username: username.value,
+      avatar_url: avatar_url.value,
+      location: location.value,
+    };
+
+    const { error } = await supabase
+      .from("users")
+      .update(updatedDetails)
+      .eq("id", userId.value);
 
     if (error) throw error;
   } catch (error) {
@@ -88,7 +94,6 @@ async function getUser() {
 
 async function getProfile() {
   try {
-    console.log("fetching profile");
     loading.value = true;
     let user = await supabase
       .from("users")
@@ -105,7 +110,6 @@ async function getProfile() {
       .from("avatars")
       .getPublicUrl(avatar_url.value);
     image.value = data.publicURL;
-    console.log(image.value);
   } catch (error) {
     alert(error.message);
   } finally {
