@@ -3,7 +3,9 @@ import HomePage from '../views/HomePage.vue';
 import ProfilePage from '../views/ProfilePage.vue';
 import ItemsPage from '../views/ItemsPage.vue';
 
-const routes = [{path: '/home', component: HomePage}, {path: '/profile', component: ProfilePage}, {path: '/items', component: ItemsPage}];
+const routes = [{ path: '/home', component: HomePage },
+  { path: '/', component: HomePage },
+  { path: '/profile', component: ProfilePage }, { path: '/items', component: ItemsPage }];
 
 const router = createRouter({
   history: createWebHistory(),
