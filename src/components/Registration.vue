@@ -27,7 +27,7 @@ export default {
 
         const { image } = await supabase.storage
           .from("avatars")
-          .upload(avatar_url.value, avatarFile.value);
+          .upload(avatar_url.value, avatarFile.value, { upsert: true });
 
         if (error) throw error;
       } catch (error) {

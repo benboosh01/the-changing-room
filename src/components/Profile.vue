@@ -54,19 +54,24 @@ async function onSubmit() {
       .update(updatedDetails)
       .eq("id", userId.value);
 
-    const { image, error1 } = await supabase.storage
-      .from("public/avatars")
-      .update(avatar_url.value, avatarFile.value, { upsert: true });
+    const { data, error1 } = await supabase.storage
+      .from("avatars")
+      .remove([avatar_url.value]);
+
+    const { image, error2 } = await supabase.storage
+      .from("avatars")
+      .upload(avatar_url.value, avatarFile.value, { upsert: true });
     console.log("updating");
 
-    if (error1) throw error1;
-  } catch (error1) {
-    console.log(error)
-    alert(error1.message);
+    if (error) throw error;
+  } catch (error) {
+    alert(error.message);
   } finally {
+    getProfile();
     loading.value = false;
     clicked.value = false;
-    // alert("details updated");
+
+    alert("details updated");
   }
 }
 
@@ -83,6 +88,7 @@ async function getUser() {
 
 async function getProfile() {
   try {
+    console.log("fetching profile");
     loading.value = true;
     let user = await supabase
       .from("users")
@@ -99,6 +105,7 @@ async function getProfile() {
       .from("avatars")
       .getPublicUrl(avatar_url.value);
     image.value = data.publicURL;
+    console.log(image.value);
   } catch (error) {
     alert(error.message);
   } finally {
