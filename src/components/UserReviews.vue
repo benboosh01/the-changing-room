@@ -9,14 +9,15 @@
 </template>
 
 <script>
-import { supabase } from "../supabase";
-import { onMounted, ref } from "vue";
-import { store } from "../store";
+import { supabase } from '../supabase';
+import { onMounted, ref } from 'vue';
+import { useStore } from '../store';
 
 export default {
   setup() {
+    const store = useStore();
     const loading = ref(false);
-    const userId = ref("");
+    const userId = ref('');
     const userReviews = ref([]);
 
     async function getUser() {
@@ -37,9 +38,9 @@ export default {
         loading.value = true;
 
         const { data: reviews, error } = await supabase
-          .from("reviews")
-          .select("*")
-          .eq("reviewee_id", userId.value);
+          .from('reviews')
+          .select('*')
+          .eq('reviewee_id', userId.value);
 
         if (reviews) {
           userReviews.value = reviews;
