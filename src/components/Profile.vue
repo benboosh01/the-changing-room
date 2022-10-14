@@ -13,7 +13,7 @@
     <label htmlFor="location">Location</label>
     <input v-model="location" />
     <label htmlFor="avatar">Profile picture</label>
-    <input v-model="avatar_url" />
+    <input type="file" v-on:change="setFiles" />
     <br />
     <button>Submit</button>
   </form>
@@ -30,28 +30,51 @@ const userId = ref("");
 const username = ref("");
 const location = ref("");
 const avatar_url = ref("");
+const avatarFile = ref("");
 const image = ref("");
 let clicked = ref(false);
 
-async function onClick() {
+function setFiles(event) {
+  avatarFile.value = event.target.files[0];
+}
+
+function onClick() {
   clicked.value = true;
 }
 async function onSubmit() {
-  const updatedDetails = {
-    username: username.value,
-    avatar_url: avatar_url.value,
-    location: location.value,
-  };
+ 
   try {
-    console.log("updating");
     loading.value = true;
+    console.log(avatar_url.value)
+    
+    const { data, error1 } = await supabase.storage
+      .from("avatars")
+      .remove([avatar_url.value]);
+
+      avatar_url.value = avatar_url.value + new Date().getTime()
+
+    console.log(avatar_url.value)
+
+    const { image, error2 } = await supabase.storage
+      .from("avatars")
+      .upload(avatar_url.value, avatarFile.value, { upsert: true });
+
+    const updatedDetails = {
+      username: username.value,
+      avatar_url: avatar_url.value,
+      location: location.value,
+    };
+
     const { error } = await supabase
       .from("users")
       .update(updatedDetails)
       .eq("id", userId.value);
+
+    if (error) throw error;
   } catch (error) {
     alert(error.message);
   } finally {
+    getProfile();
     loading.value = false;
     clicked.value = false;
     alert("details updated");
@@ -85,10 +108,8 @@ async function getProfile() {
     }
     const { data, error } = await supabase.storage
       .from("avatars")
-      .download(avatar_url.value);
-
-      console.log('avatar data', data, error)
-    image.value = URL.createObjectURL(data);
+      .getPublicUrl(avatar_url.value);
+    image.value = data.publicURL;
   } catch (error) {
     alert(error.message);
   } finally {
