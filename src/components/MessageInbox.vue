@@ -2,7 +2,7 @@
   <section style="text-align: center">
     <h2>My messages</h2>
     <li v-for="item in messages">
-      <p>From: {{ item.user_from_id }}</p>
+      <p>From: {{ item.from_username }}</p>
       <p>{{ item.text }}</p>
       <button>View chat</button>
     </li>
@@ -26,8 +26,11 @@ export default {
           .select("*")
           .eq(["user_from_id", "user_to_id"], store.user.id);
         if (error) throw error;
-
         messages.value.push(...items);
+        messages.value.map(
+          async (item) =>
+            (item.from_username = await getUsernameFromUUID(item.user_from_id))
+        );
       } catch (error) {
         alert(error);
       } finally {
@@ -35,6 +38,18 @@ export default {
       }
     }
 
+    async function getUsernameFromUUID(uuid) {
+      try {
+        const { data, error } = await supabase
+          .from("users")
+          .select("username")
+          .eq("id", uuid);
+        if (error) throw error;
+        return data[0].username;
+      } catch (error) {
+        alert(error);
+      }
+    }
     onMounted(() => {
       getUserMessages();
     });
