@@ -1,5 +1,5 @@
 <template>
-  <h1>{{ username }} Items</h1>
+  <h1>{{ loggedInUser === userId ? 'Your' : username }} Items</h1>
   <ul>
     <li v-for="item in userItems" :key="item.id">
       <h3>{{ item.item_name }}</h3>
@@ -24,6 +24,7 @@ export default {
     const username = ref('');
     const userId = ref('');
     const userItems = ref([]);
+    const loggedInUser = store.user.id;
 
     async function getUser() {
       try {
@@ -46,6 +47,8 @@ export default {
           .select('*')
           .eq('owner_id', userId.value);
 
+        if (error) throw error;
+
         if (items) {
           userItems.value = items;
         }
@@ -66,6 +69,7 @@ export default {
       username,
       userId,
       userItems,
+      loggedInUser,
     };
   },
 };
