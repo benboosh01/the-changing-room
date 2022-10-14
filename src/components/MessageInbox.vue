@@ -1,24 +1,37 @@
 <template>
   <section style="text-align: center">
     <h2>My messages</h2>
-    <li v-for="item in messages">
+    <li v-for="item in messages" :key="item.messages[0]">
       From: {{ item.from_username }}
-      <p>{{ item.messages[item.messages.length - 1] }}</p>
-      <button>View full chat</button>
+      <button @click="showChat()">{{ show ? "View " : "Hide " }}chat</button>
+      <IndividualMessageBox v-if="!show" :messages="item" />
+      <MessageForm
+        v-if="!show"
+        :username="item.from_username"
+        :userId="item.from"
+      />
     </li>
   </section>
 </template>
 
 <script>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref } from "vue";
 import { useStore } from '../store';
-import { supabase } from '../supabase';
+import { supabase } from "../supabase";
+import IndividualMessageBox from "./IndividualMessageBox.vue";
+import MessageForm from "./MessageForm.vue";
 
 export default {
   setup() {
     const store = useStore();
     const loading = ref(false);
     const messages = ref([]);
+    const show = ref(false);
+
+    function showChat() {
+      show.value = !show.value;
+    }
+
     async function getUserMessages() {
       try {
         loading.value = true;
@@ -38,7 +51,6 @@ export default {
         loading.value = false;
       }
     }
-
     async function getUsernameFromUUID(uuid) {
       try {
         const { data, error } = await supabase
@@ -63,16 +75,20 @@ export default {
       messages.forEach((message) => {
         const user_from_id = message.user_from_id;
         const text = message.text;
+        const created_at = new Date(message.timestamp);
         let changed = false;
         groups.forEach((group) => {
-          if (group['from'] === user_from_id) {
-            group.messages.push(text);
+          if (group["from"] === user_from_id) {
+            group.messages.push({ message: text, created_at });
             changed = true;
             return;
           }
         });
         if (!changed) {
-          groups.push({ from: user_from_id, messages: [text] });
+          groups.push({
+            from: user_from_id,
+            messages: [{ message: text, created_at }],
+          });
         }
       });
       return groups;
@@ -86,8 +102,11 @@ export default {
       loading,
       messages,
       store,
+      show,
+      showChat,
     };
   },
+  components: { IndividualMessageBox, MessageForm },
 };
 </script>
 
