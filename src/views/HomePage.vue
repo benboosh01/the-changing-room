@@ -1,7 +1,7 @@
 <template>
   <h1>Home page</h1>
   <Login v-if="loginVisible" />
-  <Registration v-if="regVisible" />
+  <Registration v-if="regVisible" @toggleLogin="toggleLogin" />
   <button @click="toggleLogin" v-if="loginBtn">Login</button>
   <button @click="toggleReg" v-if="regBtn">Register</button>
 </template>
