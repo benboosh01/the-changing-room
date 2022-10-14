@@ -2,14 +2,27 @@
   <h1>Swaps List</h1>
   <h2>Items Sent:</h2>
   <ul>
-    <li v-for="item in userSent" :key="item.id">
+    <li v-for="item in userSent" :key="item.items.id" :value="item.item_id">
       <h3>{{ item.items.item_name }}</h3>
       <p>Sent to: {{ item.users.username }}</p>
       <!-- <ItemImage v-if="item" :url="item.item_preview_url" /> -->
-      <button value="item.users.id" @click="contactUser">
+      <button :value="item.items.id" @click="contactUser">
         Contact {{ item.users.username }}
       </button>
-      <button value="item.users.id" @click="leaveReview">Leave Review</button>
+      <button
+        :value="item.item_id"
+        @click="leaveReview"
+        v-if="checkReviews(loggedInUser, item.item_id)"
+      >
+        Leave Review
+      </button>
+      <ReviewForm
+        v-if="visible && item.item_id === itemId"
+        :username="item.users.username"
+        :itemId="itemId"
+        @toggleVisible="toggleVisible"
+        @updateReviews="updateReviews"
+      />
     </li>
   </ul>
   <h2>Items Recieved:</h2>
@@ -18,12 +31,23 @@
       <h3>{{ item.items.item_name }}</h3>
       <p>Received from: {{ item.items.owner_username }}</p>
       <!-- <ItemImage v-if="item" :url="item.item_preview_url" /> -->
-      <button value="item.items.owner_id" @click="contactUser">
+      <button @click="contactUser" :value="item.items.owner_username">
         Contact {{ item.items.owner_username }}
       </button>
-      <button value="item.items.owner_id" @click="leaveReview">
+      <button
+        :value="item.item_id"
+        @click="leaveReview"
+        v-if="checkReviews(loggedInUser, item.item_id)"
+      >
         Leave Review
       </button>
+      <ReviewForm
+        v-if="visible && item.item_id === itemId"
+        :username="item.items.owner_username"
+        :itemId="itemId"
+        @toggleVisible="toggleVisible"
+        @updateReviews="updateReviews"
+      />
     </li>
   </ul>
 </template>
@@ -33,10 +57,11 @@ import { supabase } from '../supabase';
 import { onMounted, ref } from 'vue';
 import { store } from '../store';
 import ItemImage from './ItemImage.vue';
-import router from '../router';
+import ReviewForm from './ReviewForm.vue';
 
 export default {
-  components: { ItemImage },
+  name: 'SwapsList',
+  components: { ItemImage, ReviewForm },
 
   setup() {
     const loggedInUser = ref('');
@@ -44,6 +69,10 @@ export default {
     const userSent = ref([]);
     const userRecieved = ref([]);
     const swapUser = ref('');
+    const itemId = ref('');
+    const visible = ref(false);
+    const reviewsList = ref([]);
+    const disabled = ref(false);
 
     async function getUser() {
       try {
@@ -68,6 +97,8 @@ export default {
           .eq('items.owner_id', loggedInUser.value);
 
         if (error) throw error;
+
+        console.log(sent);
         if (sent) {
           userSent.value = sent;
         }
@@ -89,8 +120,6 @@ export default {
           )
           .eq('user_to', loggedInUser.value);
 
-        console.log(recieved);
-
         if (error) throw error;
         if (recieved) {
           userRecieved.value = recieved;
@@ -102,20 +131,57 @@ export default {
       }
     }
 
-    function leaveReview(event) {
-      swapUser.value = event.target.value;
-      router.push({ path: '/review', params: { user_id: swapUser } });
+    async function getReviews() {
+      try {
+        loading.value = true;
+
+        const { data: reviews, error } = await supabase
+          .from('reviews')
+          .select();
+
+        if (error) throw error;
+
+        console.log(reviews);
+        if (reviews) {
+          reviewsList.value = reviews;
+        }
+      } catch (error) {
+        alert(error.message);
+      } finally {
+        loading.value = false;
+      }
     }
 
-    function contactUser(event) {
-      swapUser.value = event.target.value;
-      router.push({ path: '/contact', params: { user_id: swapUser } });
+    function leaveReview(event) {
+      itemId.value = event.target.value;
+      visible.value = true;
+    }
+
+    function toggleVisible() {
+      visible.value = false;
+    }
+
+    function contactUser(event) {}
+
+    function checkReviews(userId, itemId) {
+      let show = true;
+      reviewsList.value.forEach((review) => {
+        if (userId === review.reviewer_id && itemId === review.item_id) {
+          show = false;
+        }
+      });
+      return show;
+    }
+
+    function updateReviews(data) {
+      reviewsList.value.push(data);
     }
 
     onMounted(() => {
       getUser();
       getSent();
       getReceived();
+      getReviews();
     });
 
     return {
@@ -123,11 +189,15 @@ export default {
       userSent,
       userRecieved,
       swapUser,
-      getUser,
-      getSent,
-      getReceived,
+      visible,
+      itemId,
+      reviewsList,
+      disabled,
       leaveReview,
       contactUser,
+      checkReviews,
+      toggleVisible,
+      updateReviews,
     };
   },
 };
