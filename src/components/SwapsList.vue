@@ -156,7 +156,6 @@ export default {
 
         if (error) throw error;
 
-        console.log(reviews);
         if (reviews) {
           reviewsList.value = reviews;
         }
