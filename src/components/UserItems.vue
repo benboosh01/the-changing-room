@@ -1,5 +1,7 @@
 <template>
   <h1>{{ loggedInUser === userId ? 'Your' : username }} Items</h1>
+  <button @click="toggleUpload">Add New Item</button>
+  <UploadItem v-if="upLoadVisible && loggedInUser === userId" />
   <ul>
     <li v-for="item in userItems" :key="item.id">
       <h3>{{ item.item_name }}</h3>
@@ -15,9 +17,10 @@ import { supabase } from '../supabase';
 import { onMounted, ref } from 'vue';
 import { store } from '../store';
 import ItemImage from './ItemImage.vue';
+import UploadItem from './UploadItem.vue';
 
 export default {
-  components: { ItemImage },
+  components: { ItemImage, UploadItem },
 
   setup() {
     const loading = ref(false);
@@ -25,6 +28,7 @@ export default {
     const userId = ref('');
     const userItems = ref([]);
     const loggedInUser = store.user.id;
+    const upLoadVisible = ref(false);
 
     async function getUser() {
       try {
@@ -59,6 +63,10 @@ export default {
       }
     }
 
+    function toggleUpload() {
+      upLoadVisible.value = true;
+    }
+
     onMounted(() => {
       getUser();
       getUserItems();
@@ -70,6 +78,8 @@ export default {
       userId,
       userItems,
       loggedInUser,
+      upLoadVisible,
+      toggleUpload,
     };
   },
 };
