@@ -1,13 +1,16 @@
 <script>
-import { supabase } from "../supabase";
-import { ref } from "vue";
+import { supabase } from '../supabase';
+import { ref } from 'vue';
 export default {
-  setup() {
+  emits: ['toggleLogin'],
+
+  setup(_, context) {
     const loading = ref(false);
-    const username = ref("");
-    const avatar_url = ref("");
-    const location = ref("");
-    const avatarFile = ref("");
+    const username = ref('');
+    const avatar_url = ref('');
+    const location = ref('');
+    const avatarFile = ref('');
+    const disable = ref(false);
 
     function setFiles(event) {
       avatarFile.value = event.target.files[0];
@@ -23,10 +26,10 @@ export default {
           location: location.value,
         };
 
-        const { error } = await supabase.from("users").insert(data);
+        const { error } = await supabase.from('users').insert(data);
 
         const { image } = await supabase.storage
-          .from("avatars")
+          .from('avatars')
           .upload(avatar_url.value, avatarFile.value, { upsert: true });
 
         if (error) throw error;
@@ -34,17 +37,25 @@ export default {
         alert(error.message);
       } finally {
         loading.value = false;
-        username.value = "";
-        avatar_url.value = "";
-        location.value = "";
-        alert("Succesfully registered");
+        username.value = '';
+        avatar_url.value = '';
+        avatarFile.value = '';
+        location.value = '';
+        alert('Succesfully registered');
+        toggleLogin();
       }
     }
+
+    function toggleLogin() {
+      context.emit('toggleLogin');
+    }
+
     return {
       loading,
       username,
       avatar_url,
       location,
+      disable,
       submitForm,
       setFiles,
     };
@@ -52,7 +63,10 @@ export default {
   watch: {
     username(newUsername, oldUsername) {
       if (!newUsername.match(/^[A-Za-z0-9]*$/)) {
-        alert("username must only contain alpha numeric characters");
+        alert('username must only contain alpha numeric characters');
+        this.disable = true;
+      } else {
+        this.disable = false;
       }
     },
   },
@@ -81,14 +95,14 @@ export default {
       id="location"
       type="text"
       v-model="location"
-      placeholder="Enter postcode"
+      placeholder="Enter nearest town/city"
       required
     />
     <input
       type="submit"
       class="button block primary"
       :value="loading ? 'Loading ...' : 'Submit'"
-      :disabled="loading"
+      :disabled="loading || disable"
     />
   </form>
 </template>
