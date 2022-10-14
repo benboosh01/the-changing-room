@@ -10,7 +10,6 @@
 import Title from './components/Title.vue'
 import TheNavigation from './components/TheNavigation.vue'
 
-
 export default {
   components: {
     Title,

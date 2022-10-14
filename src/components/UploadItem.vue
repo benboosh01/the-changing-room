@@ -1,6 +1,8 @@
 <script>
 import { supabase } from "../supabase";
 import { ref } from "vue";
+import { store } from "../store";
+
 export default {
   setup() {
     const loading = ref(false);
@@ -11,11 +13,12 @@ export default {
     let item_preview_url = ref("");
 
     async function uploadItemForm() {
-
       try {
         loading.value = true;
 
         const file = item_preview_url.value[0];
+
+        if (!file.name) return "ERROR";
 
         // todo - owner_id is hardcoded, user login must be working to send this
         const data = {
@@ -24,7 +27,8 @@ export default {
           category_id: category_id.value,
           condition: condition.value,
           item_preview_url: file.name,
-          owner_id: "c205d247-4a22-46ad-8458-45d6d1964d0f",
+          owner_id: store.user.id,
+          owner_username: store.user.username
         };
 
         const { error } = await supabase.from("items").insert(data);
@@ -71,7 +75,6 @@ export default {
 </script>
 
 <template>
-  <h1>Upload Item</h1>
   <form @submit.prevent="uploadItemForm">
     <label for="item_name">Item</label>
     <input

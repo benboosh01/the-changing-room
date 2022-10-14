@@ -1,3 +1,4 @@
+
 import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "../views/HomePage.vue";
 import ProfilePage from "../views/ProfilePage.vue";
