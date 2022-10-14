@@ -2,9 +2,9 @@
   <section style="text-align: center">
     <h2>My messages</h2>
     <li v-for="item in messages">
-      <p>From: {{ item.from_username }}</p>
-      <p>{{ item.text }}</p>
-      <button>View chat</button>
+      From: {{ item.from_username }}
+      <p>{{ item.messages[item.messages.length - 1] }}</p>
+      <button>View full chat</button>
     </li>
   </section>
 </template>
@@ -24,15 +24,15 @@ export default {
         const { data: items, error } = await supabase
           .from("messages")
           .select("*")
-          .eq(["user_from_id", "user_to_id"], store.user.id);
+          .eq("user_to_id", store.user.id);
         if (error) throw error;
-        messages.value.push(...items);
+        messages.value.push(...groupMessages(items));
         messages.value.map(
           async (item) =>
-            (item.from_username = await getUsernameFromUUID(item.user_from_id))
+            (item.from_username = await getUsernameFromUUID(item.from))
         );
       } catch (error) {
-        alert(error);
+        alert(error.message);
       } finally {
         loading.value = false;
       }
@@ -50,6 +50,33 @@ export default {
         alert(error);
       }
     }
+
+    /**
+     * Groups a list of messages by property 'user_from_id'
+     *
+     * @param {array} messages
+     * @returns {array}
+     */
+    function groupMessages(messages) {
+      const groups = [];
+      messages.forEach((message) => {
+        const user_from_id = message.user_from_id;
+        const text = message.text;
+        let changed = false;
+        groups.forEach((group) => {
+          if (group["from"] === user_from_id) {
+            group.messages.push(text);
+            changed = true;
+            return;
+          }
+        });
+        if (!changed) {
+          groups.push({ from: user_from_id, messages: [text] });
+        }
+      });
+      return groups;
+    }
+
     onMounted(() => {
       getUserMessages();
     });
