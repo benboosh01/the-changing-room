@@ -37,12 +37,14 @@ export default {
 
         if (data) {
           store.user = data;
+          router.push('/profile');
+        } else {
+          alert('no user found, please register');
         }
       } catch (error) {
         alert(error.message);
       } finally {
         loading.value = false;
-        router.push('/profile');
       }
     }
 
