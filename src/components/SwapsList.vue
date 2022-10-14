@@ -6,7 +6,7 @@
       <h3>{{ item.items.item_name }}</h3>
       <p>Sent to: {{ item.users.username }}</p>
       <!-- <ItemImage v-if="item" :url="item.item_preview_url" /> -->
-      <button :value="item.items.id" @click="contactUser">
+      <button :value="item.item_id" @click="contactUser">
         Contact {{ item.users.username }}
       </button>
       <button
@@ -17,11 +17,17 @@
         Leave Review
       </button>
       <ReviewForm
-        v-if="visible && item.item_id === itemId"
+        v-if="reviewVisible && item.item_id === itemId"
         :username="item.users.username"
         :itemId="itemId"
         @toggleVisible="toggleVisible"
         @updateReviews="updateReviews"
+      />
+      <MessageForm
+        v-if="messageVisible && item.item_id === itemId"
+        :username="item.users.username"
+        :userId="item.users.id"
+        @toggleVisible="toggleVisible"
       />
     </li>
   </ul>
@@ -31,7 +37,7 @@
       <h3>{{ item.items.item_name }}</h3>
       <p>Received from: {{ item.items.owner_username }}</p>
       <!-- <ItemImage v-if="item" :url="item.item_preview_url" /> -->
-      <button @click="contactUser" :value="item.items.owner_username">
+      <button @click="contactUser" :value="item.item_id">
         Contact {{ item.items.owner_username }}
       </button>
       <button
@@ -42,11 +48,17 @@
         Leave Review
       </button>
       <ReviewForm
-        v-if="visible && item.item_id === itemId"
+        v-if="reviewVisible && item.item_id === itemId"
         :username="item.items.owner_username"
         :itemId="itemId"
         @toggleVisible="toggleVisible"
         @updateReviews="updateReviews"
+      />
+      <MessageForm
+        v-if="messageVisible && item.item_id === itemId"
+        :username="item.items.owner_username"
+        :userId="item.items.owner_id"
+        @toggleVisible="toggleVisible"
       />
     </li>
   </ul>
@@ -58,10 +70,11 @@ import { onMounted, ref } from 'vue';
 import { store } from '../store';
 import ItemImage from './ItemImage.vue';
 import ReviewForm from './ReviewForm.vue';
+import MessageForm from './MessageForm.vue';
 
 export default {
   name: 'SwapsList',
-  components: { ItemImage, ReviewForm },
+  components: { ItemImage, ReviewForm, MessageForm },
 
   setup() {
     const loggedInUser = ref('');
@@ -70,9 +83,10 @@ export default {
     const userRecieved = ref([]);
     const swapUser = ref('');
     const itemId = ref('');
-    const visible = ref(false);
     const reviewsList = ref([]);
     const disabled = ref(false);
+    const reviewVisible = ref(false);
+    const messageVisible = ref(false);
 
     async function getUser() {
       try {
@@ -154,14 +168,18 @@ export default {
 
     function leaveReview(event) {
       itemId.value = event.target.value;
-      visible.value = true;
+      reviewVisible.value = true;
+    }
+
+    function contactUser(event) {
+      itemId.value = event.target.value;
+      messageVisible.value = true;
     }
 
     function toggleVisible() {
-      visible.value = false;
+      reviewVisible.value = false;
+      messageVisible.value = false;
     }
-
-    function contactUser(event) {}
 
     function checkReviews(userId, itemId) {
       let show = true;
@@ -189,7 +207,8 @@ export default {
       userSent,
       userRecieved,
       swapUser,
-      visible,
+      messageVisible,
+      reviewVisible,
       itemId,
       reviewsList,
       disabled,
