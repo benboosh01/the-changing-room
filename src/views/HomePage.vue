@@ -36,6 +36,9 @@ function checkLoggedIn() {
   if (user.id) {
     regBtn.value = false;
     loginBtn.value = false;
+  } else {
+    regBtn.value = true;
+    loginBtn.value = true;
   }
 }
 
