@@ -27,13 +27,14 @@
 <script>
 import { supabase } from '../supabase';
 import { ref } from 'vue';
-import { store } from '../store';
+import { useStore } from '../store';
 
 export default {
   name: 'ReviewForm',
   props: ['username', 'itemId'],
   emits: ['toggleVisible', 'updateReviews'],
   setup(props, context) {
+    const store = useStore();
     const loading = ref(false);
     const revieweeUsername = ref('');
     const revieweeId = ref('');
