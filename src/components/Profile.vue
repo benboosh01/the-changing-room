@@ -14,7 +14,7 @@
     <input v-model="location" />
     <label htmlFor="avatar">Profile picture</label>
     <input v-model="avatar_url" />
-    <br/>
+    <br />
     <button>Submit</button>
   </form>
 </template>
@@ -22,6 +22,7 @@
 <script setup>
 import { supabase } from "../supabase";
 import { store } from "../store";
+console.log("store", store);
 import { ref, onMounted } from "vue";
 
 const loading = ref(true);
@@ -42,7 +43,7 @@ async function onSubmit() {
     location: location.value,
   };
   try {
-    console.log('updating')
+    console.log("updating");
     loading.value = true;
     const { error } = await supabase
       .from("users")
@@ -53,7 +54,7 @@ async function onSubmit() {
   } finally {
     loading.value = false;
     clicked.value = false;
-    alert('details updated')
+    alert("details updated");
   }
 }
 
@@ -85,6 +86,8 @@ async function getProfile() {
     const { data, error } = await supabase.storage
       .from("avatars")
       .download(avatar_url.value);
+
+      console.log('avatar data', data, error)
     image.value = URL.createObjectURL(data);
   } catch (error) {
     alert(error.message);

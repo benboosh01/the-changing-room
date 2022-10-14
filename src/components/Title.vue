@@ -1,3 +1,3 @@
 <template>
-    <h1>Hello Team!</h1>
+    <h1>The Changing Room</h1>
 </template>
