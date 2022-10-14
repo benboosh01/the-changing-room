@@ -6,10 +6,16 @@
   <ItemImage v-if="itemImage" :url="itemImage" />
   <p>Posted by: {{ itemOwner }}</p>
   <p>{{ itemDescription }}</p>
-  <button @click="onMessageClick">Message {{ itemOwner }}</button>
-  <button>Start a swap</button>
-  <!-- to do - add in component for swap form -->
-  <div v-show="messageClicked" >
+
+  <button v-show="!messageClicked" @click="onMessageClick">Message {{ itemOwner }}</button>
+
+  <button v-show="!swapClicked" @click="onSwapClick">Start a swap</button>
+
+  <div v-if="swapClicked && id">
+    <SwapForm :username="itemOwner" :userId="itemOwnerId" :itemId="id" />
+  </div>
+
+  <div v-show="messageClicked && id" >
 <MessageForm :username="itemOwner" :userId="itemOwnerId"/>
   </div>
   
@@ -17,10 +23,10 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import router from "../router";
 import { supabase } from "../supabase";
 import ItemImage from "./ItemImage.vue";
 import MessageForm from "./MessageForm.vue";
+import SwapForm from "./SwapForm.vue";
 
 const route = useRoute();
 const id = route.params.id;
@@ -33,6 +39,7 @@ const itemOwnerId = ref('')
 const itemOwner = ref("");
 const itemImage = ref("");
 const messageClicked = ref(false);
+const swapClicked = ref(false);
 
 async function getItemById() {
   try {
@@ -59,11 +66,9 @@ async function getItemById() {
 }
 function onMessageClick() {
   messageClicked.value = true 
-  console.log(messageClicked)
 }
-
 function onSwapClick() {
-  router.push({ name: "swapForm", params: { item_id: id } });
+  swapClicked.value = true
 }
 
 onMounted(() => {
