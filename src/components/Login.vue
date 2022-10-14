@@ -15,13 +15,14 @@
 <script>
 import { supabase } from '../supabase';
 import { ref } from 'vue';
-import { store } from '../store';
+import { useStore } from '../store';
 import router from '../router';
 
 export default {
   data() {
     const loading = ref(false);
     const username = ref('');
+    const store = useStore();
 
     async function loginUser() {
       try {

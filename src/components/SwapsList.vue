@@ -67,7 +67,7 @@
 <script>
 import { supabase } from '../supabase';
 import { onMounted, ref } from 'vue';
-import { store } from '../store';
+import { useStore } from '../store';
 import ItemImage from './ItemImage.vue';
 import ReviewForm from './ReviewForm.vue';
 import MessageForm from './MessageForm.vue';
@@ -77,6 +77,7 @@ export default {
   components: { ItemImage, ReviewForm, MessageForm },
 
   setup() {
+    const store = useStore();
     const loggedInUser = ref('');
     const loading = ref(false);
     const userSent = ref([]);

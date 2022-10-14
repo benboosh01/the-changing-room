@@ -1,6 +1,6 @@
 <script>
 import { ref } from 'vue';
-import { store } from '../store';
+import { useStore } from '../store';
 import { supabase } from '../supabase';
 
 export default {
@@ -8,6 +8,7 @@ export default {
   props: ['username', 'userId'],
   emits: ['toggleVisible'],
   setup(props, context) {
+    const store = useStore();
     const messageBody = ref('');
 
     async function handleMessage() {

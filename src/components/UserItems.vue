@@ -15,7 +15,7 @@
 <script>
 import { supabase } from '../supabase';
 import { onMounted, ref } from 'vue';
-import { store } from '../store';
+import { useStore } from '../store';
 import ItemImage from './ItemImage.vue';
 import UploadItem from './UploadItem.vue';
 
@@ -23,6 +23,7 @@ export default {
   components: { ItemImage, UploadItem },
 
   setup() {
+    const store = useStore();
     const loading = ref(false);
     const username = ref('');
     const userId = ref('');

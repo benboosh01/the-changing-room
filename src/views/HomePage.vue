@@ -9,8 +9,9 @@
 import Login from '../components/Login.vue';
 import Registration from '../components/Registration.vue';
 import { onMounted, ref } from 'vue';
-import { store } from '../store';
+import { useStore } from '../store';
 
+const store = useStore();
 const loginVisible = ref(false);
 const loginBtn = ref(true);
 const regVisible = ref(false);

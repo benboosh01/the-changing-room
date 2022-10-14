@@ -1,6 +1,10 @@
-import { reactive } from "vue";
+import { defineStore } from 'pinia';
+import { useStorage } from '@vueuse/core';
 
-export const store = reactive({
-  user: {},
+export const useStore = defineStore('store', {
+  state: () => {
+    return {
+      user: useStorage('user', {}),
+    };
+  },
 });
-console.log('store', store)

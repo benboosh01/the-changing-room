@@ -10,8 +10,10 @@
 <script setup>
 import Title from './components/Title.vue';
 import TheNavigation from './components/TheNavigation.vue';
-import { store } from './store';
+import { useStore } from './store';
 import router from './router';
+
+const store = useStore();
 
 function logOut() {
   if (store.user.id) {
