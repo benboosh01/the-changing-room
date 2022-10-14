@@ -4,12 +4,11 @@ import ProfilePage from "../views/ProfilePage.vue";
 import ItemsPage from "../views/ItemsPage.vue";
 import SingleItemPage from "../views/SingleItemPage.vue";
 
-// had an item_page route but it was breaking the other routes!
 const routes = [
-  { path: "/home", component: HomePage },
+  { path: "/home", name: "home", component: HomePage },
   { path: "/", component: HomePage },
-  { path: "/profile", component: ProfilePage },
-  { path: "/items", component: ItemsPage },
+  { path: "/profile", name: "profile", component: ProfilePage },
+  { path: "/items", name: "itemsList", component: ItemsPage },
   { path: "/item_page/:id", name: "singleItem", component: SingleItemPage },
 ];
 

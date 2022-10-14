@@ -28,9 +28,6 @@ const categoryList = ref([]);
 let categoryId = ref(0);
 
 function selectItem(id) {
-  if (id !== 'home' || id !== 'profile' || id !== 'items'){
-    router.push({ name: "singleItem", params: { id: id } })
-  }
   router.push({ name: "singleItem", params: {id: id}})
 
 }
