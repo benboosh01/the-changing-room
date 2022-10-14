@@ -22,6 +22,7 @@
 <script setup>
 import { supabase } from "../supabase";
 import { store } from "../store";
+console.log("store", store);
 import { ref, onMounted } from "vue";
 
 const loading = ref(true);
@@ -76,7 +77,6 @@ async function onSubmit() {
     getProfile();
     loading.value = false;
     clicked.value = false;
-
     alert("details updated");
   }
 }

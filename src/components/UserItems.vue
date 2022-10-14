@@ -48,7 +48,6 @@ export default {
 
         if (items) {
           userItems.value = items;
-          console.log(userItems._rawValue);
         }
       } catch (error) {
         alert(error.message);
