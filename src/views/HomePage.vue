@@ -8,12 +8,14 @@
 <script setup>
 import Login from '../components/Login.vue';
 import Registration from '../components/Registration.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { store } from '../store';
 
 const loginVisible = ref(false);
 const loginBtn = ref(true);
 const regVisible = ref(false);
 const regBtn = ref(true);
+const user = store.user;
 
 function toggleLogin() {
   loginVisible.value = true;
@@ -28,4 +30,15 @@ function toggleReg() {
   regVisible.value = true;
   loginBtn.value = true;
 }
+
+function checkLoggedIn() {
+  if (user.id) {
+    regBtn.value = false;
+    loginBtn.value = false;
+  }
+}
+
+onMounted(() => {
+  checkLoggedIn();
+});
 </script>
