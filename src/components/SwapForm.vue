@@ -28,6 +28,7 @@ export default {
   name: "SwapForm",
   props: ["username", "userId", "itemId", "itemName"],
   setup(props) {
+    const store = useStore();
     const loggedInUser = store.user.id;
     const recipientUser = props.userId;
     const requestedItemId = props.itemId;
