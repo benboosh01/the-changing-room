@@ -21,7 +21,7 @@
 
 <script>
 import { onMounted, ref } from "vue";
-import { store } from "../store";
+import { useStore } from "../store";
 import { supabase } from "../supabase";
 
 export default {
