@@ -7,8 +7,10 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^1.35.7",
+    "@vueuse/core": "^9.3.0",
+    "pinia": "^2.0.23",
     "vue": "^3.2.40",
-    "vue-router": "^4.1.5"
+    "vue-router": "^4.0.13"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.10.2",

@@ -1,5 +1,7 @@
 <template>
-  <h1>{{ username }} Items</h1>
+  <h1>{{ loggedInUser === userId ? 'Your' : username }} Items</h1>
+  <button @click="toggleUpload">Add New Item</button>
+  <UploadItem v-if="upLoadVisible && loggedInUser === userId" />
   <ul>
     <li v-for="item in userItems" :key="item.id">
       <h3>{{ item.item_name }}</h3>
@@ -13,17 +15,21 @@
 <script>
 import { supabase } from '../supabase';
 import { onMounted, ref } from 'vue';
-import { store } from '../store';
+import { useStore } from '../store';
 import ItemImage from './ItemImage.vue';
+import UploadItem from './UploadItem.vue';
 
 export default {
-  components: { ItemImage },
+  components: { ItemImage, UploadItem },
 
   setup() {
+    const store = useStore();
     const loading = ref(false);
     const username = ref('');
     const userId = ref('');
     const userItems = ref([]);
+    const loggedInUser = store.user.id;
+    const upLoadVisible = ref(false);
 
     async function getUser() {
       try {
@@ -46,15 +52,20 @@ export default {
           .select('*')
           .eq('owner_id', userId.value);
 
+        if (error) throw error;
+
         if (items) {
           userItems.value = items;
-          console.log(userItems._rawValue);
         }
       } catch (error) {
         alert(error.message);
       } finally {
         loading.value = false;
       }
+    }
+
+    function toggleUpload() {
+      upLoadVisible.value = true;
     }
 
     onMounted(() => {
@@ -67,6 +78,9 @@ export default {
       username,
       userId,
       userItems,
+      loggedInUser,
+      upLoadVisible,
+      toggleUpload,
     };
   },
 };

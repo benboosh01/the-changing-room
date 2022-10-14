@@ -1,25 +1,34 @@
 <script>
-import { ref } from "vue";
-import { store } from "../store";
-import { supabase } from "../supabase";
+import { ref } from 'vue';
+import { useStore } from '../store';
+import { supabase } from '../supabase';
 
 export default {
-  setup() {
-    const messageBody = ref("");
+  name: 'MessageForm',
+  props: ['username', 'userId'],
+  emits: ['toggleVisible'],
+  setup(props, context) {
+    const store = useStore();
+    const messageBody = ref('');
 
     async function handleMessage() {
       const data = {
         user_from_id: store.user.id,
-        user_to_id: store.user.id, // TODO: user_to_id should be dynamic, and be the recipients id
+        user_to_id: props.userId, // TODO: user_to_id should be dynamic, and be the recipients id
         text: messageBody.value,
       };
-      const { error } = await supabase.from("messages").insert(data);
+      const { error } = await supabase.from('messages').insert(data);
       if (error) {
-        alert("Message failed to send");
+        alert('Message failed to send');
       } else {
-        alert("Succesfully sent message");
-        messageBody.value = "";
+        alert('Succesfully sent message');
+        messageBody.value = '';
+        toggleVisible();
       }
+    }
+
+    function toggleVisible() {
+      context.emit('toggleVisible');
     }
 
     return {
@@ -33,7 +42,7 @@ export default {
 
 <template>
   <!-- Replace 'store.user.username' with the recipients username -->
-  <h2>Send a message to {{ store.user.username }}</h2>
+  <h2>Send a message to {{ username }}</h2>
   <form @submit.prevent="handleMessage">
     <label for="message-body" />
     <textarea

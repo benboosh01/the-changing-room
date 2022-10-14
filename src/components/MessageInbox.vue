@@ -16,13 +16,14 @@
 
 <script>
 import { onMounted, ref } from "vue";
-import { store } from "../store";
+import { useStore } from '../store';
 import { supabase } from "../supabase";
 import IndividualMessageBox from "./IndividualMessageBox.vue";
 import MessageForm from "./MessageForm.vue";
 
 export default {
   setup() {
+    const store = useStore();
     const loading = ref(false);
     const messages = ref([]);
     const show = ref(false);
@@ -35,9 +36,9 @@ export default {
       try {
         loading.value = true;
         const { data: items, error } = await supabase
-          .from("messages")
-          .select("*")
-          .eq("user_to_id", store.user.id);
+          .from('messages')
+          .select('*')
+          .eq('user_to_id', store.user.id);
         if (error) throw error;
         messages.value.push(...groupMessages(items));
         messages.value.map(
@@ -53,9 +54,9 @@ export default {
     async function getUsernameFromUUID(uuid) {
       try {
         const { data, error } = await supabase
-          .from("users")
-          .select("username")
-          .eq("id", uuid);
+          .from('users')
+          .select('username')
+          .eq('id', uuid);
         if (error) throw error;
         return data[0].username;
       } catch (error) {

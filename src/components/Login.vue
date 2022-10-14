@@ -15,13 +15,14 @@
 <script>
 import { supabase } from '../supabase';
 import { ref } from 'vue';
-import { store } from '../store';
+import { useStore } from '../store';
 import router from '../router';
 
 export default {
   data() {
     const loading = ref(false);
     const username = ref('');
+    const store = useStore();
 
     async function loginUser() {
       try {
@@ -37,12 +38,14 @@ export default {
 
         if (data) {
           store.user = data;
+          router.push('/profile');
+        } else {
+          alert('no user found, please register');
         }
       } catch (error) {
         alert(error.message);
       } finally {
         loading.value = false;
-        router.push('/profile');
       }
     }
 

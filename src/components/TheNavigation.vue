@@ -1,8 +1,8 @@
 <template>
   <ul id="nav-bar">
-    <router-link to="home">Home</router-link>
-    <router-link to="items">Items</router-link>
-    <router-link to="profile">Profile</router-link>
+    <router-link to="/home">Home</router-link>
+    <router-link to="/items">Items</router-link>
+    <router-link to="/profile">Profile</router-link>
   </ul>
 </template>
 

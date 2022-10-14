@@ -13,56 +13,81 @@
     <label htmlFor="location">Location</label>
     <input v-model="location" />
     <label htmlFor="avatar">Profile picture</label>
-    <input v-model="avatar_url" />
-    <br/>
+    <input type="file" v-on:change="setFiles" />
+    <br />
     <button>Submit</button>
   </form>
 </template>
 
 <script setup>
-import { supabase } from "../supabase";
-import { store } from "../store";
-import { ref, onMounted } from "vue";
+import { supabase } from '../supabase';
+import { useStore } from '../store';
+import { ref, onMounted } from 'vue';
 
+const store = useStore();
 const loading = ref(true);
-const userId = ref("");
-const username = ref("");
-const location = ref("");
-const avatar_url = ref("");
-const image = ref("");
+const userId = ref('');
+const username = ref('');
+const location = ref('');
+const avatar_url = ref('');
+const avatarFile = ref('');
+const image = ref('');
 let clicked = ref(false);
 
-async function onClick() {
+function setFiles(event) {
+  avatarFile.value = event.target.files[0];
+}
+
+function onClick() {
   clicked.value = true;
 }
 async function onSubmit() {
-  const updatedDetails = {
-    username: username.value,
-    avatar_url: avatar_url.value,
-    location: location.value,
-  };
   try {
-    console.log('updating')
     loading.value = true;
+    console.log(avatar_url.value);
+
+    const { data, error1 } = await supabase.storage
+      .from('avatars')
+      .remove([avatar_url.value]);
+
+    avatar_url.value = avatar_url.value + new Date().getTime();
+
+    console.log(avatar_url.value);
+
+    const { image, error2 } = await supabase.storage
+      .from('avatars')
+      .upload(avatar_url.value, avatarFile.value, { upsert: true });
+
+    const updatedDetails = {
+      username: username.value,
+      avatar_url: avatar_url.value,
+      location: location.value,
+    };
+
     const { error } = await supabase
-      .from("users")
+      .from('users')
       .update(updatedDetails)
-      .eq("id", userId.value);
+      .eq('id', userId.value);
+
+    if (error) throw error;
   } catch (error) {
     alert(error.message);
   } finally {
+    getProfile();
     loading.value = false;
     clicked.value = false;
-    alert('details updated')
+    alert('details updated');
   }
 }
 
 async function getUser() {
   try {
     loading.value = true;
+
+    if (!store.user.id) throw error;
     userId.value = store.user.id;
   } catch (error) {
-    alert(error.message);
+    alert('Please log in or register');
   } finally {
     loading.value = false;
   }
@@ -72,9 +97,9 @@ async function getProfile() {
   try {
     loading.value = true;
     let user = await supabase
-      .from("users")
+      .from('users')
       .select(`username, location, avatar_url`)
-      .eq("id", userId.value)
+      .eq('id', userId.value)
       .single();
     if (user.error && user.status !== 406) throw error;
     if (user.data) {
@@ -83,11 +108,11 @@ async function getProfile() {
       avatar_url.value = user.data.avatar_url;
     }
     const { data, error } = await supabase.storage
-      .from("avatars")
-      .download(avatar_url.value);
-    image.value = URL.createObjectURL(data);
+      .from('avatars')
+      .getPublicUrl(avatar_url.value);
+    image.value = data.publicURL;
   } catch (error) {
-    alert(error.message);
+    alert('Please log in or register');
   } finally {
     loading.value = false;
   }
