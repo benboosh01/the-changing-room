@@ -84,9 +84,12 @@ async function onSubmit() {
 async function getUser() {
   try {
     loading.value = true;
+   
+    if (!store.user.id) throw error
     userId.value = store.user.id;
+
   } catch (error) {
-    alert(error.message);
+    alert('Please log in or register');
   } finally {
     loading.value = false;
   }
@@ -111,7 +114,7 @@ async function getProfile() {
       .getPublicUrl(avatar_url.value);
     image.value = data.publicURL;
   } catch (error) {
-    alert(error.message);
+    alert('Please log in or register');
   } finally {
     loading.value = false;
   }
