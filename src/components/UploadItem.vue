@@ -4,7 +4,8 @@ import { ref } from "vue";
 import { useStore } from "../store";
 
 export default {
-  setup() {
+  emits: ['toggleUpload'],
+  setup(_, context) {
     const store = useStore();
     const loading = ref(false);
     const item_name = ref("");
@@ -48,9 +49,11 @@ export default {
         item_name.value = "";
         description.value = "";
         category_id.value = null;
-        condition.value = "";
-        item_preview_url.value = "";
-        alert("Succesfully uploaded item");
+        condition.value = '';
+        item_preview_url.value = '';
+        alert('Succesfully uploaded item');
+        toggleUpload();
+
       }
     }
 
@@ -58,8 +61,11 @@ export default {
       if (event.target.files.length === 0) {
         return;
       }
-
       item_preview_url.value = event.target.files;
+    }
+
+    function toggleUpload() {
+      context.emit('toggleUpload');
     }
 
     return {

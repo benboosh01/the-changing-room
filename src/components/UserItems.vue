@@ -1,7 +1,10 @@
 <template>
   <h1>{{ loggedInUser === userId ? "Your" : username }} Items</h1>
   <button @click="toggleUpload">Add New Item</button>
-  <UploadItem v-if="upLoadVisible && loggedInUser === userId" />
+  <UploadItem
+    v-if="upLoadVisible && loggedInUser === userId"
+    @toggleUpload="toggleUpload"
+  />
   <ul>
     <li v-for="item in userItems" :key="item.id">
       <h3>{{ item.item_name }}</h3>
@@ -16,6 +19,7 @@
         "
         :id="chosenItem"
       />
+      <button @click="selectItem(item.id)">View item details</button>
     </li>
   </ul>
 </template>
@@ -27,6 +31,7 @@ import { useStore } from "../store";
 import ItemImage from "./ItemImage.vue";
 import UploadItem from "./UploadItem.vue";
 import EditRemoveItem from "./EditRemoveItem.vue";
+import router from '../router';
 
 export default {
   components: { ItemImage, UploadItem, EditRemoveItem },
@@ -76,7 +81,17 @@ export default {
     }
 
     function toggleUpload() {
-      upLoadVisible.value = true;
+      console.log(upLoadVisible.value);
+      if (upLoadVisible.value) {
+        upLoadVisible.value = false;
+      } else {
+        upLoadVisible.value = true;
+      }
+      console.log(upLoadVisible.value);
+    }
+
+    function selectItem(id) {
+      router.push({ name: 'singleItem', params: { id: id } });
     }
 
     function clickEditRemove(id) {
@@ -105,6 +120,7 @@ export default {
       clickEditRemove,
       editRemoveClicked,
       chosenItem,
+      selectItem,
     };
   },
 };
