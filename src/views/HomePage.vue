@@ -2,13 +2,17 @@
   <h1>Home page</h1>
   <Login v-if="loginVisible" />
   <Registration v-if="regVisible" @toggleLogin="toggleLogin" />
-  <button @click="toggleLogin" v-if="loginBtn">Login</button>
-  <button @click="toggleReg" v-if="regBtn">Register</button>
+  <button @click="toggleLogin" v-if="!store.user.id" v-show="loginBtn">
+    Login
+  </button>
+  <button @click="toggleReg" v-if="!store.user.id" v-show="regBtn">
+    Register
+  </button>
 </template>
 <script setup>
 import Login from '../components/Login.vue';
 import Registration from '../components/Registration.vue';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { useStore } from '../store';
 
 const store = useStore();
@@ -31,18 +35,4 @@ function toggleReg() {
   regVisible.value = true;
   loginBtn.value = true;
 }
-
-function checkLoggedIn() {
-  if (user.id) {
-    regBtn.value = false;
-    loginBtn.value = false;
-  } else {
-    regBtn.value = true;
-    loginBtn.value = true;
-  }
-}
-
-onMounted(() => {
-  checkLoggedIn();
-});
 </script>

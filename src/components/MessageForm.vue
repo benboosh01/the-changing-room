@@ -6,7 +6,7 @@ import { supabase } from '../supabase';
 export default {
   name: 'MessageForm',
   props: ['username', 'userId'],
-  emits: ['toggleVisible'],
+  emits: ['toggleVisible', 'onMessageClick'],
   setup(props, context) {
     const store = useStore();
     const messageBody = ref('');
@@ -29,6 +29,7 @@ export default {
 
     function toggleVisible() {
       context.emit('toggleVisible');
+      context.emit('onMessageClick');
     }
 
     return {
