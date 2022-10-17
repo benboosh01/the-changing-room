@@ -44,15 +44,12 @@ function onClick() {
 async function onSubmit() {
   try {
     loading.value = true;
-    console.log(avatar_url.value);
 
     const { data, error1 } = await supabase.storage
       .from('avatars')
       .remove([avatar_url.value]);
 
     avatar_url.value = avatar_url.value + new Date().getTime();
-
-    console.log(avatar_url.value);
 
     const { image, error2 } = await supabase.storage
       .from('avatars')

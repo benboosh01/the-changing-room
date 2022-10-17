@@ -1,18 +1,18 @@
 <script>
-import { supabase } from '../supabase';
-import { ref } from 'vue';
-import { useStore } from '../store';
+import { supabase } from "../supabase";
+import { ref } from "vue";
+import { useStore } from "../store";
 
 export default {
   emits: ['toggleUpload'],
   setup(_, context) {
     const store = useStore();
     const loading = ref(false);
-    const item_name = ref('');
-    const description = ref('');
+    const item_name = ref("");
+    const description = ref("");
     const category_id = ref(null);
-    const condition = ref('');
-    let item_preview_url = ref('');
+    const condition = ref("");
+    let item_preview_url = ref("");
 
     async function uploadItemForm() {
       try {
@@ -20,7 +20,7 @@ export default {
 
         const file = item_preview_url.value[0];
 
-        if (!file.name) return 'ERROR';
+        if (!file.name) return "ERROR";
 
         // todo - owner_id is hardcoded, user login must be working to send this
         const data = {
@@ -33,25 +33,27 @@ export default {
           owner_username: store.user.username,
         };
 
-        const { error } = await supabase.from('items').insert(data);
+        const { error } = await supabase.from("items").insert(data);
+        console.log(file)
 
         let { error: uploadError } = await supabase.storage
-          .from('avatars')
+          .from("item-images")
           .upload(file.name, file);
 
         if (error) throw error;
       } catch (error) {
-        console.log('error', error);
+        console.log("error", error);
         alert(error.message);
       } finally {
         loading.value = false;
-        item_name.value = '';
-        description.value = '';
+        item_name.value = "";
+        description.value = "";
         category_id.value = null;
         condition.value = '';
         item_preview_url.value = '';
         alert('Succesfully uploaded item');
         toggleUpload();
+
       }
     }
 
@@ -139,5 +141,3 @@ export default {
     />
   </form>
 </template>
-
-<!-- v-model="item_preview_url" -->

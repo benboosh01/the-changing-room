@@ -113,7 +113,6 @@ export default {
 
         if (error) throw error;
 
-        console.log(sent);
         if (sent) {
           userSent.value = sent;
         }
