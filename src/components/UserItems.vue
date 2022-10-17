@@ -11,6 +11,7 @@
       <ItemImage v-if="item" :url="item.item_preview_url" />
       <p>{{ item.condition }}</p>
       <p>{{ item.description }}</p>
+      <button @click="selectItem(item.id)">View item details</button>
     </li>
   </ul>
 </template>
@@ -21,6 +22,7 @@ import { onMounted, ref } from 'vue';
 import { useStore } from '../store';
 import ItemImage from './ItemImage.vue';
 import UploadItem from './UploadItem.vue';
+import router from '../router';
 
 export default {
   components: { ItemImage, UploadItem },
@@ -77,6 +79,10 @@ export default {
       console.log(upLoadVisible.value);
     }
 
+    function selectItem(id) {
+      router.push({ name: 'singleItem', params: { id: id } });
+    }
+
     onMounted(() => {
       getUser();
       getUserItems();
@@ -90,6 +96,7 @@ export default {
       loggedInUser,
       upLoadVisible,
       toggleUpload,
+      selectItem,
     };
   },
 };
