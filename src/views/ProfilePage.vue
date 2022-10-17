@@ -4,6 +4,7 @@
   <button @click="toggleItems">Items</button>
   <button @click="toggleSwaps">Swaps</button>
   <button @click="toggleMessages">Messages</button>
+  <SwapRequestList />
   <UserItems v-if="itemsVisible" />
   <SwapsList v-if="swapsVisible" />
   <MessageInbox v-if="messagesVisible" />
@@ -15,6 +16,7 @@ import SwapsList from '../components/SwapsList.vue';
 import UserItems from '../components/UserItems.vue';
 import MessageInbox from '../components/MessageInbox.vue';
 import { ref } from 'vue';
+import SwapRequestList from '../components/SwapRequestList.vue';
 
 const itemsVisible = ref(false);
 const swapsVisible = ref(false);
