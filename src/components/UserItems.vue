@@ -2,13 +2,27 @@
   <div class="user-items-wrapper">
     <h1>{{ loggedInUser === userId ? "Your" : username }} Items</h1>
     <button @click="toggleUpload">Add New Item</button>
-    <UploadItem v-if="upLoadVisible && loggedInUser === userId" />
+    <UploadItem
+      v-if="upLoadVisible && loggedInUser === userId"
+      @toggleUpload="toggleUpload"
+    />
     <ul>
       <li v-for="item in userItems" :key="item.id">
         <h3>{{ item.item_name }}</h3>
         <ItemImage v-if="item" :url="item.item_preview_url" />
         <p>{{ item.condition }}</p>
         <p>{{ item.description }}</p>
+        <button @click="clickEditRemove(item.id)">Edit/remove listing</button>
+        <EditRemoveItem
+          @clickEditRemove="clickEditRemove"
+          v-if="
+            editRemoveClicked &&
+            item.id === chosenItem &&
+            loggedInUser === userId
+          "
+          :id="chosenItem"
+        />
+        <button @click="selectItem(item.id)">View item details</button>
       </li>
     </ul>
   </div>
@@ -20,9 +34,11 @@ import { onMounted, ref } from "vue";
 import { useStore } from "../store";
 import ItemImage from "./ItemImage.vue";
 import UploadItem from "./UploadItem.vue";
+import EditRemoveItem from "./EditRemoveItem.vue";
+import router from "../router";
 
 export default {
-  components: { ItemImage, UploadItem },
+  components: { ItemImage, UploadItem, EditRemoveItem },
 
   setup() {
     const store = useStore();
@@ -32,6 +48,8 @@ export default {
     const userItems = ref([]);
     const loggedInUser = store.user.id;
     const upLoadVisible = ref(false);
+    const editRemoveClicked = ref(false);
+    const chosenItem = ref("");
 
     async function getUser() {
       try {
@@ -67,7 +85,27 @@ export default {
     }
 
     function toggleUpload() {
-      upLoadVisible.value = true;
+      console.log(upLoadVisible.value);
+      if (upLoadVisible.value) {
+        upLoadVisible.value = false;
+      } else {
+        upLoadVisible.value = true;
+      }
+      console.log(upLoadVisible.value);
+    }
+
+    function selectItem(id) {
+      router.push({ name: "singleItem", params: { id: id } });
+    }
+
+    function clickEditRemove(id) {
+      if (editRemoveClicked.value) {
+        editRemoveClicked.value = false;
+        getUserItems();
+      } else {
+        chosenItem.value = id;
+        editRemoveClicked.value = true;
+      }
     }
 
     onMounted(() => {
@@ -83,6 +121,10 @@ export default {
       loggedInUser,
       upLoadVisible,
       toggleUpload,
+      clickEditRemove,
+      editRemoveClicked,
+      chosenItem,
+      selectItem,
     };
   },
 };
