@@ -27,8 +27,3 @@ function logOut() {
 }
 </style>
 
-<script setup>
-import { useStore } from '../store';
-const store = useStore();
-const user = store.user;
-</script>
