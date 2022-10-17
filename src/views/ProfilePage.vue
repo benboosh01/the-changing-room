@@ -1,5 +1,4 @@
 <template>
-  <h1>ProfilePage</h1>
   <Profile />
   <UserItems />
   <SwapsList />

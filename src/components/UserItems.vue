@@ -1,23 +1,25 @@
 <template>
-  <h1>{{ loggedInUser === userId ? 'Your' : username }} Items</h1>
-  <button @click="toggleUpload">Add New Item</button>
-  <UploadItem v-if="upLoadVisible && loggedInUser === userId" />
-  <ul>
-    <li v-for="item in userItems" :key="item.id">
-      <h3>{{ item.item_name }}</h3>
-      <ItemImage v-if="item" :url="item.item_preview_url" />
-      <p>{{ item.condition }}</p>
-      <p>{{ item.description }}</p>
-    </li>
-  </ul>
+  <div class="user-items-wrapper">
+    <h1>{{ loggedInUser === userId ? "Your" : username }} Items</h1>
+    <button @click="toggleUpload">Add New Item</button>
+    <UploadItem v-if="upLoadVisible && loggedInUser === userId" />
+    <ul>
+      <li v-for="item in userItems" :key="item.id">
+        <h3>{{ item.item_name }}</h3>
+        <ItemImage v-if="item" :url="item.item_preview_url" />
+        <p>{{ item.condition }}</p>
+        <p>{{ item.description }}</p>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
-import { supabase } from '../supabase';
-import { onMounted, ref } from 'vue';
-import { useStore } from '../store';
-import ItemImage from './ItemImage.vue';
-import UploadItem from './UploadItem.vue';
+import { supabase } from "../supabase";
+import { onMounted, ref } from "vue";
+import { useStore } from "../store";
+import ItemImage from "./ItemImage.vue";
+import UploadItem from "./UploadItem.vue";
 
 export default {
   components: { ItemImage, UploadItem },
@@ -25,8 +27,8 @@ export default {
   setup() {
     const store = useStore();
     const loading = ref(false);
-    const username = ref('');
-    const userId = ref('');
+    const username = ref("");
+    const userId = ref("");
     const userItems = ref([]);
     const loggedInUser = store.user.id;
     const upLoadVisible = ref(false);
@@ -48,9 +50,9 @@ export default {
         loading.value = true;
 
         const { data: items, error } = await supabase
-          .from('items')
-          .select('*')
-          .eq('owner_id', userId.value);
+          .from("items")
+          .select("*")
+          .eq("owner_id", userId.value);
 
         if (error) throw error;
 
@@ -85,3 +87,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.user-items-wrapper {
+  border: 1px solid black;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+</style>
