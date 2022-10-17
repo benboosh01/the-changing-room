@@ -1,5 +1,5 @@
 <template>
-  <h1>{{ loggedInUser === userId ? 'Your' : username }} Items</h1>
+  <h1>{{ loggedInUser === userId ? "Your" : username }} Items</h1>
   <button @click="toggleUpload">Add New Item</button>
   <UploadItem v-if="upLoadVisible && loggedInUser === userId" />
   <ul>
@@ -9,18 +9,24 @@
       <p>{{ item.condition }}</p>
       <p>{{ item.description }}</p>
       <button @click="clickEditRemove(item.id)">Edit/remove listing</button>
-      <EditRemoveItem v-if="editRemoveClicked && item.id === chosenItem && loggedInUser === userId" :id="chosenItem"/>
+      <EditRemoveItem
+        @clickEditRemove="clickEditRemove"
+        v-if="
+          editRemoveClicked && item.id === chosenItem && loggedInUser === userId
+        "
+        :id="chosenItem"
+      />
     </li>
   </ul>
 </template>
 
 <script>
-import { supabase } from '../supabase';
-import { onMounted, ref } from 'vue';
-import { useStore } from '../store';
-import ItemImage from './ItemImage.vue';
-import UploadItem from './UploadItem.vue';
-import EditRemoveItem from './EditRemoveItem.vue';
+import { supabase } from "../supabase";
+import { onMounted, ref } from "vue";
+import { useStore } from "../store";
+import ItemImage from "./ItemImage.vue";
+import UploadItem from "./UploadItem.vue";
+import EditRemoveItem from "./EditRemoveItem.vue";
 
 export default {
   components: { ItemImage, UploadItem, EditRemoveItem },
@@ -28,13 +34,13 @@ export default {
   setup() {
     const store = useStore();
     const loading = ref(false);
-    const username = ref('');
-    const userId = ref('');
+    const username = ref("");
+    const userId = ref("");
     const userItems = ref([]);
     const loggedInUser = store.user.id;
     const upLoadVisible = ref(false);
-    const editRemoveClicked = ref(false)
-    const chosenItem = ref('')
+    const editRemoveClicked = ref(false);
+    const chosenItem = ref("");
 
     async function getUser() {
       try {
@@ -53,9 +59,9 @@ export default {
         loading.value = true;
 
         const { data: items, error } = await supabase
-          .from('items')
-          .select('*')
-          .eq('owner_id', userId.value);
+          .from("items")
+          .select("*")
+          .eq("owner_id", userId.value);
 
         if (error) throw error;
 
@@ -74,8 +80,13 @@ export default {
     }
 
     function clickEditRemove(id) {
-      chosenItem.value = id
-      editRemoveClicked.value = true;
+      if (editRemoveClicked.value) {
+        editRemoveClicked.value = false;
+        getUserItems();
+      } else {
+        chosenItem.value = id;
+        editRemoveClicked.value = true;
+      }
     }
 
     onMounted(() => {
@@ -93,7 +104,7 @@ export default {
       toggleUpload,
       clickEditRemove,
       editRemoveClicked,
-      chosenItem
+      chosenItem,
     };
   },
 };

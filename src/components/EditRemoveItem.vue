@@ -1,4 +1,10 @@
 <template>
+    <button @click="(()=> {toDelete = true})">Delete this listing</button>
+    <div v-show="toDelete">
+<p>Are you sure you wish to delete this item's listing? This cannot be undone</p>
+<button @click="deleteItem">Yes, I'm sure</button>
+    </div>
+    
   <form @submit.prevent="onSubmit">
     <label for="item_name">Item</label>
     <input id="item_name" type="text" v-model="itemName" />
@@ -43,6 +49,7 @@ import { onMounted, ref } from "vue";
 import { supabase } from "../supabase";
 
 const props = defineProps(["id"]);
+const emit = defineEmits(["clickEditRemove"]);
 const loading = ref(true);
 const itemName = ref("");
 const itemDescription = ref("");
@@ -52,9 +59,22 @@ const itemOwnerId = ref("");
 const itemOwner = ref("");
 const itemImage = ref("");
 const itemFile = ref("");
+const toDelete = ref(false)
 
 function setFiles(event) {
   itemFile.value = event.target.files[0];
+}
+async function deleteItem() {
+    try {
+        const { item, error } = await supabase.from('items').delete().eq('id', props.id)
+        if (error) throw error
+    } catch (error) {
+        alert(error.message)
+    } finally {
+        toDelete.value = false
+        emit('clickEditRemove');
+    }
+    
 }
 async function getItemById() {
   try {
@@ -66,7 +86,7 @@ async function getItemById() {
     itemName.value = data[0].item_name;
     itemDescription.value = data[0].description;
     itemCondition.value = data[0].condition;
-    itemCategory.value = data[0].categories.category_name;
+    itemCategory.value = data[0].category_id;
     itemOwner.value = data[0].owner_username;
     itemOwnerId.value = data[0].owner_id;
     itemImage.value = data[0].item_preview_url;
@@ -115,6 +135,7 @@ async function onSubmit() {
   } finally {
     getItemById();
     loading.value = false;
+    emit('clickEditRemove');
     alert("details updated");
   }
 }
