@@ -8,6 +8,8 @@
       <ItemImage v-if="item" :url="item.item_preview_url" />
       <p>{{ item.condition }}</p>
       <p>{{ item.description }}</p>
+      <button @click="clickEditRemove(item.id)">Edit/remove listing</button>
+      <EditRemoveItem v-if="editRemoveClicked && item.id === chosenItem && loggedInUser === userId" :id="chosenItem"/>
     </li>
   </ul>
 </template>
@@ -18,9 +20,10 @@ import { onMounted, ref } from 'vue';
 import { useStore } from '../store';
 import ItemImage from './ItemImage.vue';
 import UploadItem from './UploadItem.vue';
+import EditRemoveItem from './EditRemoveItem.vue';
 
 export default {
-  components: { ItemImage, UploadItem },
+  components: { ItemImage, UploadItem, EditRemoveItem },
 
   setup() {
     const store = useStore();
@@ -30,6 +33,8 @@ export default {
     const userItems = ref([]);
     const loggedInUser = store.user.id;
     const upLoadVisible = ref(false);
+    const editRemoveClicked = ref(false)
+    const chosenItem = ref('')
 
     async function getUser() {
       try {
@@ -68,6 +73,11 @@ export default {
       upLoadVisible.value = true;
     }
 
+    function clickEditRemove(id) {
+      chosenItem.value = id
+      editRemoveClicked.value = true;
+    }
+
     onMounted(() => {
       getUser();
       getUserItems();
@@ -81,6 +91,9 @@ export default {
       loggedInUser,
       upLoadVisible,
       toggleUpload,
+      clickEditRemove,
+      editRemoveClicked,
+      chosenItem
     };
   },
 };

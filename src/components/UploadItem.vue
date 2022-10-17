@@ -135,4 +135,3 @@ export default {
   </form>
 </template>
 
-<!-- v-model="item_preview_url" -->
