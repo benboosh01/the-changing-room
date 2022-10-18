@@ -101,7 +101,7 @@ export default {
     />
     <input
       type="submit"
-      class="primary"
+      class="input-button"
       :value="loading ? 'Loading ...' : 'Submit'"
       :disabled="loading || disable"
     />
@@ -126,7 +126,8 @@ export default {
 }
 
 .register-form > #username, 
-.register-form > #location
+.register-form > #location,
+.register-form > #avatar
  {
   width: 100%;
   padding: 10px 0;
@@ -155,8 +156,7 @@ export default {
   font-size: 12px;
 }
 
-/* TODO - move to main.css */
-.primary {
+.input-button {
   border: 3px solid #333333;
   text-transform: uppercase;
   background: #f1f1f1;
