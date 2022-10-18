@@ -26,9 +26,7 @@
   <div class="profile-card">
     <div class="profile-info">
       <p class="user-name">{{ username }}</p>
-      <p>Rating:{{profileUserRating[0].ave_review_score}}</p>
-
-      <button class="primary" @click="showModal = true">
+      <p>Rating:{{profileUserRating}}</p>
       <p class="user-location">
         <i class="fa-sharp fa-solid fa-location-dot"></i>
         {{ location }}
@@ -75,7 +73,7 @@ const avatarFile = ref("");
 const image = ref("");
 const clicked = ref(false)
 const userRatings = ref([])
-const profileUserRating = ref([])
+const profileUserRating = ref('')
 
 function setFiles(event) {
   avatarFile.value = event.target.files[0];
@@ -118,7 +116,6 @@ async function onSubmit() {
   } finally {
     getProfile();
     loading.value = false;
-    // clicked.value = false;
     alert("details updated");
   }
 }
@@ -164,12 +161,12 @@ async function getProfile() {
 async function getUserReviewScore() {
   try {
     getUserRatings().then((data, error)=> {
-      userRatings.value = data
-      profileUserRating.value = userRatings.value.filter((user) => {
+      userRatings.value = data.filter((user) => {
         return user.id === userId.value 
     })
+    console.log(userRatings.value)
+      profileUserRating.value = userRatings.value[0].ave_review_score
       if (error) throw error;
-      // return profileUserRating
    })
    
    
