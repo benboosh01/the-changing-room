@@ -3,9 +3,16 @@
   <ul>
     <li v-for="request in swapRequests" :key="request.swap_id">
       <p>From: {{ request.users.username }}</p>
-      <p>Item : {{ request.items.item_name }}</p>
-      <button>View Request</button>
-      <SwapConfirmation :swapId="request.swap_id" />
+      <p>Item: {{ request.items.item_name }}</p>
+      <button :value="request.swap_id" @click="viewRequest">
+        View Request
+      </button>
+      <SwapConfirmation
+        v-if="requestVisible && requestId === request.swap_id"
+        :swapId="request.swap_id"
+        @toggleVisible="toggleVisible"
+        @updateRequests="updateRequests"
+      />
     </li>
   </ul>
 </template>
@@ -19,6 +26,8 @@ const store = useStore();
 const swapRequests = ref([]);
 const loading = ref(false);
 const loggedInUser = ref('');
+const requestVisible = ref(false);
+const requestId = ref();
 
 async function getUser() {
   try {
@@ -38,7 +47,7 @@ async function getRequests() {
     const { data: requests, error } = await supabase
       .from('swaps')
       .select(
-        `swap_id, item_id, users (username, id), items!inner(item_name, item_preview_url)`
+        `swap_id, item_id, approved, users (username, id), items!inner(item_name, item_preview_url)`
       )
       .eq('items.owner_id', loggedInUser.value)
       .eq('approved', 'false');
@@ -54,6 +63,32 @@ async function getRequests() {
   } finally {
     loading.value = false;
   }
+}
+
+function viewRequest(event) {
+  if (requestVisible.value) {
+    requestVisible.value = false;
+  } else {
+    requestId.value = event.target.value;
+    requestVisible.value = true;
+  }
+}
+
+function toggleVisible() {
+  if (requestVisible.value) {
+    requestVisible.value = false;
+  } else {
+    requestVisible.value = true;
+  }
+}
+
+function updateRequests(swapId) {
+  const updatedRequests = swapRequests.value.filter((swap) => {
+    if (swap.swap_id !== swapId) {
+      return { ...swap };
+    }
+  });
+  swapRequests.value = updatedRequests;
 }
 
 onMounted(() => {
