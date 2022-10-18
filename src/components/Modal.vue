@@ -3,12 +3,12 @@
     <div class="dialog" @click="$emit('close-modal')">
       <span class="dialog__close" @click="$emit('close-modal')">&#x2715;</span>
       <h2 class="dialog__title">All reviews for {{ username }}</h2>
-      <p class="dialog__content">
+      <!-- <p class="dialog__content">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit
         necessitatibus illo deleniti doloremque culpa voluptas recusandae, sunt
         eligendi amet, ut modi voluptatibus ipsa quas voluptatem consectetur
         atque, velit reprehenderit debitis.
-      </p>
+      </p> -->
       <slot></slot>
     </div>
   </div>

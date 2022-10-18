@@ -16,5 +16,7 @@ import TheNavigation from "./components/TheNavigation.vue";
   border: 1px solid black;
   text-align: center;
   font-size: 50px;
+  margin-bottom: 30px;
+  margin-top: 30px;
 }
 </style>

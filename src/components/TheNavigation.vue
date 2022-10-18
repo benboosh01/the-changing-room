@@ -1,10 +1,10 @@
 <template>
-  <ul id="nav-bar">
+  <div id="nav-bar">
     <router-link to="/home">Home</router-link>
     <router-link to="/items">Items</router-link>
     <router-link to="/profile" v-if="store.user.id">Profile</router-link>
     <button v-if="store.user.id" @click="logOut">Log Out</button>
-  </ul>
+  </div>
 </template>
 
 <script setup>
@@ -17,13 +17,13 @@ function logOut() {
     router.push({ path: "/home" });
   }
 }
-
 </script>
 
 <style scoped>
 #nav-bar {
   display: flex;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
 }
 </style>
-
