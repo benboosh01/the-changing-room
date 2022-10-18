@@ -21,13 +21,11 @@
     </button>
   </div>
 
-  <h2>Our most recent listings</h2>
-  <ul id="item-list">
-    <li v-for="item in recentItems" :key="item.id" class="item">
-      <h2>{{ item.item_name }}</h2>
+  <h2 class="home-list-title">Our most recent listings</h2>
+  <ul id="home-item-list">
+    <li v-for="item in recentItems" :key="item.id" class="home-item-card">
       <ItemImage v-if="item" :url="item.item_preview_url" />
-      <p>{{ item.condition }}</p>
-      <p>{{ item.description }}</p>
+      <h3>{{ item.item_name }}</h3>
       <button @click="selectItem(item.id)" class="select-button">
         View item details
       </button>
@@ -100,5 +98,27 @@ onMounted(() => {
 <style scoped>
 .button-group {
   margin-top: 30px;
+}
+
+#home-item-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 100%;
+  gap: 15px;
+}
+
+.home-item-card {
+  padding: 40px;
+  background-color: #e9f1f7;
+  box-sizing: border-box;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  list-style: none;
+}
+
+.home-list-title {
+  text-align: center;
+  padding: 20px 0;
 }
 </style>
