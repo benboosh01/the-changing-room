@@ -14,6 +14,7 @@ export default {
     const condition = ref('');
     let item_preview_url = ref('');
     const categoryList = ref([]);
+    const conditionList = ref([]);
 
     async function uploadItemForm() {
       try {
@@ -71,7 +72,27 @@ export default {
         alert(error.message);
       } finally {
         loading.value = false;
-        console.log(categoryList.value);
+      }
+    }
+
+    async function getCondition() {
+      try {
+        loading.value = true;
+        const { data, error } = await supabase
+          .from('condition')
+          .select()
+          .order('id', { ascending: true });
+
+        if (error) throw error;
+
+        if (data) {
+          conditionList.value = data;
+        }
+      } catch (error) {
+        alert(error.message);
+      } finally {
+        loading.value = false;
+        console.log(conditionList.value);
       }
     }
 
@@ -88,6 +109,7 @@ export default {
 
     onMounted(() => {
       getCategories();
+      getCondition();
     });
 
     return {
@@ -98,6 +120,7 @@ export default {
       condition,
       item_preview_url,
       categoryList,
+      conditionList,
       uploadItemForm,
       onFileSelected,
     };
@@ -135,13 +158,12 @@ export default {
     </select>
 
     <label for="condition">Condition</label>
-    <input
-      id="condition"
-      type="text"
-      v-model="condition"
-      placeholder="Enter condition"
-      required
-    />
+    <select v-model="condition" required>
+      <option value="0" selected disabled>---- Select Condition ----</option>
+      <option v-for="condition in conditionList" :value="condition.condition">
+        {{ condition.condition }}
+      </option>
+    </select>
 
     <label for="item_preview_url">Image</label>
     <input
