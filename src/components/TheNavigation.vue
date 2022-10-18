@@ -5,7 +5,7 @@
         <router-link to="/home">Home</router-link>
         <router-link to="/items">Items</router-link>
         <router-link to="/profile" v-if="store.user.id">Profile</router-link>
-        <!-- <button v-if="store.user.id" @click="logOut" class="logout-btn">Log Out</button> -->
+        <button v-if="store.user.id" @click="logOut" class="logout-btn">Log Out</button>
       </ul>
     </nav>
   </header>
@@ -55,13 +55,13 @@ function logOut() {
 }
 
 .navbar-links > a:hover {
-  color: orange;
+  color: #ff6700;
 }
 
 .logout-btn {
   border: none;
   background-color: transparent;
-  color: orange;
+  color: #ff6700;
 }
 
 /* media queries */
