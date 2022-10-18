@@ -1,17 +1,23 @@
 <template>
-  <h1>Available Items</h1>
-  <label htmlFor="categoryName">Category</label>
-  <select v-model="categoryName" @change="getItems(categoryName)">
-    <option v-for="element in categoryList">{{ element.category_name }}</option>
-  </select>
-  <div v-if="categoryName">Displaying results for {{ categoryName }}</div>
-  <ul>
-    <li v-for="item in itemList" :key="item.id">
-      {{ item.item_name }}
+  <h1 style="text-align: center">Available Items</h1>
+  <div id="category">
+    <label htmlFor="categoryName">Category</label>
+    <select v-model="categoryName" @change="getItems(categoryName)">
+      <option v-for="element in categoryList">
+        {{ element.category_name }}
+      </option>
+    </select>
+    <div v-if="categoryName">Displaying results for {{ categoryName }}</div>
+  </div>
+  <ul id="item-list">
+    <li v-for="item in itemList" :key="item.id" class="item">
+      <h2>{{ item.item_name }}</h2>
       <ItemImage v-if="item" :url="item.item_preview_url" />
       <p>{{ item.condition }}</p>
       <p>{{ item.description }}</p>
-      <button @click="selectItem(item.id)">View item details</button>
+      <button @click="selectItem(item.id)" class="select-button">
+        View item details
+      </button>
     </li>
   </ul>
 </template>
@@ -21,15 +27,13 @@ import { ref, onMounted } from "vue";
 import ItemImage from "./ItemImage.vue";
 import router from "../router";
 
-
 const loading = ref(true);
 const itemList = ref([]);
 const categoryList = ref([]);
 let categoryId = ref(0);
 
 function selectItem(id) {
-  router.push({ name: "singleItem", params: {id: id}})
-
+  router.push({ name: "singleItem", params: { id: id } });
 }
 
 async function getCategories() {
@@ -71,3 +75,36 @@ onMounted(() => {
   getItems();
 });
 </script>
+
+<style scoped>
+#item-list {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  justify-content: center;
+  list-style-type: none;
+  width: 100%;
+}
+.item {
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 8px;
+  margin: 10px 10px;
+  padding: 20px;
+}
+
+#category {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 15px;
+}
+
+.select-button {
+  background-color: lightgray;
+  border: 1px solid gray;
+  border-radius: 10px;
+  margin-top: 8px;
+  padding: 4px 7px;
+}
+</style>
