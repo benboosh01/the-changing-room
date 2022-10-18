@@ -1,5 +1,4 @@
 <template>
-  <h1>Home page</h1>
   <Login v-if="loginVisible" />
   <Registration v-if="regVisible" @toggleLogin="toggleLogin" />
   <button @click="toggleLogin" v-if="!store.user.id" v-show="loginBtn">
@@ -8,6 +7,13 @@
   <button @click="toggleReg" v-if="!store.user.id" v-show="regBtn">
     Register
   </button>
+
+<!-- TODO - move to components -->
+  <div>homepage content</div>
+  <div>Our highest rated swappers</div>
+  <div>Newest items preview</div>
+
+
 </template>
 <script setup>
 import Login from '../components/Login.vue';

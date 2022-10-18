@@ -1,27 +1,31 @@
 <template>
-  <h1>{{ loggedInUser === userId ? "Your" : username }} Items</h1>
-  <button @click="toggleUpload">Add New Item</button>
-  <UploadItem
-    v-if="upLoadVisible && loggedInUser === userId"
-    @toggleUpload="toggleUpload"
-  />
-  <ul>
-    <li v-for="item in userItems" :key="item.id">
-      <h3>{{ item.item_name }}</h3>
-      <ItemImage v-if="item" :url="item.item_preview_url" />
-      <p>{{ item.condition }}</p>
-      <p>{{ item.description }}</p>
-      <button @click="clickEditRemove(item.id)">Edit/remove listing</button>
-      <EditRemoveItem
-        @clickEditRemove="clickEditRemove"
-        v-if="
-          editRemoveClicked && item.id === chosenItem && loggedInUser === userId
-        "
-        :id="chosenItem"
-      />
-      <button @click="selectItem(item.id)">View item details</button>
-    </li>
-  </ul>
+  <div class="user-items-wrapper">
+    <h1>{{ loggedInUser === userId ? "Your" : username }} Items</h1>
+    <button @click="toggleUpload">Add New Item</button>
+    <UploadItem
+      v-if="upLoadVisible && loggedInUser === userId"
+      @toggleUpload="toggleUpload"
+    />
+    <ul>
+      <li v-for="item in userItems" :key="item.id">
+        <h3>{{ item.item_name }}</h3>
+        <ItemImage v-if="item" :url="item.item_preview_url" />
+        <p>{{ item.condition }}</p>
+        <p>{{ item.description }}</p>
+        <button @click="clickEditRemove(item.id)">Edit/remove listing</button>
+        <EditRemoveItem
+          @clickEditRemove="clickEditRemove"
+          v-if="
+            editRemoveClicked &&
+            item.id === chosenItem &&
+            loggedInUser === userId
+          "
+          :id="chosenItem"
+        />
+        <button @click="selectItem(item.id)">View item details</button>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -31,7 +35,7 @@ import { useStore } from "../store";
 import ItemImage from "./ItemImage.vue";
 import UploadItem from "./UploadItem.vue";
 import EditRemoveItem from "./EditRemoveItem.vue";
-import router from '../router';
+import router from "../router";
 
 export default {
   components: { ItemImage, UploadItem, EditRemoveItem },
@@ -91,7 +95,7 @@ export default {
     }
 
     function selectItem(id) {
-      router.push({ name: 'singleItem', params: { id: id } });
+      router.push({ name: "singleItem", params: { id: id } });
     }
 
     function clickEditRemove(id) {
@@ -125,3 +129,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.user-items-wrapper {
+  border: 1px solid black;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+</style>

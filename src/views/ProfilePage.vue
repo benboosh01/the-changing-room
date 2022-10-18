@@ -1,5 +1,4 @@
 <template>
-  <h1>ProfilePage</h1>
   <Profile />
   <button @click="toggleItems">Items</button>
   <button @click="toggleSwaps">Swaps</button>
