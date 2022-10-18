@@ -10,6 +10,10 @@
       <option v-for="item in userItems">{{ item.item_name }}</option>
     </select>
     <button @click="createNewSwap(selectedItem)">Request swap</button>
+    <p>Alternatively, make a donation to our charity of the week, Refuge, and send {{username}} a message to let them know.</p>
+    <a
+      href="//widgets.justgiving.com/Button/Redirect?p=eyJUZXh0IjoiUmVmdWdlIiwiSWQiOiI1YWJkODc0YS01M2YyLTQxOGItOWRmZi1jZWQxZWMzMDE0YTAiLCJDaGFyaXR5SWQiOjExMTk0LCJTaXplIjoicyIsIlJlZmVyZW5jZSI6ImFsaWNlUmVmdWdlIiwiVHlwZSI6IkNoYXJpdHlEb25hdGUifQ=="><img
+        src="//widgets.justgiving.com/Button?p=eyJUZXh0IjoiUmVmdWdlIiwiSWQiOiI1YWJkODc0YS01M2YyLTQxOGItOWRmZi1jZWQxZWMzMDE0YTAiLCJDaGFyaXR5SWQiOjExMTk0LCJTaXplIjoicyIsIlJlZmVyZW5jZSI6ImFsaWNlUmVmdWdlIiwiVHlwZSI6IkNoYXJpdHlEb25hdGUifQ==" /></a>
   </main>
 
   <p v-show="submitted">
@@ -26,6 +30,7 @@ import { supabase } from '../supabase';
 export default {
   name: 'SwapForm',
   props: ['username', 'userId', 'itemId', 'itemName'],
+
   setup(props) {
     const store = useStore();
     const loggedInUser = store.user.id;
