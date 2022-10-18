@@ -115,6 +115,7 @@ onMounted(() => {
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.6);
   border-radius: 10px;
   list-style: none;
+  text-align: center;
 }
 
 .home-list-title {
