@@ -1,6 +1,6 @@
 <template>
-  <div class="container" style="padding: 50px 0 100px 0">
     <TheNavigation />
+  <div class="container" style="padding: 0px 0 100px 0">
     <Title class="app-title" />
     <router-view></router-view>
   </div>
