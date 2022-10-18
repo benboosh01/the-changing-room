@@ -33,6 +33,9 @@
         @onMessageClick="onMessageClick"
       />
     </div>
+    <div v-if="swapClicked && id">
+      <SwapForm :username="itemOwner" :userId="itemOwnerId" :itemId="id" />
+    </div>
   </div>
 </template>
 <script setup>
@@ -144,8 +147,5 @@ onMounted(() => {
 
 .item-title h1 {
   text-decoration: underline;
-}
-
-@media only screen and (max-width: 700px) {
 }
 </style>
