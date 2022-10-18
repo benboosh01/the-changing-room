@@ -15,7 +15,9 @@
       <ItemImage v-if="item" :url="item.item_preview_url" />
       <p>{{ item.condition }}</p>
       <p>{{ item.description }}</p>
-      <button @click="selectItem(item.id)">View item details</button>
+      <button @click="selectItem(item.id)" class="select-button">
+        View item details
+      </button>
     </li>
   </ul>
 </template>
@@ -96,5 +98,13 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   margin: 15px;
+}
+
+.select-button {
+  background-color: lightgray;
+  border: 1px solid gray;
+  border-radius: 10px;
+  margin-top: 8px;
+  padding: 4px 7px;
 }
 </style>
