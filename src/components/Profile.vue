@@ -20,6 +20,7 @@
   <div class="profile-card">
     <div class="profile-info">
       <p class="user-name">{{ username }}</p>
+      <p>Rating:{{profileUserRating[0].ave_review_score}}</p>
       <p class="user-location">{{ location }}</p>
 
       <button class="primary" @click="showModal = true">
@@ -47,6 +48,7 @@ import { useStore } from "../store";
 import { ref, onMounted } from "vue";
 import Modal from "./Modal.vue";
 import UserReviews from "./UserReviews.vue";
+import {getUserRatings} from '../utils/utilFuncs'
 
 const store = useStore();
 const loading = ref(true);
@@ -57,6 +59,8 @@ const avatar_url = ref("");
 const avatarFile = ref("");
 const image = ref("");
 const clicked = ref(false)
+const userRatings = ref([])
+const profileUserRating = ref([])
 
 function setFiles(event) {
   avatarFile.value = event.target.files[0];
@@ -142,9 +146,27 @@ async function getProfile() {
   }
 }
 
+async function getUserReviewScore() {
+  try {
+    getUserRatings().then((data, error)=> {
+      userRatings.value = data
+      profileUserRating.value = userRatings.value.filter((user) => {
+        return user.id === userId.value 
+    })
+      if (error) throw error;
+      // return profileUserRating
+   })
+   
+   
+  } catch (error) {
+    alert(error.message)
+  }
+}
+
 onMounted(() => {
   getUser();
   getProfile();
+  getUserReviewScore()
 });
 </script>
 

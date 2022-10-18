@@ -10,7 +10,9 @@
 
 <!-- TODO - move to components -->
   <div>homepage content</div>
-  <div>Our highest rated swappers</div>
+  <div>Our highest rated swappers
+    <TopUsers/>
+  </div>
   <div>Newest items preview</div>
 
 
@@ -20,6 +22,7 @@ import Login from '../components/Login.vue';
 import Registration from '../components/Registration.vue';
 import { ref } from 'vue';
 import { useStore } from '../store';
+import TopUsers from '../components/TopUsers.vue';
 
 const store = useStore();
 const loginVisible = ref(false);
