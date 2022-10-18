@@ -5,21 +5,22 @@
         <router-link to="/home">Home</router-link>
         <router-link to="/items">Items</router-link>
         <router-link to="/profile" v-if="store.user.id">Profile</router-link>
-        <button v-if="store.user.id" @click="logOut" class="logout-btn">Log Out</button>
+        <button v-if="store.user.id" @click="logOut" class="logout-btn">
+          Log Out
+        </button>
       </ul>
     </nav>
   </header>
 </template>
 
 <script setup>
-import { useStore } from "../store";
+import { useStore } from '../store';
+import router from '../router/index';
 const store = useStore();
 
 function logOut() {
-  if (store.user.id) {
-    store.user = {};
-    router.push({ path: "/home" });
-  }
+  store.user = {};
+  router.push({ path: '/home' });
 }
 </script>
 
@@ -28,9 +29,9 @@ function logOut() {
   display: flex;
   border: 1px solid #a2a2a2;
   background-color: #f4f4f4;
-  -webkit-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.75);
-	-moz-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.75);
-	box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.75);
+  -webkit-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.75);
   position: sticky;
   top: 0;
 }
@@ -66,20 +67,20 @@ function logOut() {
 
 /* media queries */
 @media (min-width: 769px) {
-	.navbar,
-	.navbar-links {
-		display: flex;
+  .navbar,
+  .navbar-links {
+    display: flex;
   }
   .navbar {
     flex-direction: column;
-		align-items: center;
+    align-items: center;
   }
 }
 
 @media (min-width: 1025px) {
-	.navbar {
-		flex-direction: row;
-		justify-content: space-between;        
-	}
+  .navbar {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
 </style>
