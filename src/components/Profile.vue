@@ -1,40 +1,47 @@
 <template>
-
   <Modal v-show="showModal" @close-modal="showModal = false">
-    <UserReviews />
+     <UserReviews />
   </Modal>
 
-
-        <form @click="onClick()" v-show="clicked"  @submit.prevent="onSubmit">
-        <label htmlFor="name">Name</label>
-        <input v-model="username" />
-        <label htmlFor="location">Location</label>
-        <input v-model="location" />
-        <label htmlFor="avatar">Profile picture</label>
-        <input type="file" v-on:change="setFiles" />
-        <br />
-        <button>Submit</button>
-      </form>
-
+  <div class="update-profile-box" @click="onClick()" v-show="clicked" >
+    <h2 class="update-profile-title">Update profile details</h2>
+  <form @submit.prevent="onSubmit" class="update-profile-form">
+    <label htmlFor="name">username</label>
+    <input id="username" v-model="username" required/>
+    <label htmlFor="location">location</label>
+    <input v-model="location" required/>
+    <label htmlFor="avatar">profile picture</label>
+    <input
+      id="avatar"
+      type="file"
+      v-on:change="setFiles"
+      placeholder="Upload image file"
+      required
+      />
+    <br />
+    <button class="primary submit">Submit</button>
+  </form>
+  </div>  
 
   <div class="profile-card">
     <div class="profile-info">
       <p class="user-name">{{ username }}</p>
-      <p class="user-location">{{ location }}</p>
+      <p class="user-location">
+        <i class="fa-sharp fa-solid fa-location-dot"></i>
+        {{ location }}
+      </p>
 
-      <button class="primary" @click="showModal = true">
+      <button
+        @click="(showModal = true)"
+        class="primary"
+      >
         See all your reviews
       </button>
 
-      <button
-        @click="onClick()"
-        v-show="!clicked"
-        class="primary"
-        >
-        Update details
-        </button>
 
-
+      <button @click="onClick()" v-show="!clicked" class="primary">
+        Update profile details
+      </button>
     </div>
     <div class="profile-image-wrapper">
       <img
@@ -62,29 +69,31 @@ const location = ref("");
 const avatar_url = ref("");
 const avatarFile = ref("");
 const image = ref("");
-const clicked = ref(false)
+const clicked = ref(false);
+
+
 
 function setFiles(event) {
   avatarFile.value = event.target.files[0];
 }
+
 function onClick() {
-  clicked.value = true
+  clicked.value = true;
 }
 
 async function onSubmit() {
   try {
     loading.value = true;
 
-
-    if(avatarFile.value) {
+    if (avatarFile.value) {
       const { data, error1 } = await supabase.storage
-        .from('avatars')
+        .from("avatars")
         .remove([avatar_url.value]);
 
       avatar_url.value = avatar_url.value + new Date().getTime();
 
       const { image, error2 } = await supabase.storage
-        .from('avatars')
+        .from("avatars")
         .upload(avatar_url.value, avatarFile.value, { upsert: true });
     }
 
@@ -105,7 +114,7 @@ async function onSubmit() {
   } finally {
     getProfile();
     loading.value = false;
-    clicked.value = false;
+    // clicked.value = false;
     alert("details updated");
   }
 }
@@ -159,7 +168,7 @@ export default {
   components: { Modal },
   data() {
     return {
-      showModal: false,
+      showModal: false
     };
   },
 };
@@ -176,15 +185,69 @@ export default {
 
 .user-name {
   font-size: 30px;
-  margin-bottom: 0;
+  margin: 5px;
 }
 
 .user-location {
   margin-top: 0;
+  margin-bottom: 10px;
 }
 
 .profile-image {
   border: 2px solid #03bfcb;
   padding: 5px;
+}
+
+i {
+  margin: 5px;
+}
+
+.update-profile-box {
+  padding: 40px;
+  background-color: #E9F1F7;
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+}
+
+.update-profile-title {
+  margin: 0 0 30px;
+  padding: 0;
+  text-align: center;
+}
+
+.update-profile-form > #username,
+.update-profile-form > #location,
+.update-profile-form > #avatar
+ {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+
+.update-profile-form > label {
+  font-size: 16px;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.update-profile-box #username:focus ~ label,
+.update-profile-box #username:valid ~ label,
+.update-profile-box #location:focus ~ label,
+.update-profile-box #location:focus ~ label
+  {
+  top: -20px;
+  left: 0;
+  color: red;
+  font-size: 12px;
+}
+
+.submit {
+  width: 100%;
 }
 </style>
