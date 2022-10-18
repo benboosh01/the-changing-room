@@ -2,6 +2,20 @@
   <Login v-if="loginVisible" />
   <Registration v-if="regVisible" @toggleLogin="toggleLogin" />
 
+  <button @click="toggleLogin" v-if="!store.user.id" v-show="loginBtn">
+    Login
+  </button>
+  <button @click="toggleReg" v-if="!store.user.id" v-show="regBtn">
+    Register
+  </button>
+
+<!-- TODO - move to components -->
+  <div>homepage content</div>
+  <div>Our highest rated swappers
+    <TopUsers/>
+  </div>
+  <div>Newest items preview</div>
+
   <div class="flex flex-center button-group">
     <button
       @click="toggleLogin"
@@ -37,6 +51,7 @@ import Login from '../components/Login.vue';
 import Registration from '../components/Registration.vue';
 import { onMounted, ref } from 'vue';
 import { useStore } from '../store';
+import TopUsers from '../components/TopUsers.vue';
 import { supabase } from '../supabase';
 import router from '../router/index';
 import ItemImage from '../components/ItemImage.vue';
