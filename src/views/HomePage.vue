@@ -1,25 +1,36 @@
 <template>
   <Login v-if="loginVisible" />
   <Registration v-if="regVisible" @toggleLogin="toggleLogin" />
-  <button @click="toggleLogin" v-if="!store.user.id" v-show="loginBtn">
-    Login
-  </button>
-  <button @click="toggleReg" v-if="!store.user.id" v-show="regBtn">
-    Register
-  </button>
 
-<!-- TODO - move to components -->
+  <div class="flex flex-center button-group">
+    <button
+      @click="toggleLogin"
+      v-if="!store.user.id"
+      v-show="loginBtn"
+      class="primary"
+    >
+      Login
+    </button>
+    <button
+      @click="toggleReg"
+      v-if="!store.user.id"
+      v-show="regBtn"
+      class="primary"
+    >
+      Register
+    </button>
+  </div>
+
+  <!-- TODO - move to components -->
   <div>homepage content</div>
   <div>Our highest rated swappers</div>
   <div>Newest items preview</div>
-
-
 </template>
 <script setup>
-import Login from '../components/Login.vue';
-import Registration from '../components/Registration.vue';
-import { ref } from 'vue';
-import { useStore } from '../store';
+import Login from "../components/Login.vue";
+import Registration from "../components/Registration.vue";
+import { ref } from "vue";
+import { useStore } from "../store";
 
 const store = useStore();
 const loginVisible = ref(false);
@@ -42,3 +53,17 @@ function toggleReg() {
   loginBtn.value = true;
 }
 </script>
+
+<style scoped>
+.button-group {
+  margin-top: 30px;
+}
+/* TODO - move to main.css */
+button.primary {
+  border: 3px solid #333333;
+  text-transform: uppercase;
+  background: #f1f1f1;
+  padding: 5px 20px;
+  margin: 5px;
+}
+</style>
