@@ -5,7 +5,7 @@
   </Modal>
 
 
-        <form @click="onClick()" v-show="!clicked"  @submit.prevent="onSubmit">
+        <form @click="onClick()" v-show="clicked"  @submit.prevent="onSubmit">
         <label htmlFor="name">Name</label>
         <input v-model="username" />
         <label htmlFor="location">Location</label>
@@ -56,9 +56,13 @@ const location = ref("");
 const avatar_url = ref("");
 const avatarFile = ref("");
 const image = ref("");
+const clicked = ref(false)
 
 function setFiles(event) {
   avatarFile.value = event.target.files[0];
+}
+function onClick() {
+  clicked.value = true
 }
 
 async function onSubmit() {
