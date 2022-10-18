@@ -7,11 +7,11 @@
   <p>Posted by: {{ itemOwner }}</p>
   <p>{{ itemDescription }}</p>
 
-  <button v-show="!messageClicked" @click="onMessageClick">
+  <button v-show="!messageClicked && itemOwnerId !== loggedInUser" @click="onMessageClick">
     Message {{ itemOwner }}
   </button>
 
-  <button v-show="!swapClicked" @click="onSwapClick">Start a swap</button>
+  <button v-show="!swapClicked && itemOwnerId !== loggedInUser" @click="onSwapClick">Start a swap</button>
 
   <div v-if="swapClicked && id">
     <SwapForm :username="itemOwner" :userId="itemOwnerId" :itemId="id" />
@@ -32,6 +32,7 @@ import { supabase } from '../supabase';
 import ItemImage from './ItemImage.vue';
 import MessageForm from './MessageForm.vue';
 import SwapForm from './SwapForm.vue';
+import {useStore} from '../store'
 
 const route = useRoute();
 const id = route.params.id;
@@ -45,6 +46,8 @@ const itemOwner = ref('');
 const itemImage = ref('');
 const messageClicked = ref(false);
 const swapClicked = ref(false);
+const store = useStore()
+const loggedInUser = store.user.id
 
 async function getItemById() {
   try {
@@ -66,6 +69,8 @@ async function getItemById() {
     alert(error.message);
   } finally {
     loading.value = false;
+    console.log(itemOwnerId.value)
+    console.log(loggedInUser)
   }
 }
 function onMessageClick() {
