@@ -26,7 +26,13 @@
         See all your reviews
       </button>
 
-      <button @click="onClick()" v-show="!clicked">Update details</button>
+      <button
+        @click="onClick()"
+        v-show="!clicked"
+        class="primary"
+        >
+        Update details
+        </button>
 
 
     </div>
@@ -180,14 +186,5 @@ export default {
 .profile-image {
   border: 2px solid #03bfcb;
   padding: 5px;
-}
-
-/* TODO - move to main.css */
-button.primary {
-  border: 3px solid #333333;
-  text-transform: uppercase;
-  background: #f1f1f1;
-  padding: 15px 20px;
-  margin: 5px;
 }
 </style>

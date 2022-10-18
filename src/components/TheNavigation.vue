@@ -42,12 +42,6 @@ function logOut() {
   padding: 0 3rem;
 }
 
-/* .navbar-links {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-} */
-
 .navbar-links > a {
   text-transform: uppercase;
   text-decoration: none;
