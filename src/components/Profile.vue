@@ -45,15 +45,18 @@ async function onSubmit() {
   try {
     loading.value = true;
 
-    const { data, error1 } = await supabase.storage
-      .from('avatars')
-      .remove([avatar_url.value]);
+    if(avatarFile.value) {
+      const { data, error1 } = await supabase.storage
+        .from('avatars')
+        .remove([avatar_url.value]);
 
-    avatar_url.value = avatar_url.value + new Date().getTime();
+      avatar_url.value = avatar_url.value + new Date().getTime();
 
-    const { image, error2 } = await supabase.storage
-      .from('avatars')
-      .upload(avatar_url.value, avatarFile.value, { upsert: true });
+      const { image, error2 } = await supabase.storage
+        .from('avatars')
+        .upload(avatar_url.value, avatarFile.value, { upsert: true });
+    }
+
 
     const updatedDetails = {
       username: username.value,
