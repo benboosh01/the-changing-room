@@ -10,10 +10,15 @@
       <option v-for="item in userItems">{{ item.item_name }}</option>
     </select>
     <button @click="createNewSwap(selectedItem)">Request swap</button>
-    <p>Alternatively, make a donation to our charity of the week, Refuge, and send {{username}} a message to let them know.</p>
+    <p>
+      Alternatively, make a donation to our charity of the week, Refuge, and
+      send {{ username }} a message to let them know.
+    </p>
     <a
-      href="//widgets.justgiving.com/Button/Redirect?p=eyJUZXh0IjoiUmVmdWdlIiwiSWQiOiI1YWJkODc0YS01M2YyLTQxOGItOWRmZi1jZWQxZWMzMDE0YTAiLCJDaGFyaXR5SWQiOjExMTk0LCJTaXplIjoicyIsIlJlZmVyZW5jZSI6ImFsaWNlUmVmdWdlIiwiVHlwZSI6IkNoYXJpdHlEb25hdGUifQ=="><img
-        src="//widgets.justgiving.com/Button?p=eyJUZXh0IjoiUmVmdWdlIiwiSWQiOiI1YWJkODc0YS01M2YyLTQxOGItOWRmZi1jZWQxZWMzMDE0YTAiLCJDaGFyaXR5SWQiOjExMTk0LCJTaXplIjoicyIsIlJlZmVyZW5jZSI6ImFsaWNlUmVmdWdlIiwiVHlwZSI6IkNoYXJpdHlEb25hdGUifQ==" /></a>
+      href="//widgets.justgiving.com/Button/Redirect?p=eyJUZXh0IjoiUmVmdWdlIiwiSWQiOiI1YWJkODc0YS01M2YyLTQxOGItOWRmZi1jZWQxZWMzMDE0YTAiLCJDaGFyaXR5SWQiOjExMTk0LCJTaXplIjoicyIsIlJlZmVyZW5jZSI6ImFsaWNlUmVmdWdlIiwiVHlwZSI6IkNoYXJpdHlEb25hdGUifQ=="
+      ><img
+        src="//widgets.justgiving.com/Button?p=eyJUZXh0IjoiUmVmdWdlIiwiSWQiOiI1YWJkODc0YS01M2YyLTQxOGItOWRmZi1jZWQxZWMzMDE0YTAiLCJDaGFyaXR5SWQiOjExMTk0LCJTaXplIjoicyIsIlJlZmVyZW5jZSI6ImFsaWNlUmVmdWdlIiwiVHlwZSI6IkNoYXJpdHlEb25hdGUifQ=="
+    /></a>
   </main>
 
   <p v-show="submitted">
@@ -23,6 +28,7 @@
 </template>
 
 <script>
+import { isStaticArgOf } from '@vue/compiler-core';
 import { onMounted, ref } from 'vue';
 import { useStore } from '../store';
 import { supabase } from '../supabase';
@@ -52,10 +58,11 @@ export default {
           .select('item_name, id')
           .eq('owner_id', loggedInUser);
 
+        if (error) throw error;
+
         if (data) {
           userItems.value = data;
         }
-        if (error) throw error;
       } catch (error) {
         alert(error.message);
       } finally {
