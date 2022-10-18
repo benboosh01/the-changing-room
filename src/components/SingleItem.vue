@@ -13,10 +13,6 @@
     <p style="margin: 10px">{{ itemDescription }}</p>
   </div>
   <div class="item-buttons">
-    <button v-show="!messageClicked" @click="onMessageClick">
-      Message {{ itemOwner }}
-    </button>
-
     <button
       v-show="!messageClicked && itemOwnerId !== loggedInUser"
       @click="onMessageClick"
