@@ -2,7 +2,7 @@
   <img
     :src="imageSrc"
     alt=""
-    style="width: 200px; height: 200px; border-radius: 50%"
+    style="width: 200px; height: 200px; border-radius: 50%; margin: 20px"
   />
 </template>
 <script setup>
@@ -19,8 +19,9 @@ async function getItemImage() {
       .from("item-images")
       .getPublicUrl(props.url);
     if (error && status !== 406) throw error;
-    if(data) {
-      imageSrc.value = data.publicURL};
+    if (data) {
+      imageSrc.value = data.publicURL;
+    }
   } catch (error) {
     alert(error.message);
   } finally {
