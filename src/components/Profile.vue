@@ -1,20 +1,11 @@
 <template>
+
   <Modal v-show="showModal" @close-modal="showModal = false">
     <UserReviews />
   </Modal>
-  <div class="profile-card">
-    <div class="profile-info">
-      <p class="user-name">{{ username }}</p>
-      <p class="user-location">{{ location }}</p>
 
-      <button class="primary" @click="showModal = true">
-        See all your reviews
-      </button>
 
-      <button class="primary" @click="onClick()" v-show="!clicked">
-        Update details
-      </button>
-      <form v-show="clicked" @submit.prevent="onSubmit">
+        <form @click="onClick()" v-show="!clicked"  @submit.prevent="onSubmit">
         <label htmlFor="name">Name</label>
         <input v-model="username" />
         <label htmlFor="location">Location</label>
@@ -24,6 +15,20 @@
         <br />
         <button>Submit</button>
       </form>
+
+
+  <div class="profile-card">
+    <div class="profile-info">
+      <p class="user-name">{{ username }}</p>
+      <p class="user-location">{{ location }}</p>
+
+      <button class="primary" @click="showModal = true">
+        See all your reviews
+      </button>
+
+      <button @click="onClick()" v-show="!clicked">Update details</button>
+
+
     </div>
     <div class="profile-image-wrapper">
       <img
@@ -51,14 +56,9 @@ const location = ref("");
 const avatar_url = ref("");
 const avatarFile = ref("");
 const image = ref("");
-let clicked = ref(false);
 
 function setFiles(event) {
   avatarFile.value = event.target.files[0];
-}
-
-function onClick() {
-  clicked.value = true;
 }
 
 async function onSubmit() {

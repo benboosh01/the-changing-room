@@ -1,7 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Cairo|Slabo+27px");
 
 /* html, */
-body {
+
+body * {
   font-family: "Cairo", sans-serif;
 
   /* --custom-font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, */
@@ -13,8 +14,8 @@ body {
   /* --custom-color-brand: #24b47e; */
   /* --custom-color-secondary: #666; */
   /* --custom-border: 1px solid #333; */
-  --custom-border-radius: 5px;
-  --custom-spacing: 5px;
+  /* --custom-border-radius: 5px; */
+  /* --custom-spacing: 5px; */
 
   padding: 0;
   margin: 0;

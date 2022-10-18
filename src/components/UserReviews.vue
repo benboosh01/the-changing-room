@@ -1,10 +1,27 @@
 <template>
   <div class="user-reviews-wrapper">
-    <h1>Reviews for Specific User</h1>
-    <ul>
-      <li v-for="review in userReviews" :key="review.id">
+    <ul class="user-reviews-list">
+      <li
+        class="user-review-item"
+        v-for="review in userReviews"
+        :key="review.id"
+      >
+      <div class="review-image-wrapper">
+        <img 
+          :src="review.items.item_preview_url"
+          alt="item-image"
+          style="width: 200px; height: 200px; border-radius: 50%" 
+        />
+      </div>
+      <div class="user-review-body">
+        <p>{{ review.rating }} stars</p>
         <p>{{ review.comments }}</p>
-        <p>{{ review.rating }}</p>
+        <p>{{ review.created_at }}</p>
+        <p>{{ review.users.username }}</p>
+      </div>
+ 
+
+
       </li>
     </ul>
   </div>
@@ -19,21 +36,8 @@ export default {
   setup() {
     const store = useStore();
     const loading = ref(false);
-    const userId = ref("");
     const userReviews = ref([]);
-
-    async function getUser() {
-      try {
-        loading.value = true;
-        // hardcoded atm as login not complete
-        userId.value = "81c92b70-566e-420f-91ea-1d45edb247ec";
-        // userId.value = store.user.id;
-      } catch (error) {
-        alert(error.message);
-      } finally {
-        loading.value = false;
-      }
-    }
+    const user = store.user;
 
     async function getReviewsForUser() {
       try {
@@ -41,8 +45,14 @@ export default {
 
         const { data: reviews, error } = await supabase
           .from("reviews")
-          .select("*")
-          .eq("reviewee_id", userId.value);
+          .select(
+            `
+            comments, rating, created_at, 
+            users!reviews_reviewer_id_fkey (username),
+            items!reviews_item_id_fkey (item_preview_url)
+            `
+          )
+          .eq("reviewee_id", user.id);
 
         if (reviews) {
           userReviews.value = reviews;
@@ -55,14 +65,12 @@ export default {
     }
 
     onMounted(() => {
-      getUser();
       getReviewsForUser();
     });
 
     return {
       loading,
-      userId,
-      userReviews,
+      userReviews
     };
   },
 };
@@ -71,5 +79,28 @@ export default {
 <style scoped>
 .user-reviews-wrapper * {
   color: black;
+}
+
+.user-reviews-list {
+  list-style: none;
+  padding: 0;
+}
+
+.user-review-item {
+	background: rgba(255, 255, 255, 0.90);
+	border-radius: 5px;
+	overflow: hidden;
+	margin: 5em auto;
+  padding: 10px;
+  display: flex;
+}
+
+.review-image-wrapper {
+  margin-right: 5px;
+}
+
+.user-review-body > p {
+  margin-top: 3px;
+  margin-bottom: 3px;
 }
 </style>
