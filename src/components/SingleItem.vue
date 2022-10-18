@@ -21,10 +21,11 @@
     </button>
 
     <button
-      v-show="!swapClicked && itemOwnerId !== loggedInUser && !swapApproved"
+      v-show="!swapClicked && itemOwnerId !== loggedInUser"
       @click="onSwapClick"
+      :disabled="swapApproved"
     >
-      Start a swap
+      {{ swapApproved ? 'Pending swap' : 'Start a swap' }}
     </button>
     <div v-show="messageClicked && id">
       <MessageForm
