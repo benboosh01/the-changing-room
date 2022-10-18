@@ -1,8 +1,11 @@
 <template>
   <Profile />
-  <button @click="toggleItems">Items</button>
-  <button @click="toggleSwaps">Swaps</button>
-  <button @click="toggleMessages">Messages</button>
+  <div class="flex flex-center button-group">
+    <button @click="toggleItems" class="primary">Items</button>
+    <button @click="toggleSwaps" class="primary">Swaps</button>
+    <button @click="toggleMessages" class="primary">Messages</button>
+  </div>
+
   <SwapRequestList />
   <UserItems v-if="itemsVisible" />
   <SwapsList v-if="swapsVisible" />
@@ -51,3 +54,9 @@ function toggleMessages() {
   }
 }
 </script>
+
+<style scoped>
+.button-group {
+  margin-top: 30px;
+}
+</style>

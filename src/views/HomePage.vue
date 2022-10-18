@@ -58,12 +58,4 @@ function toggleReg() {
 .button-group {
   margin-top: 30px;
 }
-/* TODO - move to main.css */
-button.primary {
-  border: 3px solid #333333;
-  text-transform: uppercase;
-  background: #f1f1f1;
-  padding: 5px 20px;
-  margin: 5px;
-}
 </style>

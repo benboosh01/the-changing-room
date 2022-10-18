@@ -12,7 +12,7 @@
       />
     <input
       type="submit"
-      class="primary"
+      class="input-button"
       :value="loading ? 'Loading ...' : 'Login User'"
       :disabled="loading"
     />
@@ -107,8 +107,7 @@ export default {
   font-size: 12px;
 }
 
-/* TODO - move to main.css */
-.primary {
+.input-button {
   border: 3px solid #333333;
   text-transform: uppercase;
   background: #f1f1f1;

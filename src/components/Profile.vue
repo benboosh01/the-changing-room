@@ -26,7 +26,13 @@
         See all your reviews
       </button>
 
-      <button @click="onClick()" v-show="!clicked">Update details</button>
+      <button
+        @click="onClick()"
+        v-show="!clicked"
+        class="primary"
+        >
+        Update details
+        </button>
 
 
     </div>
