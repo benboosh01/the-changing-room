@@ -74,8 +74,9 @@ export default {
 </script>
 
 <template>
-  <h1>Register</h1>
-  <form @submit.prevent="submitForm">
+  <div class="register-box">
+  <h1 class="register-title">Register</h1>
+  <form @submit.prevent="submitForm" class="register-form">
     <label for="username">username</label>
     <input
       id="username"
@@ -83,14 +84,14 @@ export default {
       placeholder="Enter username"
       required
     />
-    <label for="avatar">Avatar</label>
+    <label for="avatar">avatar</label>
     <input
       id="avatar"
       type="file"
       v-on:change="setFiles"
-      placeholder="select image"
+      placeholder="Upload image file"
     />
-    <label for="location">Location</label>
+    <label for="location">location</label>
     <input
       id="location"
       type="text"
@@ -100,9 +101,65 @@ export default {
     />
     <input
       type="submit"
-      class="button block primary"
+      class="input-button"
       :value="loading ? 'Loading ...' : 'Submit'"
       :disabled="loading || disable"
     />
   </form>
+</div>
 </template>
+
+<style scoped>
+.register-box {
+  padding: 40px;
+  background-color: #E9F1F7;
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+}
+
+.register-title {
+  margin: 0 0 30px;
+  padding: 0;
+  text-align: center;
+}
+
+.register-form > #username, 
+.register-form > #location,
+.register-form > #avatar
+ {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+
+.register-form > label {
+  font-size: 16px;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.register-box #username:focus ~ label,
+.register-box #username:valid ~ label,
+.register-box #location:focus ~ label,
+.register-box #location:focus ~ label
+  {
+  top: -20px;
+  left: 0;
+  color: red;
+  font-size: 12px;
+}
+
+.input-button {
+  border: 3px solid #333333;
+  text-transform: uppercase;
+  background: #f1f1f1;
+  padding: 5px 20px;
+  margin: 5px;
+}
+</style>

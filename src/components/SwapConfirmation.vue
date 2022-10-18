@@ -2,7 +2,7 @@
   <div>
     <h3>Item Offered:</h3>
     <p v-if="offerData">{{ offerData.items.item_name }}</p>
-    <!-- <ItemImage v-if="offerData" :url="offerData.items.item_preview_url" /> -->
+    <ItemImage v-if="offerData" :url="offerData.items.item_preview_url" />
     <p v-if="offerData">{{ offerData.items.description }}</p>
     <button @click="approveSwap">Approve Swap</button>
   </div>

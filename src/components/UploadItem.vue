@@ -1,18 +1,20 @@
 <script>
-import { supabase } from "../supabase";
-import { ref } from "vue";
-import { useStore } from "../store";
+import { supabase } from '../supabase';
+import { onMounted, ref } from 'vue';
+import { useStore } from '../store';
 
 export default {
   emits: ['toggleUpload'],
   setup(_, context) {
     const store = useStore();
     const loading = ref(false);
-    const item_name = ref("");
-    const description = ref("");
+    const item_name = ref('');
+    const description = ref('');
     const category_id = ref(null);
-    const condition = ref("");
-    let item_preview_url = ref("");
+    const condition = ref('');
+    let item_preview_url = ref('');
+    const categoryList = ref([]);
+    const conditionList = ref([]);
 
     async function uploadItemForm() {
       try {
@@ -20,7 +22,7 @@ export default {
 
         const file = item_preview_url.value[0];
 
-        if (!file.name) return "ERROR";
+        if (!file.name) return 'ERROR';
 
         // todo - owner_id is hardcoded, user login must be working to send this
         const data = {
@@ -33,27 +35,64 @@ export default {
           owner_username: store.user.username,
         };
 
-        const { error } = await supabase.from("items").insert(data);
-        console.log(file)
+        const { error } = await supabase.from('items').insert(data);
+        console.log(file);
 
         let { error: uploadError } = await supabase.storage
-          .from("item-images")
+          .from('item-images')
           .upload(file.name, file);
 
         if (error) throw error;
       } catch (error) {
-        console.log("error", error);
+        console.log('error', error);
         alert(error.message);
       } finally {
         loading.value = false;
-        item_name.value = "";
-        description.value = "";
+        item_name.value = '';
+        description.value = '';
         category_id.value = null;
         condition.value = '';
         item_preview_url.value = '';
         alert('Succesfully uploaded item');
         toggleUpload();
+      }
+    }
 
+    async function getCategories() {
+      try {
+        loading.value = true;
+        const { data, error } = await supabase.from('categories').select();
+
+        if (error) throw error;
+
+        if (data) {
+          categoryList.value = data;
+        }
+      } catch (error) {
+        alert(error.message);
+      } finally {
+        loading.value = false;
+      }
+    }
+
+    async function getCondition() {
+      try {
+        loading.value = true;
+        const { data, error } = await supabase
+          .from('condition')
+          .select()
+          .order('id', { ascending: true });
+
+        if (error) throw error;
+
+        if (data) {
+          conditionList.value = data;
+        }
+      } catch (error) {
+        alert(error.message);
+      } finally {
+        loading.value = false;
+        console.log(conditionList.value);
       }
     }
 
@@ -68,6 +107,11 @@ export default {
       context.emit('toggleUpload');
     }
 
+    onMounted(() => {
+      getCategories();
+      getCondition();
+    });
+
     return {
       loading,
       item_name,
@@ -75,6 +119,8 @@ export default {
       category_id,
       condition,
       item_preview_url,
+      categoryList,
+      conditionList,
       uploadItemForm,
       onFileSelected,
     };
@@ -106,22 +152,18 @@ export default {
 
     <select v-model="category_id" required>
       <option value="0" selected disabled>---- Select Category ----</option>
-      <option value="1">Formal Wear</option>
-      <option value="2">Outdoor Gear</option>
-      <option value="3">Coats and Jackets</option>
-      <option value="4">Footwear</option>
-      <option value="5">Dresses and Skirts</option>
-      <option value="6">Trousers</option>
+      <option v-for="category in categoryList" :value="category.id">
+        {{ category.category_name }}
+      </option>
     </select>
 
     <label for="condition">Condition</label>
-    <input
-      id="condition"
-      type="text"
-      v-model="condition"
-      placeholder="Enter condition"
-      required
-    />
+    <select v-model="condition" required>
+      <option value="0" selected disabled>---- Select Condition ----</option>
+      <option v-for="condition in conditionList" :value="condition.condition">
+        {{ condition.condition }}
+      </option>
+    </select>
 
     <label for="item_preview_url">Image</label>
     <input

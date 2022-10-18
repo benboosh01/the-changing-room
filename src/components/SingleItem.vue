@@ -14,17 +14,18 @@
   </div>
   <div class="item-buttons">
     <button
-      v-show="!messageClicked && itemOwnerId !== loggedInUser"
+      v-show="!messageClicked && itemOwnerId !== loggedInUser && store.user.id"
       @click="onMessageClick"
     >
       Message {{ itemOwner }}
     </button>
 
     <button
-      v-show="!swapClicked && itemOwnerId !== loggedInUser"
+      v-show="!swapClicked && itemOwnerId !== loggedInUser && store.user.id"
       @click="onSwapClick"
+      :disabled="swapApproved"
     >
-      Start a swap
+      {{ swapApproved ? 'Pending swap' : 'Start a swap' }}
     </button>
     <div v-show="messageClicked && id">
       <MessageForm
@@ -39,35 +40,36 @@
   </div>
 </template>
 <script setup>
-import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
-import { supabase } from "../supabase";
-import ItemImage from "./ItemImage.vue";
-import MessageForm from "./MessageForm.vue";
-import SwapForm from "./SwapForm.vue";
-import { useStore } from "../store";
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import { supabase } from '../supabase';
+import ItemImage from './ItemImage.vue';
+import MessageForm from './MessageForm.vue';
+import SwapForm from './SwapForm.vue';
+import { useStore } from '../store';
 
 const route = useRoute();
 const id = route.params.id;
 const loading = ref(true);
-const itemName = ref("");
-const itemDescription = ref("");
-const itemCondition = ref("");
-const itemCategory = ref("");
-const itemOwnerId = ref("");
-const itemOwner = ref("");
-const itemImage = ref("");
+const itemName = ref('');
+const itemDescription = ref('');
+const itemCondition = ref('');
+const itemCategory = ref('');
+const itemOwnerId = ref('');
+const itemOwner = ref('');
+const itemImage = ref('');
 const messageClicked = ref(false);
 const swapClicked = ref(false);
 const store = useStore();
 const loggedInUser = store.user.id;
+const swapApproved = ref(false);
 
 async function getItemById() {
   try {
     const { data, error } = await supabase
-      .from("items")
-      .select("*, categories (category_name)")
-      .eq("id", id);
+      .from('items')
+      .select('*, categories (category_name)')
+      .eq('id', id);
 
     itemName.value = data[0].item_name;
     itemDescription.value = data[0].description;
@@ -101,8 +103,33 @@ function onSwapClick() {
   }
 }
 
+async function getApprovedSwaps() {
+  try {
+    loading.value = true;
+    const { data, error } = await supabase
+      .from('swaps')
+      .select()
+      .eq('item_id', id)
+      .eq('approved', 'true');
+
+    if (error) throw error;
+
+    if (data) {
+      console.log(data);
+      if (data.length > 0) {
+        swapApproved.value = true;
+      }
+    }
+  } catch (error) {
+    alert(error.message);
+  } finally {
+    loading.value = false;
+  }
+}
+
 onMounted(() => {
   getItemById();
+  getApprovedSwaps();
 });
 </script>
 

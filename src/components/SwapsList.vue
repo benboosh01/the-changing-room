@@ -1,12 +1,11 @@
 <template>
   <div class="swaps-list-wrapper">
-    <h1>Swaps List</h1>
-    <h2>Items Sent:</h2>
+    <h1>Swaps Approved:</h1>
     <ul>
       <li v-for="item in userSent" :key="item.items.id" :value="item.item_id">
         <h3>{{ item.items.item_name }}</h3>
         <p>Sent to: {{ item.users.username }}</p>
-        <!-- <ItemImage v-if="item" :url="item.item_preview_url" /> -->
+        <ItemImage v-if="item" :url="item.items.item_preview_url" />
         <button :value="item.item_id" @click="contactUser">
           Contact {{ item.users.username }}
         </button>
@@ -32,12 +31,11 @@
         />
       </li>
     </ul>
-    <h2>Items Recieved:</h2>
     <ul>
       <li v-for="item in userRecieved" :key="item.id">
         <h3>{{ item.items.item_name }}</h3>
         <p>Received from: {{ item.items.owner_username }}</p>
-        <!-- <ItemImage v-if="item" :url="item.item_preview_url" /> -->
+        <ItemImage v-if="item" :url="item.items.item_preview_url" />
         <button @click="contactUser" :value="item.item_id">
           Contact {{ item.items.owner_username }}
         </button>
@@ -67,25 +65,25 @@
 </template>
 
 <script>
-import { supabase } from "../supabase";
-import { onMounted, ref } from "vue";
-import { useStore } from "../store";
-import ItemImage from "./ItemImage.vue";
-import ReviewForm from "./ReviewForm.vue";
-import MessageForm from "./MessageForm.vue";
+import { supabase } from '../supabase';
+import { onMounted, ref } from 'vue';
+import { useStore } from '../store';
+import ItemImage from './ItemImage.vue';
+import ReviewForm from './ReviewForm.vue';
+import MessageForm from './MessageForm.vue';
 
 export default {
-  name: "SwapsList",
+  name: 'SwapsList',
   components: { ItemImage, ReviewForm, MessageForm },
 
   setup() {
     const store = useStore();
-    const loggedInUser = ref("");
+    const loggedInUser = ref('');
     const loading = ref(false);
     const userSent = ref([]);
     const userRecieved = ref([]);
-    const swapUser = ref("");
-    const itemId = ref("");
+    const swapUser = ref('');
+    const itemId = ref('');
     const reviewsList = ref([]);
     const disabled = ref(false);
     const reviewVisible = ref(false);
@@ -107,11 +105,11 @@ export default {
         loading.value = true;
 
         const { data: sent, error } = await supabase
-          .from("swaps")
+          .from('swaps')
           .select(
             `item_id, users (username, id), items!inner(item_name, item_preview_url)`
           )
-          .eq("items.owner_id", loggedInUser.value);
+          .eq('items.owner_id', loggedInUser.value);
 
         if (error) throw error;
 
@@ -130,11 +128,11 @@ export default {
         loading.value = true;
 
         const { data: recieved, error } = await supabase
-          .from("swaps")
+          .from('swaps')
           .select(
             `item_id, items (owner_id, owner_username, item_name, item_preview_url)`
           )
-          .eq("user_to", loggedInUser.value);
+          .eq('user_to', loggedInUser.value);
 
         if (error) throw error;
         if (recieved) {
@@ -152,7 +150,7 @@ export default {
         loading.value = true;
 
         const { data: reviews, error } = await supabase
-          .from("reviews")
+          .from('reviews')
           .select();
 
         if (error) throw error;
