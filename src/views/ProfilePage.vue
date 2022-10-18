@@ -2,9 +2,9 @@
   <Profile />
   <div class="flex flex-center button-group">
     <button @click="toggleItems" class="primary">Items</button>
-    <button @click="toggleSwaps" class="primary">Swaps</button>
     <button @click="toggleMessages" class="primary">Messages</button>
-    <button @click="toggleRequests">Swap Requests</button>
+    <button @click="toggleRequests" class="primary">Swap Requests</button>
+    <button @click="toggleSwaps" class="primary">Swaps Approved</button>
   </div>
   <SwapRequestList v-if="requestsVisible" />
   <UserItems v-if="itemsVisible" />
