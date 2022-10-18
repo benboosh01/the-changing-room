@@ -1,7 +1,6 @@
 <template>
   <div class="swaps-list-wrapper">
-    <h1>Swaps List</h1>
-    <h2>Items Sent:</h2>
+    <h1>Swaps Approved:</h1>
     <ul>
       <li v-for="item in userSent" :key="item.items.id" :value="item.item_id">
         <h3>{{ item.items.item_name }}</h3>
@@ -32,7 +31,6 @@
         />
       </li>
     </ul>
-    <h2>Items Recieved:</h2>
     <ul>
       <li v-for="item in userRecieved" :key="item.id">
         <h3>{{ item.items.item_name }}</h3>
