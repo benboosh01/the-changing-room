@@ -1,9 +1,9 @@
 <template>
-  <h2>Requests:</h2>
+  <h2>Swap Requests:</h2>
   <ul>
     <li v-for="request in swapRequests" :key="request.swap_id">
       <p>From: {{ request.users.username }}</p>
-      <p>Item: {{ request.items.item_name }}</p>
+      <p>Item Requested: {{ request.items.item_name }}</p>
       <button :value="request.swap_id" @click="viewRequest">
         View Request
       </button>

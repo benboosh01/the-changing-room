@@ -1,9 +1,10 @@
 <template>
   <Profile />
   <button @click="toggleItems">Items</button>
-  <button @click="toggleSwaps">Swaps</button>
+  <button @click="toggleSwaps">Swaps Approved</button>
   <button @click="toggleMessages">Messages</button>
-  <SwapRequestList />
+  <button @click="toggleRequests">Swap Requests</button>
+  <SwapRequestList v-if="requestsVisible" />
   <UserItems v-if="itemsVisible" />
   <SwapsList v-if="swapsVisible" />
   <MessageInbox v-if="messagesVisible" />
@@ -20,6 +21,7 @@ import SwapRequestList from '../components/SwapRequestList.vue';
 const itemsVisible = ref(false);
 const swapsVisible = ref(false);
 const messagesVisible = ref(false);
+const requestsVisible = ref(false);
 
 function toggleItems() {
   if (itemsVisible.value) {
@@ -28,6 +30,7 @@ function toggleItems() {
     itemsVisible.value = true;
     swapsVisible.value = false;
     messagesVisible.value = false;
+    requestsVisible.value = false;
   }
 }
 
@@ -38,6 +41,7 @@ function toggleSwaps() {
     swapsVisible.value = true;
     itemsVisible.value = false;
     messagesVisible.value = false;
+    requestsVisible.value = false;
   }
 }
 
@@ -46,6 +50,18 @@ function toggleMessages() {
     messagesVisible.value = false;
   } else {
     messagesVisible.value = true;
+    itemsVisible.value = false;
+    swapsVisible.value = false;
+    requestsVisible.value = false;
+  }
+}
+
+function toggleRequests() {
+  if (requestsVisible.value) {
+    requestsVisible.value = false;
+  } else {
+    requestsVisible.value = true;
+    messagesVisible.value = false;
     itemsVisible.value = false;
     swapsVisible.value = false;
   }
