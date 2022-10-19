@@ -13,8 +13,6 @@
     <li v-for="item in itemList" :key="item.id" class="item">
       <h2>{{ item.item_name }}</h2>
       <ItemImage v-if="item" :url="item.item_preview_url" />
-      <p>{{ item.condition }}</p>
-      <p>{{ item.description }}</p>
       <button @click="selectItem(item.id)" class="select-button">
         View item details
       </button>
@@ -22,10 +20,10 @@
   </ul>
 </template>
 <script setup>
-import { supabase } from "../supabase";
-import { ref, onMounted } from "vue";
-import ItemImage from "./ItemImage.vue";
-import router from "../router";
+import { supabase } from '../supabase';
+import { ref, onMounted } from 'vue';
+import ItemImage from './ItemImage.vue';
+import router from '../router';
 
 const loading = ref(true);
 const itemList = ref([]);
@@ -33,12 +31,12 @@ const categoryList = ref([]);
 let categoryId = ref(0);
 
 function selectItem(id) {
-  router.push({ name: "singleItem", params: { id: id } });
+  router.push({ name: 'singleItem', params: { id: id } });
 }
 
 async function getCategories() {
   try {
-    const { data, error } = await supabase.from("categories").select();
+    const { data, error } = await supabase.from('categories').select();
     if (data) {
       categoryList.value = data;
     }
@@ -48,14 +46,14 @@ async function getCategories() {
   }
 }
 async function getItems(categoryName) {
-  let query = supabase.from("items").select();
+  let query = supabase.from('items').select();
   if (categoryName) {
     categoryList.value.forEach((category) => {
       if (category.category_name === categoryName) {
         categoryId = category.id;
       }
     });
-    query = query.eq("category_id", categoryId);
+    query = query.eq('category_id', categoryId);
   }
 
   try {
@@ -91,6 +89,8 @@ onMounted(() => {
   border-radius: 8px;
   margin: 10px 10px;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 #category {
