@@ -5,6 +5,7 @@
     <UploadItem
       v-if="upLoadVisible && loggedInUser === userId"
       @toggleUpload="toggleUpload"
+      @addNewItem="addNewItem"
     />
     <ul id="user-items-list">
       <li v-for="item in userItems" :key="item.id" class="user-list-card">
@@ -107,6 +108,10 @@ export default {
       }
     }
 
+    function addNewItem(item) {
+      userItems.value.unshift(item);
+    }
+
     onMounted(() => {
       getUser();
       getUserItems();
@@ -124,6 +129,7 @@ export default {
       editRemoveClicked,
       chosenItem,
       selectItem,
+      addNewItem,
     };
   },
 };

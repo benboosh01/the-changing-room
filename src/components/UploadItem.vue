@@ -4,7 +4,7 @@ import { onMounted, ref } from 'vue';
 import { useStore } from '../store';
 
 export default {
-  emits: ['toggleUpload'],
+  emits: ['toggleUpload', 'addNewItem'],
   setup(_, context) {
     const store = useStore();
     const loading = ref(false);
@@ -16,7 +16,8 @@ export default {
     const categoryList = ref([]);
     const conditionList = ref([]);
     const acceptDonation = ref(false);
-    const donationAmount = ref('');
+    const donationAmount = ref(0);
+    const uploadedData = ref({});
 
     async function uploadItemForm() {
       try {
@@ -40,7 +41,7 @@ export default {
         };
 
         const { error } = await supabase.from('items').insert(data);
-        console.log(file);
+        uploadedData.value = data;
 
         let { error: uploadError } = await supabase.storage
           .from('item-images')
@@ -57,7 +58,9 @@ export default {
         category_id.value = null;
         condition.value = '';
         item_preview_url.value = '';
+
         alert('Succesfully uploaded item');
+        addNewItem();
         toggleUpload();
       }
     }
@@ -109,6 +112,10 @@ export default {
 
     function toggleUpload() {
       context.emit('toggleUpload');
+    }
+
+    function addNewItem() {
+      context.emit('addNewItem', uploadedData.value);
     }
 
     onMounted(() => {
