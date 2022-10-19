@@ -1,20 +1,26 @@
 <template>
-  <h2>Swap Requests:</h2>
-  <ul>
-    <li v-for="request in swapRequests" :key="request.swap_id">
-      <p>From: {{ request.users.username }}</p>
-      <p>Item Requested: {{ request.items.item_name }}</p>
-      <button :value="request.swap_id" @click="viewRequest">
-        View Request
-      </button>
-      <SwapConfirmation
-        v-if="requestVisible && requestId === request.swap_id"
-        :swapId="request.swap_id"
-        @toggleVisible="toggleVisible"
-        @updateRequests="updateRequests"
-      />
-    </li>
-  </ul>
+  <div id="requests-section">
+    <h2>Swap Requests:</h2>
+    <ul id="requests-list">
+      <li
+        v-for="request in swapRequests"
+        :key="request.swap_id"
+        class="request-card"
+      >
+        <p>From: {{ request.users.username }}</p>
+        <p>Item Requested: {{ request.items.item_name }}</p>
+        <button :value="request.swap_id" @click="viewRequest">
+          View Request
+        </button>
+        <SwapConfirmation
+          v-if="requestVisible && requestId === request.swap_id"
+          :swapId="request.swap_id"
+          @toggleVisible="toggleVisible"
+          @updateRequests="updateRequests"
+        />
+      </li>
+    </ul>
+  </div>
 </template>
 <script setup>
 import { onMounted, ref } from 'vue';
@@ -96,3 +102,28 @@ onMounted(() => {
   getRequests();
 });
 </script>
+
+<style scoped>
+#requests-list {
+  display: flex;
+  list-style: none;
+}
+
+#requests-section {
+  border: 1px solid black;
+  padding: 10px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.request-card {
+  text-align: center;
+  border: 1px solid black;
+  margin: 10px 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+</style>
