@@ -1,7 +1,9 @@
 <template>
   <div class="user-items-wrapper">
     <h1>{{ loggedInUser === userId ? 'Your' : username }} Items</h1>
-    <button @click="toggleUpload" class="primary">Add New Item</button>
+    <button @click="toggleUpload" class="primary add-item-btn">
+      Add New Item
+    </button>
 
     <UploadItem
       v-if="upLoadVisible && loggedInUser === userId"
@@ -150,6 +152,7 @@ export default {
   padding: 10px;
   margin: 20px 0;
   text-align: center;
+  background-color: #f4f4f4;
 }
 .button-group {
   margin-top: 30px;
@@ -162,6 +165,7 @@ export default {
   max-width: 100px;
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 
 #user-items-list {
@@ -183,5 +187,10 @@ export default {
   flex-direction: column;
   gap: 5px;
   flex-wrap: wrap;
+  background-color: white;
+}
+
+.add-item-btn {
+  background-color: white;
 }
 </style>

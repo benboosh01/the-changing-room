@@ -1,5 +1,5 @@
 <template>
-    <TheNavigation />
+  <TheNavigation />
   <div class="container" style="padding: 0px 0 100px 0">
     <Title class="app-title" />
     <router-view></router-view>
@@ -7,8 +7,8 @@
 </template>
 
 <script setup>
-import Title from "./components/Title.vue";
-import TheNavigation from "./components/TheNavigation.vue";
+import Title from './components/Title.vue';
+import TheNavigation from './components/TheNavigation.vue';
 </script>
 
 <style scoped>
@@ -18,5 +18,6 @@ import TheNavigation from "./components/TheNavigation.vue";
   font-size: 50px;
   margin-bottom: 30px;
   margin-top: 30px;
+  background-color: #f4f4f4;
 }
 </style>

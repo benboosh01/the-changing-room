@@ -90,6 +90,7 @@ onMounted(() => {
   padding: 20px;
   display: flex;
   flex-direction: column;
+  background-color: #f4f4f4;
 }
 
 #category {
@@ -100,8 +101,8 @@ onMounted(() => {
 }
 
 .select-button {
-  background-color: lightgray;
-  border: 1px solid gray;
+  background-color: white;
+  border: 1px solid black;
   margin-top: 8px;
   padding: 4px 7px;
 }
