@@ -128,7 +128,6 @@ async function getApprovedSwaps() {
     if (error) throw error;
 
     if (data) {
-      console.log(data);
       if (data.length > 0) {
         swapApproved.value = true;
       }

@@ -1,7 +1,9 @@
 <template>
   <div class="user-items-wrapper">
-    <h2>{{ loggedInUser === userId ? 'Your' : username }} Items</h2>
-    <button @click="toggleUpload">Add New Item</button>
+
+    <h1>{{ loggedInUser === userId ? "Your" : username }} Items</h1>
+    <button @click="toggleUpload" class="primary">Add New Item</button>
+
     <UploadItem
       v-if="upLoadVisible && loggedInUser === userId"
       @toggleUpload="toggleUpload"
@@ -12,30 +14,30 @@
         <ItemImage v-if="item" :url="item.item_preview_url" />
         <h3>{{ item.item_name }}</h3>
         <p>Condition: {{ item.condition }}</p>
-        <button @click="clickEditRemove(item.id)">Edit/remove listing</button>
-        <EditRemoveItem
-          @clickEditRemove="clickEditRemove"
-          v-if="
-            editRemoveClicked &&
-            item.id === chosenItem &&
-            loggedInUser === userId
-          "
-          :id="chosenItem"
-        />
-        <button @click="selectItem(item.id)">View item details</button>
+
+     
+        <div class="flex flex-center button-group">
+        <button class="primary" @click="clickEditRemove(item.id)">Edit/remove listing</button>
+        <button class="primary" @click="selectItem(item.id)">View item details</button>
+        <EditRemoveItem @clickEditRemove="clickEditRemove" v-if="
+                    editRemoveClicked &&
+                    item.id === chosenItem &&
+                    loggedInUser === userId
+                  " :id="chosenItem" />
+        </div>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-import { supabase } from '../supabase';
-import { onMounted, ref } from 'vue';
-import { useStore } from '../store';
-import ItemImage from './ItemImage.vue';
-import UploadItem from './UploadItem.vue';
-import EditRemoveItem from './EditRemoveItem.vue';
-import router from '../router';
+import { supabase } from "../supabase";
+import { onMounted, ref } from "vue";
+import { useStore } from "../store";
+import ItemImage from "./ItemImage.vue";
+import UploadItem from "./UploadItem.vue";
+import EditRemoveItem from "./EditRemoveItem.vue";
+import router from "../router";
 
 export default {
   components: { ItemImage, UploadItem, EditRemoveItem },
@@ -43,13 +45,13 @@ export default {
   setup() {
     const store = useStore();
     const loading = ref(false);
-    const username = ref('');
-    const userId = ref('');
+    const username = ref("");
+    const userId = ref("");
     const userItems = ref([]);
     const loggedInUser = store.user.id;
     const upLoadVisible = ref(false);
     const editRemoveClicked = ref(false);
-    const chosenItem = ref('');
+    const chosenItem = ref("");
 
     async function getUser() {
       try {
@@ -68,9 +70,9 @@ export default {
         loading.value = true;
 
         const { data: items, error } = await supabase
-          .from('items')
-          .select('*')
-          .eq('owner_id', userId.value);
+          .from("items")
+          .select("*")
+          .eq("owner_id", userId.value);
 
         if (error) throw error;
 
@@ -95,7 +97,7 @@ export default {
     }
 
     function selectItem(id) {
-      router.push({ name: 'singleItem', params: { id: id } });
+      router.push({ name: "singleItem", params: { id: id } });
     }
 
     function clickEditRemove(id) {
@@ -142,6 +144,20 @@ export default {
   margin: 20px 0;
   text-align: center;
 }
+.button-group {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px
+
+}
+
+.item-button {
+  max-width: 100px;
+  display: flex;
+  flex-direction: column;
+}
+
 
 #user-items-list {
   list-style: none;

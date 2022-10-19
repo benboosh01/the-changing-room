@@ -1,11 +1,7 @@
 <template>
-    <button @click="(()=> {toDelete = true})">Delete this listing</button>
-    <div v-show="toDelete">
-<p>Are you sure you wish to delete this item's listing? This cannot be undone</p>
-<button @click="deleteItem">Yes, I'm sure</button>
+  <div class="edit-form">
     </div>
-    
-  <form @submit.prevent="onSubmit">
+  <form class="form-inputs" @submit.prevent="onSubmit">
     <label for="item_name">Item</label>
     <input id="item_name" type="text" v-model="itemName" />
 
@@ -16,16 +12,15 @@
 
     <select v-model="itemCategory">
       <option value="0" selected disabled>---- Select Category ----</option>
-      <option value="1">Formal Wear</option>
-      <option value="2">Outdoor Gear</option>
-      <option value="3">Coats and Jackets</option>
-      <option value="4">Footwear</option>
-      <option value="5">Dresses and Skirts</option>
-      <option value="6">Trousers</option>
+      <option v-for="category in categoryList" :value="category.id">{{category.category_name}}</option>
+
     </select>
 
     <label for="condition">Condition</label>
-    <input id="condition" type="text" v-model="itemCondition" />
+    <select id="condition" v-model="itemCondition"><option value="0" selected disabled>---- Select Condition ----</option>
+    <option v-for="condition in conditionList" :value="condition.condition">
+      {{ condition.condition }}
+    </option></select>
 
     <label for="item_preview_url">Image</label>
     <input
@@ -42,6 +37,11 @@
       :disabled="loading"
     />
   </form>
+  <button class="primary" @click="(()=> {toDelete = true})">Delete this listing</button>
+  <div v-show="toDelete">
+    <p>Are you sure you wish to delete this item's listing? This cannot be undone</p>
+    <button @click="deleteItem">Yes, I'm sure</button>
+  </div>
 </template>
 
 <script setup>
@@ -60,6 +60,8 @@ const itemOwner = ref("");
 const itemImage = ref("");
 const itemFile = ref("");
 const toDelete = ref(false)
+const categoryList = ref([])
+const conditionList = ref([])
 
 function setFiles(event) {
   itemFile.value = event.target.files[0];
@@ -73,8 +75,43 @@ async function deleteItem() {
     } finally {
         toDelete.value = false
         emit('clickEditRemove');
+    }  
+}
+async function getCategories() {
+  try {
+    loading.value = true;
+    const { data, error } = await supabase.from('categories').select();
+
+    if (error) throw error;
+
+    if (data) {
+      categoryList.value = data;
     }
-    
+  } catch (error) {
+    alert(error.message);
+  } finally {
+    loading.value = false;
+  }
+}
+
+async function getCondition() {
+  try {
+    loading.value = true;
+    const { data, error } = await supabase
+      .from('condition')
+      .select()
+      .order('id', { ascending: true });
+
+    if (error) throw error;
+
+    if (data) {
+      conditionList.value = data;
+    }
+  } catch (error) {
+    alert(error.message);
+  } finally {
+    loading.value = false;
+  }
 }
 async function getItemById() {
   try {
@@ -142,5 +179,31 @@ async function onSubmit() {
 
 onMounted(() => {
   getItemById();
+  getCondition();
+  getCategories()
 });
 </script>
+<style scoped>
+input[type=text] {
+  border: 1px solid black;
+}
+.button {
+  max-width: 100px;
+}
+.delete-button {
+  max-width: 100px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.edit-form{
+  display: flex;
+  flex-direction: column;
+}
+
+.form-inputs {
+    display: flex;
+      flex-direction: column;
+}
+</style>
