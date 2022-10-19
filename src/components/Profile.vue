@@ -26,7 +26,9 @@
   <div class="profile-card">
     <div class="profile-info">
       <p class="user-name">{{ username }}</p>
-      <p>Rating:{{ profileUserRating }}</p>
+
+      <p>Rating: {{ profileUserRating }}<i class="fa-solid fa-star"></i></p>
+
       <p class="user-location">
         <i class="fa-sharp fa-solid fa-location-dot"></i>
         {{ location }}
@@ -52,24 +54,25 @@
 </template>
 
 <script setup>
-import { supabase } from '../supabase';
-import { useStore } from '../store';
-import { ref, onMounted } from 'vue';
-import Modal from './Modal.vue';
-import UserReviews from './UserReviews.vue';
-import { getUserRatings } from '../utils/utilFuncs';
+
+import { supabase } from "../supabase";
+import { useStore } from "../store";
+import { ref, onMounted } from "vue";
+import Modal from "./Modal.vue";
+import UserReviews from "./UserReviews.vue";
+import { getUserRatings } from "../utils/utilFuncs";
 
 const store = useStore();
 const loading = ref(true);
-const userId = ref('');
-const username = ref('');
-const location = ref('');
-const avatar_url = ref('');
-const avatarFile = ref('');
-const image = ref('');
+const userId = ref("");
+const username = ref("");
+const location = ref("");
+const avatar_url = ref("");
+const avatarFile = ref("");
+const image = ref("");
 const clicked = ref(false);
 const userRatings = ref([]);
-const profileUserRating = ref('');
+const profileUserRating = ref("");
 
 function setFiles(event) {
   avatarFile.value = event.target.files[0];
@@ -160,8 +163,10 @@ async function getUserReviewScore() {
       userRatings.value = data.filter((user) => {
         return user.id === userId.value;
       });
-      console.log(userRatings.value);
+
       profileUserRating.value = userRatings.value[0].ave_review_score;
+      profileUserRating.value = Math.round(profileUserRating.value * 10) / 10;
+
       if (error) throw error;
     });
   } catch (error) {

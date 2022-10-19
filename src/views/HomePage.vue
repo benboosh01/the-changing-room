@@ -10,11 +10,11 @@
   </button>
 
 <!-- TODO - move to components -->
-  <div>homepage content</div>
-  <div>Our highest rated swappers
+ 
+  <h2 class="home-list-title">Our highest rated swappers
     <TopUsers/>
-  </div>
-  <div>Newest items preview</div>
+  </h2>
+ 
 
   <div class="flex flex-center button-group">
     <button
