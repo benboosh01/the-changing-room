@@ -14,17 +14,18 @@
   </div>
   <div class="item-buttons">
     <button
-      v-show="!messageClicked && itemOwnerId !== loggedInUser"
+      v-show="!messageClicked && itemOwnerId !== loggedInUser && store.user.id"
       @click="onMessageClick"
     >
       Message {{ itemOwner }}
     </button>
 
     <button
-      v-show="!swapClicked && itemOwnerId !== loggedInUser && !swapApproved"
+      v-show="!swapClicked && itemOwnerId !== loggedInUser && store.user.id"
       @click="onSwapClick"
+      :disabled="swapApproved"
     >
-      Start a swap
+      {{ swapApproved ? 'Pending swap' : 'Start a swap' }}
     </button>
     <div v-show="messageClicked && id">
       <MessageForm

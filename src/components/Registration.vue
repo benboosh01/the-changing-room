@@ -112,7 +112,6 @@ export default {
 <style scoped>
 .register-box {
   padding: 40px;
-  /* background: rgba(0,0,0,.5); */
   background-color: #E9F1F7;
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0,0,0,.6);

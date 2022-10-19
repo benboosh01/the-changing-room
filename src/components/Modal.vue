@@ -4,10 +4,7 @@
       <span class="dialog__close" @click="$emit('close-modal')">&#x2715;</span>
       <h2 class="dialog__title">All reviews for {{ username }}</h2>
       <!-- <p class="dialog__content">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit
-        necessitatibus illo deleniti doloremque culpa voluptas recusandae, sunt
-        eligendi amet, ut modi voluptatibus ipsa quas voluptatem consectetur
-        atque, velit reprehenderit debitis.
+         content
       </p> -->
       <slot></slot>
     </div>
@@ -38,20 +35,6 @@ export default {
 /* 
 @import url('https://fonts.googleapis.com/css?family=Cairo|Slabo+27px');  */
 
-/* * {
-  box-sizing: border-box;
-} */
-
-/* body {
-  background: #f1f1f1;
-  color: #333333;
-  font-family: 'Cairo', sans-serif;
-  font-size: 16px;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-} */
 
 .modal-overlay {
   position: fixed;
