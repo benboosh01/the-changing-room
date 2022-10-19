@@ -10,11 +10,13 @@
       <option v-for="item in userItems">{{ item.item_name }}</option>
     </select>
     <button @click="createNewSwap(selectedItem)">Request swap</button>
-    <p>
+    <p v-if="acceptDonation">
       Alternatively, make a donation to our charity of the week, Refuge, and
       send {{ username }} a message to let them know.
     </p>
+    <p v-if="acceptDonation">Donation requested: £{{ donationAmount }}</p>
     <a
+      v-if="acceptDonation"
       href="//widgets.justgiving.com/Button/Redirect?p=eyJUZXh0IjoiUmVmdWdlIiwiSWQiOiI1YWJkODc0YS01M2YyLTQxOGItOWRmZi1jZWQxZWMzMDE0YTAiLCJDaGFyaXR5SWQiOjExMTk0LCJTaXplIjoicyIsIlJlZmVyZW5jZSI6ImFsaWNlUmVmdWdlIiwiVHlwZSI6IkNoYXJpdHlEb25hdGUifQ=="
       ><img
         src="//widgets.justgiving.com/Button?p=eyJUZXh0IjoiUmVmdWdlIiwiSWQiOiI1YWJkODc0YS01M2YyLTQxOGItOWRmZi1jZWQxZWMzMDE0YTAiLCJDaGFyaXR5SWQiOjExMTk0LCJTaXplIjoicyIsIlJlZmVyZW5jZSI6ImFsaWNlUmVmdWdlIiwiVHlwZSI6IkNoYXJpdHlEb25hdGUifQ=="
@@ -35,7 +37,14 @@ import { supabase } from '../supabase';
 
 export default {
   name: 'SwapForm',
-  props: ['username', 'userId', 'itemId', 'itemName'],
+  props: [
+    'username',
+    'userId',
+    'itemId',
+    'itemName',
+    'acceptDonation',
+    'donationAmount',
+  ],
 
   setup(props) {
     const store = useStore();
