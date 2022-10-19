@@ -202,10 +202,12 @@ export default {
 
 <style scoped>
 .profile-card {
-  border: 1px solid black;
-  padding: 10px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+  background-color: #f1f1f1;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
   display: flex;
-  margin-bottom: 20px;
   justify-content: space-around;
   background-color: #f4f4f4;
 }
@@ -238,7 +240,7 @@ export default {
 }
 
 .profile-image {
-  border: 2px solid #03bfcb;
+  border: 3px solid #f7797d;
   padding: 5px;
 }
 
