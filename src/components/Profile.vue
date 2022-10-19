@@ -1,46 +1,42 @@
 <template>
   <Modal v-show="showModal" @close-modal="showModal = false">
-     <UserReviews />
+    <UserReviews />
   </Modal>
 
-  <div class="update-profile-box" @click="onClick()" v-show="clicked" >
+  <div class="update-profile-box" @click="onClick()" v-show="clicked">
     <h2 class="update-profile-title">Update profile details</h2>
-  <form @submit.prevent="onSubmit" class="update-profile-form">
-    <label htmlFor="name">username</label>
-    <input id="username" v-model="username" required/>
-    <label htmlFor="location">location</label>
-    <input v-model="location" required/>
-    <label htmlFor="avatar">profile picture</label>
-    <input
-      id="avatar"
-      type="file"
-      v-on:change="setFiles"
-      placeholder="Upload image file"
-      required
+    <form @submit.prevent="onSubmit" class="update-profile-form">
+      <label htmlFor="name">username</label>
+      <input id="username" v-model="username" required />
+      <label htmlFor="location">location</label>
+      <input v-model="location" required />
+      <label htmlFor="avatar">profile picture</label>
+      <input
+        id="avatar"
+        type="file"
+        v-on:change="setFiles"
+        placeholder="Upload image file"
+        required
       />
-    <br />
-    <button class="primary submit">Submit</button>
-  </form>
-  </div>  
+      <br />
+      <button class="primary submit">Submit</button>
+    </form>
+  </div>
 
   <div class="profile-card">
     <div class="profile-info">
       <p class="user-name">{{ username }}</p>
-      <p>Rating:{{profileUserRating}}</p>
+      <p>Rating:{{ profileUserRating }}</p>
       <p class="user-location">
         <i class="fa-sharp fa-solid fa-location-dot"></i>
         {{ location }}
       </p>
 
-      <button
-        @click="(showModal = true)"
-        class="primary"
-      >
+      <button @click="showModal = true" class="primary profile-btns">
         See all your reviews
       </button>
 
-
-      <button @click="onClick()" v-show="!clicked" class="primary">
+      <button @click="onClick()" v-show="!clicked" class="primary profile-btns">
         Update profile details
       </button>
     </div>
@@ -56,24 +52,24 @@
 </template>
 
 <script setup>
-import { supabase } from "../supabase";
-import { useStore } from "../store";
-import { ref, onMounted } from "vue";
-import Modal from "./Modal.vue";
-import UserReviews from "./UserReviews.vue";
-import {getUserRatings} from '../utils/utilFuncs'
+import { supabase } from '../supabase';
+import { useStore } from '../store';
+import { ref, onMounted } from 'vue';
+import Modal from './Modal.vue';
+import UserReviews from './UserReviews.vue';
+import { getUserRatings } from '../utils/utilFuncs';
 
 const store = useStore();
 const loading = ref(true);
-const userId = ref("");
-const username = ref("");
-const location = ref("");
-const avatar_url = ref("");
-const avatarFile = ref("");
-const image = ref("");
-const clicked = ref(false)
-const userRatings = ref([])
-const profileUserRating = ref('')
+const userId = ref('');
+const username = ref('');
+const location = ref('');
+const avatar_url = ref('');
+const avatarFile = ref('');
+const image = ref('');
+const clicked = ref(false);
+const userRatings = ref([]);
+const profileUserRating = ref('');
 
 function setFiles(event) {
   avatarFile.value = event.target.files[0];
@@ -89,13 +85,13 @@ async function onSubmit() {
 
     if (avatarFile.value) {
       const { data, error1 } = await supabase.storage
-        .from("avatars")
+        .from('avatars')
         .remove([avatar_url.value]);
 
       avatar_url.value = avatar_url.value + new Date().getTime();
 
       const { image, error2 } = await supabase.storage
-        .from("avatars")
+        .from('avatars')
         .upload(avatar_url.value, avatarFile.value, { upsert: true });
     }
 
@@ -106,9 +102,9 @@ async function onSubmit() {
     };
 
     const { error } = await supabase
-      .from("users")
+      .from('users')
       .update(updatedDetails)
-      .eq("id", userId.value);
+      .eq('id', userId.value);
 
     if (error) throw error;
   } catch (error) {
@@ -116,7 +112,7 @@ async function onSubmit() {
   } finally {
     getProfile();
     loading.value = false;
-    alert("details updated");
+    alert('details updated');
   }
 }
 
@@ -127,7 +123,7 @@ async function getUser() {
     if (!store.user.id) throw error;
     userId.value = store.user.id;
   } catch (error) {
-    alert("Please log in or register");
+    alert('Please log in or register');
   } finally {
     loading.value = false;
   }
@@ -137,9 +133,9 @@ async function getProfile() {
   try {
     loading.value = true;
     let user = await supabase
-      .from("users")
+      .from('users')
       .select(`username, location, avatar_url`)
-      .eq("id", userId.value)
+      .eq('id', userId.value)
       .single();
     if (user.error && user.status !== 406) throw error;
     if (user.data) {
@@ -148,11 +144,11 @@ async function getProfile() {
       avatar_url.value = user.data.avatar_url;
     }
     const { data, error } = await supabase.storage
-      .from("avatars")
+      .from('avatars')
       .getPublicUrl(avatar_url.value);
     image.value = data.publicURL;
   } catch (error) {
-    alert("Please log in or register");
+    alert('Please log in or register');
   } finally {
     loading.value = false;
   }
@@ -160,25 +156,23 @@ async function getProfile() {
 
 async function getUserReviewScore() {
   try {
-    getUserRatings().then((data, error)=> {
+    getUserRatings().then((data, error) => {
       userRatings.value = data.filter((user) => {
-        return user.id === userId.value 
-    })
-    console.log(userRatings.value)
-      profileUserRating.value = userRatings.value[0].ave_review_score
+        return user.id === userId.value;
+      });
+      console.log(userRatings.value);
+      profileUserRating.value = userRatings.value[0].ave_review_score;
       if (error) throw error;
-   })
-   
-   
+    });
   } catch (error) {
-    alert(error.message)
+    alert(error.message);
   }
 }
 
 onMounted(() => {
   getUser();
   getProfile();
-  getUserReviewScore()
+  getUserReviewScore();
 });
 </script>
 
@@ -187,7 +181,7 @@ export default {
   components: { Modal },
   data() {
     return {
-      showModal: false
+      showModal: false,
     };
   },
 };
@@ -199,7 +193,24 @@ export default {
   padding: 10px;
   display: flex;
   margin-bottom: 20px;
-  justify-content: space-evenly;
+  justify-content: space-around;
+}
+
+.profile-info {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-image-wrapper {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .user-name {
@@ -223,9 +234,9 @@ i {
 
 .update-profile-box {
   padding: 40px;
-  background-color: #E9F1F7;
+  background-color: #e9f1f7;
   box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
   border-radius: 10px;
 }
 
@@ -237,8 +248,7 @@ i {
 
 .update-profile-form > #username,
 .update-profile-form > #location,
-.update-profile-form > #avatar
- {
+.update-profile-form > #avatar {
   width: 100%;
   padding: 10px 0;
   font-size: 16px;
@@ -252,14 +262,13 @@ i {
 .update-profile-form > label {
   font-size: 16px;
   pointer-events: none;
-  transition: .5s;
+  transition: 0.5s;
 }
 
 .update-profile-box #username:focus ~ label,
 .update-profile-box #username:valid ~ label,
 .update-profile-box #location:focus ~ label,
-.update-profile-box #location:focus ~ label
-  {
+.update-profile-box #location:focus ~ label {
   top: -20px;
   left: 0;
   color: red;
@@ -268,5 +277,9 @@ i {
 
 .submit {
   width: 100%;
+}
+
+.profile-btns {
+  width: 225px;
 }
 </style>
