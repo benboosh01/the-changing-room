@@ -1,41 +1,44 @@
 <template>
-  <div class="item-title">
-    <div v-if="loading">Loading details...</div>
-    <h1>{{ itemName }}</h1>
-    <h2>{{ itemCategory }}</h2>
-  </div>
-  <div class="item-view">
+  <div class="single-item-wrapper">
     <ItemImage v-if="itemImage" :url="itemImage" />
     <div class="item-details">
+      <div v-if="loading">Loading details...</div>
+      <h2>{{ itemName }}</h2>
+      <p>Category: {{ itemCategory }}</p>
       <p>Condition: {{ itemCondition }}</p>
       <p>Posted by: {{ itemOwner }}</p>
-    </div>
-    <p style="margin: 10px">{{ itemDescription }}</p>
-  </div>
-  <div class="item-buttons">
-    <button
-      v-show="!messageClicked && itemOwnerId !== loggedInUser && store.user.id"
-      @click="onMessageClick"
-    >
-      Message {{ itemOwner }}
-    </button>
+      <div class="description-p">
+        <p style="margin: 10px">{{ itemDescription }}</p>
+      </div>
 
-    <button
-      v-show="!swapClicked && itemOwnerId !== loggedInUser && store.user.id"
-      @click="onSwapClick"
-      :disabled="swapApproved"
-    >
-      {{ swapApproved ? 'Pending swap' : 'Start a swap' }}
-    </button>
-    <div v-show="messageClicked && id">
-      <MessageForm
-        :username="itemOwner"
-        :userId="itemOwnerId"
-        @onMessageClick="onMessageClick"
-      />
-    </div>
-    <div v-if="swapClicked && id">
-      <SwapForm :username="itemOwner" :userId="itemOwnerId" :itemId="id" />
+      <button
+        v-show="
+          !messageClicked && itemOwnerId !== loggedInUser && store.user.id
+        "
+        @click="onMessageClick"
+        class="item-btn"
+      >
+        Message {{ itemOwner }}
+      </button>
+      <div v-show="messageClicked && id">
+        <MessageForm
+          :username="itemOwner"
+          :userId="itemOwnerId"
+          @onMessageClick="onMessageClick"
+        />
+      </div>
+      <button
+        v-show="!swapClicked && itemOwnerId !== loggedInUser && store.user.id"
+        @click="onSwapClick"
+        :disabled="swapApproved"
+        class="item-btn"
+      >
+        {{ swapApproved ? 'Pending swap' : 'Start a swap' }}
+      </button>
+
+      <div v-if="swapClicked && id">
+        <SwapForm :username="itemOwner" :userId="itemOwnerId" :itemId="id" />
+      </div>
     </div>
   </div>
 </template>
@@ -134,45 +137,40 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.item-details {
-  margin-top: 5px;
-}
-.item-details * {
-  font-size: 12px;
-  display: inline;
-  margin: 10px;
-  padding: 5px;
-  border-radius: 30px;
-  color: whitesmoke;
-  background-color: rgb(82, 82, 82);
-}
-.item-view {
-  width: 40%;
+.single-item-wrapper {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   border: 1px solid black;
-  border-radius: 10px;
+  padding: 20px 0;
 }
 
-.item-buttons {
-  display: flex;
-  justify-content: center;
-  margin-top: 1em;
-}
-
-.item-buttons * {
-  margin: 1em;
-}
-
-.item-title {
+.item-details {
+  margin-top: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
+  gap: 5px;
 }
 
-.item-title h1 {
-  text-decoration: underline;
+.item-btn {
+  display: flex;
+  justify-content: center;
+  width: 225px;
+}
+.description-p {
+  border: 1px solid black;
+  width: 260px;
+  height: 125px;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+.description-p > p {
+  width: 100%;
+  text-align: center;
 }
 </style>

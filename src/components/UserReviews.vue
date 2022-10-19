@@ -7,7 +7,7 @@
         :key="review.id"
       >
         <div class="user-review-body">
-          <p>{{ review.rating }}<i class="fa-sharp fa-solid fa-star"></i></p>
+          <p>Rating: {{ review.rating }}<i class="fa-sharp fa-solid fa-star"></i></p>
           <div class="star-rating">
           <!-- <label v-for="rating in ratings"> -->
             <!-- <i class="fa-sharp fa-solid fa-star"></i> -->

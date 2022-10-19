@@ -1,6 +1,7 @@
 <template>
   <section>
     <li class="message" v-for="item in messages.messages" :key="item.message">
+      <p>From: {{ item.from }}</p>
       <p>{{ item.message }}</p>
       <p>
         {{ item.created_at.toDateString() }}
