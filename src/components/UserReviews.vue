@@ -8,13 +8,7 @@
       >
         <div class="user-review-body">
           <p>Rating: {{ review.rating }}<i class="fa-sharp fa-solid fa-star"></i></p>
-          <div class="star-rating">
-          <!-- <label v-for="rating in ratings"> -->
-            <!-- <i class="fa-sharp fa-solid fa-star"></i> -->
-          <!-- </label> -->
-         </div>
-  
-
+       
         <div class="user">
           <div>
           <img
