@@ -11,7 +11,6 @@
         <ItemImage v-if="item" :url="item.item_preview_url" />
         <h3>{{ item.item_name }}</h3>
         <p>Condition: {{ item.condition }}</p>
-        <p>{{ item.description }}</p>
         <button @click="clickEditRemove(item.id)">Edit/remove listing</button>
         <EditRemoveItem
           @clickEditRemove="clickEditRemove"
