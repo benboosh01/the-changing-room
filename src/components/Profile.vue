@@ -168,7 +168,6 @@ async function getUserReviewScore() {
       userRatings.value = data.filter((user) => {
         return user.id === userId.value 
     })
-    console.log(userRatings.value)
       profileUserRating.value = userRatings.value[0].ave_review_score
       if (error) throw error;
    })

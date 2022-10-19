@@ -1,24 +1,35 @@
 <template>
-  <div v-if="userReviews" class="user-reviews-wrapper">
+  <div v-if="userReviews" class="user-reviews-wrapper ">
     <ul class="user-reviews-list">
       <li
         class="user-review-item"
         v-for="review in userReviews"
         :key="review.id"
       >
-        <div class="review-image-wrapper">
-          <img
-            :src="review.items.item_preview_url"
-            alt="item-image"
-            style="width: 200px; height: 200px; border-radius: 50%"
-          />
-        </div>
         <div class="user-review-body">
-          <p>{{ review.rating }} stars</p>
-          <p>{{ review.comments }}</p>
-          <p>{{ review.created_at }}</p>
-          <p>{{ review.users.username }}</p>
-        </div>
+          <p>{{ review.rating }}<i class="fa-sharp fa-solid fa-star"></i></p>
+          <div class="star-rating">
+          <!-- <label v-for="rating in ratings"> -->
+            <!-- <i class="fa-sharp fa-solid fa-star"></i> -->
+          <!-- </label> -->
+         </div>
+  
+
+        <div class="user">
+          <div>
+          <img
+            :src="review.users.avatar_url"
+            alt="reviewer-image"
+            style="width: 50px; height: 50px; border-radius: 50%;"
+          />
+          </div>
+          <div class="user-info">
+            <h5>{{ review.users.username }}</h5>
+            <small>{{ review.created_at }}</small>
+          </div>
+         </div>
+         </div>
+
       </li>
     </ul>
   </div>
@@ -49,7 +60,7 @@ export default {
           .select(
             `
             comments, rating, created_at, 
-            users!reviews_reviewer_id_fkey (username),
+            users!reviews_reviewer_id_fkey (username, avatar_url),
             items!reviews_item_id_fkey (item_preview_url)
             `
           )
@@ -65,7 +76,7 @@ export default {
         loading.value = false;
       }
     }
-
+    
     onMounted(() => {
       getReviewsForUser();
     });
@@ -79,30 +90,47 @@ export default {
 </script>
 
 <style scoped>
-.user-reviews-wrapper * {
-  color: black;
-}
-
 .user-reviews-list {
   list-style: none;
   padding: 0;
 }
 
 .user-review-item {
-  background: rgba(255, 255, 255, 0.9);
+  /* background: rgba(255, 255, 255, 0.9);
   border-radius: 5px;
   overflow: hidden;
   margin: 5em auto;
+  padding: 10px; */
+  /* display: flex; */
   padding: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+/* .review-image-wrapper {
+   margin-right: 5px; 
+} */
+
+.user-review-body {
+  /* margin-top: 3px;
+  margin-bottom: 3px; */
   display: flex;
+  flex-direction: column;
 }
 
-.review-image-wrapper {
-  margin-right: 5px;
+
+.user {
+  display: flex;
+  margin-top: auto;
 }
 
-.user-review-body > p {
-  margin-top: 3px;
-  margin-bottom: 3px;
+.user-info {
+  margin-left: 10px;
+}
+
+.user-info h5 {
+  margin: 0;
 }
 </style>
