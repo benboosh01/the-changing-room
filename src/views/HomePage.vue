@@ -123,6 +123,7 @@ onMounted(() => {
   flex-direction: column;
   gap: 5px;
   flex-wrap: wrap;
+  background-color: white;
 }
 
 .home-list-title {
