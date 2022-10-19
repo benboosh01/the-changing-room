@@ -107,8 +107,8 @@ onMounted(() => {
 #requests-list {
   display: flex;
   list-style: none;
-  flex-wrap: wrap;
   justify-content: center;
+  flex-direction: column;
 }
 
 #requests-section {
@@ -127,5 +127,11 @@ onMounted(() => {
   flex-direction: column;
   gap: 5px;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.request-card > button {
+  width: 225px;
 }
 </style>

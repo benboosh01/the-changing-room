@@ -1,6 +1,6 @@
 <template>
   <div class="swaps-list-wrapper">
-    <h1>Swaps Approved:</h1>
+    <h2>Swaps Approved:</h2>
     <ul class="swaps-list">
       <li
         v-for="item in userSent"
@@ -9,7 +9,7 @@
         class="approved-swap-card"
       >
         <h3>{{ item.items.item_name }}</h3>
-        <p>Sent to: {{ item.users.username }}</p>
+        <p>Sending to: {{ item.users.username }}</p>
         <ItemImage v-if="item" :url="item.items.item_preview_url" />
         <button :value="item.item_id" @click="contactUser">
           Contact {{ item.users.username }}
@@ -43,7 +43,7 @@
         class="approved-swap-card"
       >
         <h3>{{ item.items.item_name }}</h3>
-        <p>Received from: {{ item.items.owner_username }}</p>
+        <p>Recieving from: {{ item.items.owner_username }}</p>
         <ItemImage v-if="item" :url="item.items.item_preview_url" />
         <button @click="contactUser" :value="item.item_id">
           Contact {{ item.items.owner_username }}

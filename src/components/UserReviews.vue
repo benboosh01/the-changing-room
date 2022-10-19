@@ -1,29 +1,34 @@
 <template>
-  <div class="user-reviews-wrapper">
+  <div v-if="userReviews" class="user-reviews-wrapper ">
     <ul class="user-reviews-list">
       <li
         class="user-review-item"
         v-for="review in userReviews"
         :key="review.id"
       >
-      <div class="review-image-wrapper">
-        <img 
-          :src="review.items.item_preview_url"
-          alt="item-image"
-          style="width: 200px; height: 200px; border-radius: 50%" 
-        />
-      </div>
-      <div class="user-review-body">
-        <p>{{ review.rating }} stars</p>
-        <p>{{ review.comments }}</p>
-        <p>{{ review.created_at }}</p>
-        <p>{{ review.users.username }}</p>
-      </div>
- 
-
+        <div class="user-review-body">
+          <p>Rating: {{ review.rating }}
+            <i class="fa-sharp fa-solid fa-star" style="color: #fec42d">
+            </i></p>
+          <p class="comments">"{{ review.comments }}"</p>
+       
+        <div class="user">
+          <div>
+            <UserImage :url="review.users.avatar_url" />
+          </div>
+          <div class="user-info">
+            <h5>{{ review.users.username }}</h5>
+            <small>{{ new Date(review.created_at).toLocaleString() }}</small>
+          </div>
+         </div>
+         </div>
 
       </li>
     </ul>
+  </div>
+
+  <div v-if="!userReviews">
+    No reviews yet
   </div>
 </template>
 
@@ -31,12 +36,14 @@
 import { supabase } from "../supabase";
 import { onMounted, ref } from "vue";
 import { useStore } from "../store";
+import UserImage from "./UserImage.vue";
 
 export default {
   setup() {
     const store = useStore();
     const loading = ref(false);
     const userReviews = ref([]);
+    const reviewDate = ref();
     const user = store.user;
 
     async function getReviewsForUser() {
@@ -48,13 +55,14 @@ export default {
           .select(
             `
             comments, rating, created_at, 
-            users!reviews_reviewer_id_fkey (username),
+            users!reviews_reviewer_id_fkey (username, avatar_url),
             items!reviews_item_id_fkey (item_preview_url)
             `
           )
           .eq("reviewee_id", user.id);
 
         if (reviews) {
+          console.log("reviews", reviews);
           userReviews.value = reviews;
         }
       } catch (error) {
@@ -63,44 +71,68 @@ export default {
         loading.value = false;
       }
     }
-
+    
     onMounted(() => {
       getReviewsForUser();
     });
 
     return {
       loading,
-      userReviews
+      userReviews,
+      reviewDate
     };
   },
+  components: { UserImage }
 };
 </script>
 
 <style scoped>
-.user-reviews-wrapper * {
-  color: black;
-}
-
 .user-reviews-list {
   list-style: none;
   padding: 0;
 }
 
 .user-review-item {
-	background: rgba(255, 255, 255, 0.90);
-	border-radius: 5px;
-	overflow: hidden;
-	margin: 5em auto;
-  padding: 10px;
+  /* background: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 5em auto;
+  padding: 10px; */
+  /* display: flex; */
+  padding: 15px;
+  margin: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+/* .review-image-wrapper {
+   margin-right: 5px; 
+} */
+
+.user-review-body {
   display: flex;
+  flex-direction: column;
 }
 
-.review-image-wrapper {
-  margin-right: 5px;
+.comments {
+  font-size: 20px;
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
-.user-review-body > p {
-  margin-top: 3px;
-  margin-bottom: 3px;
+.user {
+  display: flex;
+  margin-top: auto;
+}
+
+.user-info {
+  margin-left: 10px;
+}
+
+.user-info h5 {
+  margin: 0;
 }
 </style>

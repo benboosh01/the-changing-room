@@ -4,7 +4,7 @@ import { onMounted, ref } from 'vue';
 import { useStore } from '../store';
 
 export default {
-  emits: ['toggleUpload'],
+  emits: ['toggleUpload', 'addNewItem'],
   setup(_, context) {
     const store = useStore();
     const loading = ref(false);
@@ -15,6 +15,9 @@ export default {
     let item_preview_url = ref('');
     const categoryList = ref([]);
     const conditionList = ref([]);
+    const acceptDonation = ref(false);
+    const donationAmount = ref(0);
+    const uploadedData = ref({});
 
     async function uploadItemForm() {
       try {
@@ -33,10 +36,12 @@ export default {
           item_preview_url: file.name,
           owner_id: store.user.id,
           owner_username: store.user.username,
+          accept_donation: acceptDonation.value,
+          donation_amount: donationAmount.value,
         };
 
         const { error } = await supabase.from('items').insert(data);
-        console.log(file);
+        uploadedData.value = data;
 
         let { error: uploadError } = await supabase.storage
           .from('item-images')
@@ -53,7 +58,9 @@ export default {
         category_id.value = null;
         condition.value = '';
         item_preview_url.value = '';
+
         alert('Succesfully uploaded item');
+        addNewItem();
         toggleUpload();
       }
     }
@@ -107,6 +114,10 @@ export default {
       context.emit('toggleUpload');
     }
 
+    function addNewItem() {
+      context.emit('addNewItem', uploadedData.value);
+    }
+
     onMounted(() => {
       getCategories();
       getCondition();
@@ -121,6 +132,8 @@ export default {
       item_preview_url,
       categoryList,
       conditionList,
+      acceptDonation,
+      donationAmount,
       uploadItemForm,
       onFileSelected,
     };
@@ -129,7 +142,7 @@ export default {
 </script>
 
 <template>
-  <form @submit.prevent="uploadItemForm">
+  <form @submit.prevent="uploadItemForm" id="upload-item-form">
     <label for="item_name">Item</label>
     <input
       id="item_name"
@@ -172,8 +185,18 @@ export default {
       @change="onFileSelected($event)"
       placeholder="Choose file to upload"
       accept="image/jpeg, image/png, image/jpg"
+      class="input-file"
       required
     />
+
+    <label for="accept-donation">Accept Charity Donation</label>
+    <select v-model="acceptDonation" id="accept-donation" required>
+      <option :value="false">No</option>
+      <option :value="true">Yes</option>
+    </select>
+
+    <label v-if="acceptDonation" for="donation-amount">Donation Amount</label>
+    <input v-if="acceptDonation" type="number" v-model="donationAmount" />
 
     <input
       type="submit"
@@ -183,3 +206,33 @@ export default {
     />
   </form>
 </template>
+
+<style scoped>
+#upload-item-form {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+#upload-item-form > input {
+  border: 1px solid grey;
+}
+
+#upload-item-form > label,
+input,
+button,
+select {
+  width: 375px;
+  height: 35px;
+}
+
+#upload-item-form > label {
+  margin-bottom: -20px;
+}
+
+.input-file {
+  height: 45px;
+}
+</style>

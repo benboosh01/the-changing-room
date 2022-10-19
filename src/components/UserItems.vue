@@ -1,17 +1,21 @@
 <template>
   <div class="user-items-wrapper">
+
     <h1>{{ loggedInUser === userId ? "Your" : username }} Items</h1>
     <button @click="toggleUpload" class="primary">Add New Item</button>
+
     <UploadItem
       v-if="upLoadVisible && loggedInUser === userId"
       @toggleUpload="toggleUpload"
+      @addNewItem="addNewItem"
     />
     <ul id="user-items-list">
       <li v-for="item in userItems" :key="item.id" class="user-list-card">
         <ItemImage v-if="item" :url="item.item_preview_url" />
         <h3>{{ item.item_name }}</h3>
         <p>Condition: {{ item.condition }}</p>
-        <p>{{ item.description }}</p>
+
+     
         <div class="flex flex-center button-group">
         <button class="primary" @click="clickEditRemove(item.id)">Edit/remove listing</button>
         <button class="primary" @click="selectItem(item.id)">View item details</button>
@@ -106,6 +110,10 @@ export default {
       }
     }
 
+    function addNewItem(item) {
+      userItems.value.unshift(item);
+    }
+
     onMounted(() => {
       getUser();
       getUserItems();
@@ -123,6 +131,7 @@ export default {
       editRemoveClicked,
       chosenItem,
       selectItem,
+      addNewItem,
     };
   },
 };
