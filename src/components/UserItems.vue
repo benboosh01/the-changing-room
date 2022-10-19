@@ -144,12 +144,13 @@ export default {
   text-align: center;
   gap: 5px;
   margin-top: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .user-list-card {
   text-align: center;
   border: 1px solid black;
-  border-radius: 8px;
   margin: 10px 10px;
   padding: 20px;
   display: flex;
