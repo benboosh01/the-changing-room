@@ -3,7 +3,7 @@
     <UserReviews />
   </Modal>
 
-  <div class="update-profile-box" @click="onClick()" v-show="clicked">
+  <div class="update-profile-box" v-if="clicked">
     <h2 class="update-profile-title">Update profile details</h2>
     <form @submit.prevent="onSubmit" class="update-profile-form">
       <label htmlFor="name">username</label>
@@ -16,11 +16,11 @@
         type="file"
         v-on:change="setFiles"
         placeholder="Upload image file"
-        required
       />
       <br />
       <button class="primary submit">Submit</button>
     </form>
+    <button class="primary submit" @click="onClick">Cancel</button>
   </div>
 
   <div class="profile-card">
@@ -38,7 +38,7 @@
         See all your reviews
       </button>
 
-      <button @click="onClick()" v-show="!clicked" class="primary profile-btns">
+      <button @click="onClick" v-if="!clicked" class="primary profile-btns">
         Update profile details
       </button>
     </div>
@@ -54,32 +54,35 @@
 </template>
 
 <script setup>
-
-import { supabase } from "../supabase";
-import { useStore } from "../store";
-import { ref, onMounted } from "vue";
-import Modal from "./Modal.vue";
-import UserReviews from "./UserReviews.vue";
-import { getUserRatings } from "../utils/utilFuncs";
+import { supabase } from '../supabase';
+import { useStore } from '../store';
+import { ref, onMounted } from 'vue';
+import Modal from './Modal.vue';
+import UserReviews from './UserReviews.vue';
+import { getUserRatings } from '../utils/utilFuncs';
 
 const store = useStore();
 const loading = ref(true);
-const userId = ref("");
-const username = ref("");
-const location = ref("");
-const avatar_url = ref("");
-const avatarFile = ref("");
-const image = ref("");
+const userId = ref('');
+const username = ref('');
+const location = ref('');
+const avatar_url = ref('');
+const avatarFile = ref('');
+const image = ref('');
 const clicked = ref(false);
 const userRatings = ref([]);
-const profileUserRating = ref("");
+const profileUserRating = ref('');
 
 function setFiles(event) {
   avatarFile.value = event.target.files[0];
 }
 
 function onClick() {
-  clicked.value = true;
+  if (clicked.value) {
+    clicked.value = false;
+  } else {
+    clicked.value = true;
+  }
 }
 
 async function onSubmit() {
