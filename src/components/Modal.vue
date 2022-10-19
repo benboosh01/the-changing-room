@@ -79,7 +79,7 @@ export default {
   top: 0;
   bottom: 0;
   padding: 30px;
-  box-shadow: 0 10px 30px rgba(#333333, 0.4);
+  box-shadow: 0 10px 30px rgba(#333333, 0.5);
   border: 3px solid #333333;
   /* TODO FIX BELOW and active state */
   /* visibility: hidden; */

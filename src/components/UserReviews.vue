@@ -93,7 +93,7 @@ export default {
 }
 
 .user-review-item {
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
   background-color: #fff;
   border-radius: 10px;
   padding: 20px;

@@ -61,10 +61,12 @@ onMounted(() => {
 }
 
 .user-card {
-  text-align: center;
-  border: 1px solid black;
-  margin: 10px 10px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+  background-color: #fff;
+  border-radius: 10px;
   padding: 20px;
+  margin: 10px;
+  text-align: center;
   display: flex;
   flex-direction: column;
   gap: 5px;

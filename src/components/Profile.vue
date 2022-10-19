@@ -202,7 +202,7 @@ export default {
 
 <style scoped>
 .profile-card {
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
   background-color: #f1f1f1;
   border-radius: 10px;
   padding: 20px;
@@ -252,7 +252,7 @@ i {
   padding: 40px;
   background-color: #e9f1f7;
   box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
 }
 
