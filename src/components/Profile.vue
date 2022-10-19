@@ -1,44 +1,40 @@
 <template>
   <Modal v-show="showModal" @close-modal="showModal = false">
-     <UserReviews />
+    <UserReviews />
   </Modal>
 
-  <div class="update-profile-box" @click="onClick()" v-show="clicked" >
+  <div class="update-profile-box" @click="onClick()" v-show="clicked">
     <h2 class="update-profile-title">Update profile details</h2>
-  <form @submit.prevent="onSubmit" class="update-profile-form">
-    <label htmlFor="name">username</label>
-    <input id="username" v-model="username" required/>
-    <label htmlFor="location">location</label>
-    <input v-model="location" required/>
-    <label htmlFor="avatar">profile picture</label>
-    <input
-      id="avatar"
-      type="file"
-      v-on:change="setFiles"
-      placeholder="Upload image file"
-      required
+    <form @submit.prevent="onSubmit" class="update-profile-form">
+      <label htmlFor="name">username</label>
+      <input id="username" v-model="username" required />
+      <label htmlFor="location">location</label>
+      <input v-model="location" required />
+      <label htmlFor="avatar">profile picture</label>
+      <input
+        id="avatar"
+        type="file"
+        v-on:change="setFiles"
+        placeholder="Upload image file"
+        required
       />
-    <br />
-    <button class="primary submit">Submit</button>
-  </form>
-  </div>  
+      <br />
+      <button class="primary submit">Submit</button>
+    </form>
+  </div>
 
   <div class="profile-card">
     <div class="profile-info">
       <p class="user-name">{{ username }}</p>
-      <p>Rating:{{profileUserRating}}</p>
+      <p>Rating: {{ profileUserRating }}<i class="fa-solid fa-star"></i></p>
       <p class="user-location">
         <i class="fa-sharp fa-solid fa-location-dot"></i>
         {{ location }}
       </p>
 
-      <button
-        @click="(showModal = true)"
-        class="primary"
-      >
+      <button @click="showModal = true" class="primary">
         See all your reviews
       </button>
-
 
       <button @click="onClick()" v-show="!clicked" class="primary">
         Update profile details
@@ -61,7 +57,7 @@ import { useStore } from "../store";
 import { ref, onMounted } from "vue";
 import Modal from "./Modal.vue";
 import UserReviews from "./UserReviews.vue";
-import {getUserRatings} from '../utils/utilFuncs'
+import { getUserRatings } from "../utils/utilFuncs";
 
 const store = useStore();
 const loading = ref(true);
@@ -71,9 +67,9 @@ const location = ref("");
 const avatar_url = ref("");
 const avatarFile = ref("");
 const image = ref("");
-const clicked = ref(false)
-const userRatings = ref([])
-const profileUserRating = ref('')
+const clicked = ref(false);
+const userRatings = ref([]);
+const profileUserRating = ref("");
 
 function setFiles(event) {
   avatarFile.value = event.target.files[0];
@@ -160,25 +156,23 @@ async function getProfile() {
 
 async function getUserReviewScore() {
   try {
-    getUserRatings().then((data, error)=> {
+    getUserRatings().then((data, error) => {
       userRatings.value = data.filter((user) => {
-        return user.id === userId.value 
-    })
-    console.log(userRatings.value)
-      profileUserRating.value = userRatings.value[0].ave_review_score
+        return user.id === userId.value;
+      });
+      profileUserRating.value = userRatings.value[0].ave_review_score;
+      profileUserRating.value = Math.round(profileUserRating.value * 10) / 10;
       if (error) throw error;
-   })
-   
-   
+    });
   } catch (error) {
-    alert(error.message)
+    alert(error.message);
   }
 }
 
 onMounted(() => {
   getUser();
   getProfile();
-  getUserReviewScore()
+  getUserReviewScore();
 });
 </script>
 
@@ -187,7 +181,7 @@ export default {
   components: { Modal },
   data() {
     return {
-      showModal: false
+      showModal: false,
     };
   },
 };
@@ -223,9 +217,9 @@ i {
 
 .update-profile-box {
   padding: 40px;
-  background-color: #E9F1F7;
+  background-color: #e9f1f7;
   box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
   border-radius: 10px;
 }
 
@@ -237,8 +231,7 @@ i {
 
 .update-profile-form > #username,
 .update-profile-form > #location,
-.update-profile-form > #avatar
- {
+.update-profile-form > #avatar {
   width: 100%;
   padding: 10px 0;
   font-size: 16px;
@@ -252,14 +245,13 @@ i {
 .update-profile-form > label {
   font-size: 16px;
   pointer-events: none;
-  transition: .5s;
+  transition: 0.5s;
 }
 
 .update-profile-box #username:focus ~ label,
 .update-profile-box #username:valid ~ label,
 .update-profile-box #location:focus ~ label,
-.update-profile-box #location:focus ~ label
-  {
+.update-profile-box #location:focus ~ label {
   top: -20px;
   left: 0;
   color: red;
