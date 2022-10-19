@@ -111,14 +111,14 @@ onMounted(() => {
   justify-content: center;
   flex-wrap: wrap;
   max-width: 100%;
-  gap: 15px;
+  gap: 5px;
 }
 
 .home-item-card {
   text-align: center;
   border: 1px solid black;
   margin: 10px 10px;
-  padding: 20px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -127,6 +127,6 @@ onMounted(() => {
 
 .home-list-title {
   text-align: center;
-  padding: 20px 0;
+  padding-top: 10px;
 }
 </style>

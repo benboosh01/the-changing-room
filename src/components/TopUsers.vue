@@ -53,7 +53,7 @@ onMounted(() => {
   justify-content: center;
   list-style-type: none;
   width: 100%;
-  gap: 10px;
+  gap: 5px;
 }
 
 .home-avatar {
