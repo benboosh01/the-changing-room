@@ -1,9 +1,10 @@
 <template>
   <section>
     <li class="message" v-for="item in messages.messages" :key="item.message">
-      <p>From: {{ item.from }}</p>
+      <p>{{ item.from }}</p>
+      <hr />
       <p>{{ item.message }}</p>
-      <p>
+      <p class="msg-date">
         {{ item.created_at.toDateString() }}
         {{ item.created_at.toLocaleTimeString() }}
       </p>
@@ -13,7 +14,7 @@
 
 <script>
 export default {
-  props: ["messages"],
+  props: ['messages'],
 };
 </script>
 
@@ -24,5 +25,13 @@ export default {
   border: var(--custom-border);
   border-radius: 5px;
   margin: 10px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.msg-date {
+  font-size: 0.7em;
 }
 </style>
