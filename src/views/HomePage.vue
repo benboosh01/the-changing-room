@@ -1,21 +1,6 @@
 <template>
   <Login v-if="loginVisible" />
   <Registration v-if="regVisible" @toggleLogin="toggleLogin" />
-
-  <button @click="toggleLogin" v-if="!store.user.id" v-show="loginBtn">
-    Login
-  </button>
-  <button @click="toggleReg" v-if="!store.user.id" v-show="regBtn">
-    Register
-  </button>
-
-<!-- TODO - move to components -->
- 
-  <h2 class="home-list-title">Our highest rated swappers
-    <TopUsers/>
-  </h2>
- 
-
   <div class="flex flex-center button-group">
     <button
       @click="toggleLogin"
@@ -33,6 +18,12 @@
     >
       Register
     </button>
+  </div>
+
+  <!-- TODO - move to components -->
+  <div>
+    <h2 class="home-list-title">Our highest rated swappers</h2>
+    <TopUsers />
   </div>
 
   <h2 class="home-list-title">Our most recent listings</h2>
@@ -124,13 +115,14 @@ onMounted(() => {
 }
 
 .home-item-card {
-  padding: 40px;
-  background-color: #e9f1f7;
-  box-sizing: border-box;
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.6);
-  border-radius: 10px;
-  list-style: none;
   text-align: center;
+  border: 1px solid black;
+  margin: 10px 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex-wrap: wrap;
 }
 
 .home-list-title {
