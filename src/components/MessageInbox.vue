@@ -50,7 +50,6 @@ export default {
             `user_to_id.eq.${store.user.id},user_from_id.eq.${store.user.id}`
           );
         if (error) throw error;
-        console.log("done items");
         messages.value.push(...(await groupMessages(items)));
         messages.value.map(
           async (item) =>
@@ -122,7 +121,6 @@ export default {
           });
         }
       }
-      console.log("done groups");
       return groups;
     }
 
