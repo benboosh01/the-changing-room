@@ -1,8 +1,11 @@
 <template>
-  <h1>Items page</h1>
-  <ItemList/>
+  <div class="items-list-wrapper">
+    <ItemList />
+  </div>
 </template>
 
 <script setup>
-import ItemList from '../components/ItemList.vue'
+import ItemList from '../components/ItemList.vue';
 </script>
+
+<style scoped></style>
