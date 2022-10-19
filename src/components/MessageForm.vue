@@ -44,7 +44,7 @@ export default {
 <template>
   <!-- Replace 'store.user.username' with the recipients username -->
   <h2>Send a message to {{ username }}</h2>
-  <form @submit.prevent="handleMessage">
+  <form @submit.prevent="handleMessage" class="msg-form">
     <label for="message-body" />
     <textarea
       class="message-box"
@@ -54,7 +54,7 @@ export default {
       placeholder="Message body"
       required
     />
-    <input type="submit" />
+    <input type="submit" class="msg-form-btn" />
   </form>
 </template>
 
@@ -68,5 +68,16 @@ export default {
   width: 100%;
   height: 150px;
   resize: none;
+  border: 1px solid black;
+}
+
+.msg-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.msg-form-btn {
+  border: 1px solid grey;
 }
 </style>

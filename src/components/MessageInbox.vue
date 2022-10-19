@@ -1,10 +1,14 @@
 <template>
-  <section style="text-align: center">
+  <section class="msg-section">
     <h2>My messages</h2>
-    <li v-for="item in messages" :key="item.from[0] + item.from[1]">
+    <li
+      v-for="item in messages"
+      :key="item.from[0] + item.from[1]"
+      class="msg-card"
+    >
       From: {{ item.from_username }}
       <button @click="showChat" :value="item.from[0] + item.from[1]">
-        {{ userClicked(item) ? "Hide " : "Show " }}chat
+        {{ userClicked(item) ? 'Hide ' : 'Show ' }}chat
       </button>
       <IndividualMessageBox v-if="userClicked(item)" :messages="item" />
       <MessageForm
@@ -17,11 +21,11 @@
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
-import { useStore } from "../store";
-import { supabase } from "../supabase";
-import IndividualMessageBox from "./IndividualMessageBox.vue";
-import MessageForm from "./MessageForm.vue";
+import { onMounted, ref } from 'vue';
+import { useStore } from '../store';
+import { supabase } from '../supabase';
+import IndividualMessageBox from './IndividualMessageBox.vue';
+import MessageForm from './MessageForm.vue';
 
 export default {
   setup() {
@@ -29,7 +33,7 @@ export default {
     const loading = ref(false);
     const messages = ref([]);
     const show = ref(false);
-    const itemId = ref("");
+    const itemId = ref('');
 
     function showChat(event) {
       itemId.value = event.target.value;
@@ -44,8 +48,8 @@ export default {
       try {
         loading.value = true;
         const { data: items, error } = await supabase
-          .from("messages")
-          .select("*")
+          .from('messages')
+          .select('*')
           .or(
             `user_to_id.eq.${store.user.id},user_from_id.eq.${store.user.id}`
           );
@@ -64,9 +68,9 @@ export default {
     async function getUsernameFromUUID(uuid) {
       try {
         const { data, error } = await supabase
-          .from("users")
-          .select("username")
-          .eq("id", uuid)
+          .from('users')
+          .select('username')
+          .eq('id', uuid)
           .single();
         if (error) throw error;
         return data.username;
@@ -143,12 +147,31 @@ export default {
 </script>
 
 <style scoped>
-li {
-  list-style-type: none;
-  margin: 15px;
-  background-color: var(--custom-bg-color);
-  border: var(--custom-border);
-  border-radius: 5px;
-  padding: 15px;
+.msg-section {
+  margin-top: 20px;
+  padding: 20px 0 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f4f4f4;
+  gap: 30px;
+  border: 1px solid black;
+  list-style: none;
+  text-align: center;
+}
+
+.msg-card {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  padding: 20px;
+  background-color: white;
+}
+
+.msg-card > button {
+  width: 225px;
 }
 </style>
