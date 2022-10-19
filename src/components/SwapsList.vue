@@ -1,8 +1,13 @@
 <template>
   <div class="swaps-list-wrapper">
     <h1>Swaps Approved:</h1>
-    <ul>
-      <li v-for="item in userSent" :key="item.items.id" :value="item.item_id">
+    <ul class="swaps-list">
+      <li
+        v-for="item in userSent"
+        :key="item.items.id"
+        :value="item.item_id"
+        class="approved-swap-card"
+      >
         <h3>{{ item.items.item_name }}</h3>
         <p>Sent to: {{ item.users.username }}</p>
         <ItemImage v-if="item" :url="item.items.item_preview_url" />
@@ -31,8 +36,12 @@
         />
       </li>
     </ul>
-    <ul>
-      <li v-for="item in userRecieved" :key="item.id">
+    <ul class="swaps-list">
+      <li
+        v-for="item in userRecieved"
+        :key="item.id"
+        class="approved-swap-card"
+      >
         <h3>{{ item.items.item_name }}</h3>
         <p>Received from: {{ item.items.owner_username }}</p>
         <ItemImage v-if="item" :url="item.items.item_preview_url" />
@@ -225,6 +234,25 @@ export default {
 .swaps-list-wrapper {
   border: 1px solid black;
   padding: 10px;
-  margin-bottom: 20px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.swaps-list {
+  display: flex;
+  list-style: none;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.approved-swap-card {
+  text-align: center;
+  border: 1px solid black;
+  margin: 10px 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex-wrap: wrap;
 }
 </style>

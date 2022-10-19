@@ -107,6 +107,8 @@ onMounted(() => {
 #requests-list {
   display: flex;
   list-style: none;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 #requests-section {
