@@ -37,7 +37,13 @@
       </button>
 
       <div v-if="swapClicked && id">
-        <SwapForm :username="itemOwner" :userId="itemOwnerId" :itemId="id" />
+        <SwapForm
+          :username="itemOwner"
+          :userId="itemOwnerId"
+          :itemId="id"
+          :acceptDonation="acceptDonation"
+          :donationAmount="donationAmount"
+        />
       </div>
     </div>
   </div>
@@ -66,6 +72,8 @@ const swapClicked = ref(false);
 const store = useStore();
 const loggedInUser = store.user.id;
 const swapApproved = ref(false);
+const acceptDonation = ref(false);
+const donationAmount = ref('');
 
 async function getItemById() {
   try {
@@ -81,6 +89,8 @@ async function getItemById() {
     itemOwner.value = data[0].owner_username;
     itemOwnerId.value = data[0].owner_id;
     itemImage.value = data[0].item_preview_url;
+    acceptDonation.value = data[0].accept_donation;
+    donationAmount.value = data[0].donation_amount;
 
     if (error) throw error;
   } catch (error) {

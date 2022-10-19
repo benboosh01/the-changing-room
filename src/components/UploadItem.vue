@@ -15,6 +15,8 @@ export default {
     let item_preview_url = ref('');
     const categoryList = ref([]);
     const conditionList = ref([]);
+    const acceptDonation = ref(false);
+    const donationAmount = ref('');
 
     async function uploadItemForm() {
       try {
@@ -33,6 +35,8 @@ export default {
           item_preview_url: file.name,
           owner_id: store.user.id,
           owner_username: store.user.username,
+          accept_donation: acceptDonation.value,
+          donation_amount: donationAmount.value,
         };
 
         const { error } = await supabase.from('items').insert(data);
@@ -121,6 +125,8 @@ export default {
       item_preview_url,
       categoryList,
       conditionList,
+      acceptDonation,
+      donationAmount,
       uploadItemForm,
       onFileSelected,
     };
@@ -174,6 +180,15 @@ export default {
       accept="image/jpeg, image/png, image/jpg"
       required
     />
+
+    <label for="accept-donation">Accept Charity Donation</label>
+    <select v-model="acceptDonation" id="accept-donation" required>
+      <option :value="false">No</option>
+      <option :value="true">Yes</option>
+    </select>
+
+    <label v-if="acceptDonation" for="donation-amount">Donation Amount</label>
+    <input v-if="acceptDonation" type="number" v-model="donationAmount" />
 
     <input
       type="submit"
