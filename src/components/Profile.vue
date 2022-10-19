@@ -1,6 +1,10 @@
 <template>
   <Modal v-show="showModal" @close-modal="showModal = false">
-     <UserReviews />
+    
+    <template v-slot:modal-body>
+      <UserReviews />
+      </template>
+      
   </Modal>
 
   <div class="update-profile-box" @click="onClick()" v-show="clicked" >

@@ -1,29 +1,30 @@
 <template>
-  <div class="user-reviews-wrapper">
+  <div v-if="userReviews" class="user-reviews-wrapper">
     <ul class="user-reviews-list">
       <li
         class="user-review-item"
         v-for="review in userReviews"
         :key="review.id"
       >
-      <div class="review-image-wrapper">
-        <img 
-          :src="review.items.item_preview_url"
-          alt="item-image"
-          style="width: 200px; height: 200px; border-radius: 50%" 
-        />
-      </div>
-      <div class="user-review-body">
-        <p>{{ review.rating }} stars</p>
-        <p>{{ review.comments }}</p>
-        <p>{{ review.created_at }}</p>
-        <p>{{ review.users.username }}</p>
-      </div>
- 
-
-
+        <div class="review-image-wrapper">
+          <img
+            :src="review.items.item_preview_url"
+            alt="item-image"
+            style="width: 200px; height: 200px; border-radius: 50%"
+          />
+        </div>
+        <div class="user-review-body">
+          <p>{{ review.rating }} stars</p>
+          <p>{{ review.comments }}</p>
+          <p>{{ review.created_at }}</p>
+          <p>{{ review.users.username }}</p>
+        </div>
       </li>
     </ul>
+  </div>
+
+  <div v-if="!userReviews">
+    No reviews yet
   </div>
 </template>
 
@@ -55,6 +56,7 @@ export default {
           .eq("reviewee_id", user.id);
 
         if (reviews) {
+          console.log("reviews", reviews);
           userReviews.value = reviews;
         }
       } catch (error) {
@@ -70,7 +72,7 @@ export default {
 
     return {
       loading,
-      userReviews
+      userReviews,
     };
   },
 };
@@ -87,10 +89,10 @@ export default {
 }
 
 .user-review-item {
-	background: rgba(255, 255, 255, 0.90);
-	border-radius: 5px;
-	overflow: hidden;
-	margin: 5em auto;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 5em auto;
   padding: 10px;
   display: flex;
 }

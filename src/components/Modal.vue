@@ -1,12 +1,15 @@
 <template>
   <div class="modal-overlay">
     <div class="dialog" @click="$emit('close-modal')">
-      <span class="dialog__close" @click="$emit('close-modal')">&#x2715;</span>
+      <span class="dialog__close" @click="$emit('close-modal')">&#x2715;
+      </span>
+
       <h2 class="dialog__title">All reviews for {{ username }}</h2>
+
       <!-- <p class="dialog__content">
          content
       </p> -->
-      <slot></slot>
+      <slot name="modal-body"></slot>
     </div>
   </div>
 </template>
