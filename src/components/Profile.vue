@@ -30,7 +30,7 @@
     <div class="profile-info">
       <p class="user-name">{{ username }}</p>
 
-      <p>Rating: {{ profileUserRating }}<i class="fa-solid fa-star"></i></p>
+      <p>Rating: {{ profileUserRating }}<i class="fa-solid fa-star" style="color: #fec42d"></i></p>
 
       <p class="user-location">
         <i class="fa-sharp fa-solid fa-location-dot"></i>

@@ -7,19 +7,18 @@
         :key="review.id"
       >
         <div class="user-review-body">
-          <p>Rating: {{ review.rating }}<i class="fa-sharp fa-solid fa-star"></i></p>
+          <p>Rating: {{ review.rating }}
+            <i class="fa-sharp fa-solid fa-star" style="color: #fec42d">
+            </i></p>
+          <p class="comments">"{{ review.comments }}"</p>
        
         <div class="user">
           <div>
-          <img
-            :src="review.users.avatar_url"
-            alt="reviewer-image"
-            style="width: 50px; height: 50px; border-radius: 50%;"
-          />
+            <UserImage :url="review.users.avatar_url" />
           </div>
           <div class="user-info">
             <h5>{{ review.users.username }}</h5>
-            <small>{{ review.created_at }}</small>
+            <small>{{ new Date(review.created_at).toLocaleString() }}</small>
           </div>
          </div>
          </div>
@@ -37,12 +36,14 @@
 import { supabase } from "../supabase";
 import { onMounted, ref } from "vue";
 import { useStore } from "../store";
+import UserImage from "./UserImage.vue";
 
 export default {
   setup() {
     const store = useStore();
     const loading = ref(false);
     const userReviews = ref([]);
+    const reviewDate = ref();
     const user = store.user;
 
     async function getReviewsForUser() {
@@ -78,8 +79,10 @@ export default {
     return {
       loading,
       userReviews,
+      reviewDate
     };
   },
+  components: { UserImage }
 };
 </script>
 
@@ -96,7 +99,8 @@ export default {
   margin: 5em auto;
   padding: 10px; */
   /* display: flex; */
-  padding: 10px;
+  padding: 15px;
+  margin: 10px;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
@@ -108,12 +112,16 @@ export default {
 } */
 
 .user-review-body {
-  /* margin-top: 3px;
-  margin-bottom: 3px; */
   display: flex;
   flex-direction: column;
 }
 
+.comments {
+  font-size: 20px;
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
 
 .user {
   display: flex;
