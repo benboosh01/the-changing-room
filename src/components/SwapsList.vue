@@ -1,6 +1,6 @@
 <template>
   <div class="swaps-list-wrapper">
-    <h1>Swaps Approved:</h1>
+    <h2>Swaps Approved:</h2>
     <ul class="swaps-list">
       <li
         v-for="item in userSent"
