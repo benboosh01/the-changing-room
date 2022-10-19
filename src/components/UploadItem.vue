@@ -135,7 +135,7 @@ export default {
 </script>
 
 <template>
-  <form @submit.prevent="uploadItemForm">
+  <form @submit.prevent="uploadItemForm" id="upload-item-form">
     <label for="item_name">Item</label>
     <input
       id="item_name"
@@ -178,6 +178,7 @@ export default {
       @change="onFileSelected($event)"
       placeholder="Choose file to upload"
       accept="image/jpeg, image/png, image/jpg"
+      class="input-file"
       required
     />
 
@@ -198,3 +199,33 @@ export default {
     />
   </form>
 </template>
+
+<style scoped>
+#upload-item-form {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+#upload-item-form > input {
+  border: 1px solid grey;
+}
+
+#upload-item-form > label,
+input,
+button,
+select {
+  width: 375px;
+  height: 35px;
+}
+
+#upload-item-form > label {
+  margin-bottom: -20px;
+}
+
+.input-file {
+  height: 45px;
+}
+</style>
