@@ -93,23 +93,13 @@ export default {
 }
 
 .user-review-item {
-  /* background: rgba(255, 255, 255, 0.9);
-  border-radius: 5px;
-  overflow: hidden;
-  margin: 5em auto;
-  padding: 10px; */
-  /* display: flex; */
-  padding: 15px;
-  margin: 10px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  margin: 10px;
   overflow: hidden;
 }
-
-/* .review-image-wrapper {
-   margin-right: 5px; 
-} */
 
 .user-review-body {
   display: flex;

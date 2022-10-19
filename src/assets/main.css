@@ -21,6 +21,9 @@ body * {
   margin: 0;
   /* font-family: var(--custom-font-family); */
   /* background-color: var(--custom-bg-color); */
+
+  
+  
 }
 
 * {
@@ -37,6 +40,8 @@ body,
   width: 100vw;
   overflow-x: hidden;
   margin: 0;
+  background-image: linear-gradient(to right, #c6ffdd, #fbd786, #f7797d);
+
 }
 
 /* Grid */
@@ -382,3 +387,5 @@ button.primary,
   animation: spin 1s linear infinite;
   filter: invert(1);
 }
+
+
