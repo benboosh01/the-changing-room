@@ -1,16 +1,16 @@
 <template>
   <div class="user-items-wrapper">
-    <h1>{{ loggedInUser === userId ? "Your" : username }} Items</h1>
+    <h1>{{ loggedInUser === userId ? 'Your' : username }} Items</h1>
     <button @click="toggleUpload">Add New Item</button>
     <UploadItem
       v-if="upLoadVisible && loggedInUser === userId"
       @toggleUpload="toggleUpload"
     />
-    <ul>
-      <li v-for="item in userItems" :key="item.id">
-        <h3>{{ item.item_name }}</h3>
+    <ul id="user-items-list">
+      <li v-for="item in userItems" :key="item.id" class="user-list-card">
         <ItemImage v-if="item" :url="item.item_preview_url" />
-        <p>{{ item.condition }}</p>
+        <h3>{{ item.item_name }}</h3>
+        <p>Condition: {{ item.condition }}</p>
         <p>{{ item.description }}</p>
         <button @click="clickEditRemove(item.id)">Edit/remove listing</button>
         <EditRemoveItem
@@ -29,13 +29,13 @@
 </template>
 
 <script>
-import { supabase } from "../supabase";
-import { onMounted, ref } from "vue";
-import { useStore } from "../store";
-import ItemImage from "./ItemImage.vue";
-import UploadItem from "./UploadItem.vue";
-import EditRemoveItem from "./EditRemoveItem.vue";
-import router from "../router";
+import { supabase } from '../supabase';
+import { onMounted, ref } from 'vue';
+import { useStore } from '../store';
+import ItemImage from './ItemImage.vue';
+import UploadItem from './UploadItem.vue';
+import EditRemoveItem from './EditRemoveItem.vue';
+import router from '../router';
 
 export default {
   components: { ItemImage, UploadItem, EditRemoveItem },
@@ -43,13 +43,13 @@ export default {
   setup() {
     const store = useStore();
     const loading = ref(false);
-    const username = ref("");
-    const userId = ref("");
+    const username = ref('');
+    const userId = ref('');
     const userItems = ref([]);
     const loggedInUser = store.user.id;
     const upLoadVisible = ref(false);
     const editRemoveClicked = ref(false);
-    const chosenItem = ref("");
+    const chosenItem = ref('');
 
     async function getUser() {
       try {
@@ -68,9 +68,9 @@ export default {
         loading.value = true;
 
         const { data: items, error } = await supabase
-          .from("items")
-          .select("*")
-          .eq("owner_id", userId.value);
+          .from('items')
+          .select('*')
+          .eq('owner_id', userId.value);
 
         if (error) throw error;
 
@@ -95,7 +95,7 @@ export default {
     }
 
     function selectItem(id) {
-      router.push({ name: "singleItem", params: { id: id } });
+      router.push({ name: 'singleItem', params: { id: id } });
     }
 
     function clickEditRemove(id) {
@@ -134,6 +134,28 @@ export default {
 .user-items-wrapper {
   border: 1px solid black;
   padding: 10px;
-  margin-bottom: 20px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+#user-items-list {
+  list-style: none;
+  display: flex;
+  text-align: center;
+  gap: 5px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.user-list-card {
+  text-align: center;
+  border: 1px solid black;
+  margin: 10px 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex-wrap: wrap;
 }
 </style>

@@ -26,17 +26,19 @@
   <div class="profile-card">
     <div class="profile-info">
       <p class="user-name">{{ username }}</p>
+
       <p>Rating: {{ profileUserRating }}<i class="fa-solid fa-star"></i></p>
+
       <p class="user-location">
         <i class="fa-sharp fa-solid fa-location-dot"></i>
         {{ location }}
       </p>
 
-      <button @click="showModal = true" class="primary">
+      <button @click="showModal = true" class="primary profile-btns">
         See all your reviews
       </button>
 
-      <button @click="onClick()" v-show="!clicked" class="primary">
+      <button @click="onClick()" v-show="!clicked" class="primary profile-btns">
         Update profile details
       </button>
     </div>
@@ -52,6 +54,7 @@
 </template>
 
 <script setup>
+
 import { supabase } from "../supabase";
 import { useStore } from "../store";
 import { ref, onMounted } from "vue";
@@ -85,13 +88,13 @@ async function onSubmit() {
 
     if (avatarFile.value) {
       const { data, error1 } = await supabase.storage
-        .from("avatars")
+        .from('avatars')
         .remove([avatar_url.value]);
 
       avatar_url.value = avatar_url.value + new Date().getTime();
 
       const { image, error2 } = await supabase.storage
-        .from("avatars")
+        .from('avatars')
         .upload(avatar_url.value, avatarFile.value, { upsert: true });
     }
 
@@ -102,9 +105,9 @@ async function onSubmit() {
     };
 
     const { error } = await supabase
-      .from("users")
+      .from('users')
       .update(updatedDetails)
-      .eq("id", userId.value);
+      .eq('id', userId.value);
 
     if (error) throw error;
   } catch (error) {
@@ -112,7 +115,7 @@ async function onSubmit() {
   } finally {
     getProfile();
     loading.value = false;
-    alert("details updated");
+    alert('details updated');
   }
 }
 
@@ -123,7 +126,7 @@ async function getUser() {
     if (!store.user.id) throw error;
     userId.value = store.user.id;
   } catch (error) {
-    alert("Please log in or register");
+    alert('Please log in or register');
   } finally {
     loading.value = false;
   }
@@ -133,9 +136,9 @@ async function getProfile() {
   try {
     loading.value = true;
     let user = await supabase
-      .from("users")
+      .from('users')
       .select(`username, location, avatar_url`)
-      .eq("id", userId.value)
+      .eq('id', userId.value)
       .single();
     if (user.error && user.status !== 406) throw error;
     if (user.data) {
@@ -144,11 +147,11 @@ async function getProfile() {
       avatar_url.value = user.data.avatar_url;
     }
     const { data, error } = await supabase.storage
-      .from("avatars")
+      .from('avatars')
       .getPublicUrl(avatar_url.value);
     image.value = data.publicURL;
   } catch (error) {
-    alert("Please log in or register");
+    alert('Please log in or register');
   } finally {
     loading.value = false;
   }
@@ -160,8 +163,10 @@ async function getUserReviewScore() {
       userRatings.value = data.filter((user) => {
         return user.id === userId.value;
       });
+
       profileUserRating.value = userRatings.value[0].ave_review_score;
       profileUserRating.value = Math.round(profileUserRating.value * 10) / 10;
+
       if (error) throw error;
     });
   } catch (error) {
@@ -193,7 +198,24 @@ export default {
   padding: 10px;
   display: flex;
   margin-bottom: 20px;
-  justify-content: space-evenly;
+  justify-content: space-around;
+}
+
+.profile-info {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-image-wrapper {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .user-name {
@@ -260,5 +282,9 @@ i {
 
 .submit {
   width: 100%;
+}
+
+.profile-btns {
+  width: 225px;
 }
 </style>
