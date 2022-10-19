@@ -7,14 +7,16 @@
     </div>
     <select v-model="reviewScore" required>
       <option disabled value="">Select review score</option>
-      <option value="1">*</option>
-      <option value="2">**</option>
-      <option value="3">***</option>
-      <option value="4">****</option>
-      <option value="5">*****</option>
+      <option value="1">1 star</option>
+      <option value="2">2 stars</option>
+      <option value="3">3 stars</option>
+      <option value="4">4 stars</option>
+      <option value="5">5 stars</option>
     </select>
+    <br />
     <label for="comments">Comments</label>
-    <input v-model="reviewComment" placeholder="Enter review comments" />
+   
+    <input type="text" v-model="reviewComment" placeholder="Enter review comments" />
     <input
       type="submit"
       class="button block primary"
@@ -86,3 +88,16 @@ export default {
   },
 };
 </script>
+<style scoped>
+input[type=text] {
+  padding: 12px 20px;
+    margin: 8px 0;
+  border: 1px solid black;
+  justify-content: center
+}
+input[type=submit] {
+  display: flex;
+  justify-content: center;
+  margin: auto
+}
+</style>
