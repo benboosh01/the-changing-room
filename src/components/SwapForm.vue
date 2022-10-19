@@ -1,11 +1,11 @@
 <template>
-  <main v-show="!submitted">
-    <h3>
-      Ready to swap with {{ username }}? Complete the from below to submit your
+  <main v-show="!submitted" class="swap-form-container">
+    <p>
+      Ready to swap with {{ username }}? Complete the form below to submit your
       swap request
-    </h3>
+    </p>
     <p>Hi {{ username }}, I'd like your item. Here's what I can swap:</p>
-    <label htmlFor="swapForm">Choose which item you want to offer</label>
+    <label htmlFor="swapForm">Choose which item you want to offer: </label>
     <select name="swapForm" v-model="selectedItem">
       <option v-for="item in userItems">{{ item.item_name }}</option>
     </select>
@@ -127,16 +127,6 @@ export default {
       } finally {
         createSwapPair();
       }
-      // try {
-      //   const { error } = await supabase.from('swaps').insert(swapOne);
-      //   const { error2 } = await supabase.from('swaps').insert(swapTwo);
-      //   if (error || error2) throw error;
-      // } catch (error) {
-      //   alert(error.message);
-      // } finally {
-      //   loading.value = false;
-      //   submitted.value = true;
-      // }
     }
     async function createSwapPair() {
       try {
@@ -174,3 +164,17 @@ export default {
   },
 };
 </script>
+<style scoped>
+.swap-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.swap-form-container > select,
+button {
+  width: 225px;
+}
+</style>
