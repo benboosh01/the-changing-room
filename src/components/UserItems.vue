@@ -1,6 +1,6 @@
 <template>
   <div class="user-items-wrapper">
-    <h1>{{ loggedInUser === userId ? 'Your' : username }} Items</h1>
+    <h2>{{ loggedInUser === userId ? 'Your' : username }} Items</h2>
     <button @click="toggleUpload">Add New Item</button>
     <UploadItem
       v-if="upLoadVisible && loggedInUser === userId"

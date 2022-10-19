@@ -1,5 +1,5 @@
 <template>
-  <h1 style="text-align: center">Available Items</h1>
+  <h2 style="text-align: center">Available Items</h2>
   <div id="category">
     <label htmlFor="categoryName">Category</label>
     <select v-model="categoryName" @change="getItems(categoryName)">
