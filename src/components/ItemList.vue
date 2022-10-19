@@ -86,7 +86,6 @@ onMounted(() => {
 .item {
   text-align: center;
   border: 1px solid black;
-  border-radius: 8px;
   margin: 10px 10px;
   padding: 20px;
   display: flex;
@@ -103,7 +102,6 @@ onMounted(() => {
 .select-button {
   background-color: lightgray;
   border: 1px solid gray;
-  border-radius: 10px;
   margin-top: 8px;
   padding: 4px 7px;
 }
