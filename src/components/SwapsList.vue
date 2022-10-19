@@ -236,6 +236,7 @@ export default {
   padding: 10px;
   margin: 20px 0;
   text-align: center;
+  background-color: #f4f4f4;
 }
 
 .swaps-list {
@@ -254,5 +255,6 @@ export default {
   flex-direction: column;
   gap: 5px;
   flex-wrap: wrap;
+  background-color: white;
 }
 </style>

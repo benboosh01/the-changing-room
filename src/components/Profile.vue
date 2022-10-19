@@ -2,8 +2,7 @@
   <Modal v-show="showModal" @close-modal="showModal = false">
     <template v-slot:modal-body>
       <UserReviews />
-      </template>
-      
+    </template>
   </Modal>
 
   <div class="update-profile-box" v-if="clicked">
@@ -30,7 +29,10 @@
     <div class="profile-info">
       <p class="user-name">{{ username }}</p>
 
-      <p>Rating: {{ profileUserRating }}<i class="fa-solid fa-star" style="color: #fec42d"></i></p>
+      <p>
+        Rating: {{ profileUserRating
+        }}<i class="fa-solid fa-star" style="color: #fec42d"></i>
+      </p>
 
       <p class="user-location">
         <i class="fa-sharp fa-solid fa-location-dot"></i>
@@ -205,6 +207,7 @@ export default {
   display: flex;
   margin-bottom: 20px;
   justify-content: space-around;
+  background-color: #f4f4f4;
 }
 
 .profile-info {
@@ -292,5 +295,6 @@ i {
 
 .profile-btns {
   width: 225px;
+  background-color: white;
 }
 </style>

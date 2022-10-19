@@ -116,6 +116,7 @@ onMounted(() => {
   padding: 10px;
   margin: 20px 0;
   text-align: center;
+  background-color: #f4f4f4;
 }
 
 .request-card {
@@ -129,6 +130,7 @@ onMounted(() => {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  background-color: white;
 }
 
 .request-card > button {
