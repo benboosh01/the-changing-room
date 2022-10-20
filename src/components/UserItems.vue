@@ -16,11 +16,14 @@
         <h3>{{ item.item_name }}</h3>
         <p>Condition: {{ item.condition }}</p>
 
-        <div id="#button-group" class="flex flex-center">
-          <button class="primary" @click="clickEditRemove(item.id)">
+        <div id="#button-group" class="flex flex-center edit-buttons-container">
+          <button
+            class="primary special-class"
+            @click="clickEditRemove(item.id)"
+          >
             Edit/remove listing
           </button>
-          <button class="primary" @click="selectItem(item.id)">
+          <button class="primary special-class" @click="selectItem(item.id)">
             View item details
           </button>
           <EditRemoveItem
@@ -194,5 +197,16 @@ export default {
 
 .add-item-btn {
   background-color: white;
+}
+
+.edit-buttons-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.special-class {
+  width: 225px;
 }
 </style>
