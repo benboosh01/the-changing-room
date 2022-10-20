@@ -1,13 +1,13 @@
 <template>
   <div class="review-form-box">
-    <h2 class="review-form">Review</h2>
+    <h2 class="review-form-title">Review</h2>
     <form @submit.prevent="submitReview">
       <div>
-        <label for="reviewee-user">Username:</label>
+        <!-- <label for="reviewee-user">Username:</label> -->
         <input id="reviewee-user" type="input" v-model="username" disabled />
       </div>
       <select v-model="reviewScore" required>
-        <option disabled value="">Select review score</option>
+        <option disabled value="">Select review rating</option>
         <option value="1">1 star</option>
         <option value="2">2 stars</option>
         <option value="3">3 stars</option>
@@ -101,6 +101,11 @@ export default {
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
+}
+
+.review-form-title {
+  padding: 0;
+  text-align: center;
 }
 
 input[type="text"] {
