@@ -180,15 +180,16 @@ export default {
 }
 
 .user-list-card {
-  text-align: center;
-  border: 1px solid black;
-  margin: 10px 10px;
-  padding: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  flex-wrap: wrap;
-  background-color: white;
+  align-items: center;
+  padding: 40px;
+  background-color: #f4f4f4;
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
 }
 
 .add-item-btn {
