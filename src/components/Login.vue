@@ -68,6 +68,7 @@ export default {
 
 <style scoped>
 .login-box {
+  margin-top: 20px;
   padding: 40px;
   background-color: #E9F1F7;
   box-sizing: border-box;

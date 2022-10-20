@@ -96,6 +96,7 @@ export default {
 </script>
 <style scoped>
 .review-form-box {
+  margin-top: 20px;
   padding: 40px;
   background-color: #e9f1f7;
   box-sizing: border-box;

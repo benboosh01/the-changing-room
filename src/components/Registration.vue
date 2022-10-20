@@ -1,15 +1,15 @@
 <script>
-import { supabase } from '../supabase';
-import { ref } from 'vue';
+import { supabase } from "../supabase";
+import { ref } from "vue";
 export default {
-  emits: ['toggleLogin'],
+  emits: ["toggleLogin"],
 
   setup(_, context) {
     const loading = ref(false);
-    const username = ref('');
-    const avatar_url = ref('');
-    const location = ref('');
-    const avatarFile = ref('');
+    const username = ref("");
+    const avatar_url = ref("");
+    const location = ref("");
+    const avatarFile = ref("");
     const disable = ref(false);
 
     function setFiles(event) {
@@ -26,10 +26,10 @@ export default {
           location: location.value,
         };
 
-        const { error } = await supabase.from('users').insert(data);
+        const { error } = await supabase.from("users").insert(data);
 
         const { image } = await supabase.storage
-          .from('avatars')
+          .from("avatars")
           .upload(avatar_url.value, avatarFile.value, { upsert: true });
 
         if (error) throw error;
@@ -37,17 +37,17 @@ export default {
         alert(error.message);
       } finally {
         loading.value = false;
-        username.value = '';
-        avatar_url.value = '';
-        avatarFile.value = '';
-        location.value = '';
-        alert('Succesfully registered');
+        username.value = "";
+        avatar_url.value = "";
+        avatarFile.value = "";
+        location.value = "";
+        alert("Succesfully registered");
         toggleLogin();
       }
     }
 
     function toggleLogin() {
-      context.emit('toggleLogin');
+      context.emit("toggleLogin");
     }
 
     return {
@@ -63,7 +63,7 @@ export default {
   watch: {
     username(newUsername, oldUsername) {
       if (!newUsername.match(/^[A-Za-z0-9]*$/)) {
-        alert('username must only contain alpha numeric characters');
+        alert("username must only contain alpha numeric characters");
         this.disable = true;
       } else {
         this.disable = false;
@@ -75,46 +75,47 @@ export default {
 
 <template>
   <div class="register-box">
-  <h1 class="register-title">Register</h1>
-  <form @submit.prevent="submitForm" class="register-form">
-    <label for="username">username</label>
-    <input
-      id="username"
-      v-model="username"
-      placeholder="Enter username"
-      required
-    />
-    <label for="avatar">avatar</label>
-    <input
-      id="avatar"
-      type="file"
-      v-on:change="setFiles"
-      placeholder="Upload image file"
-    />
-    <label for="location">location</label>
-    <input
-      id="location"
-      type="text"
-      v-model="location"
-      placeholder="Enter nearest town/city"
-      required
-    />
-    <input
-      type="submit"
-      class="input-button"
-      :value="loading ? 'Loading ...' : 'Submit'"
-      :disabled="loading || disable"
-    />
-  </form>
-</div>
+    <h1 class="register-title">Register</h1>
+    <form @submit.prevent="submitForm" class="register-form">
+      <label for="username">username</label>
+      <input
+        id="username"
+        v-model="username"
+        placeholder="Enter username"
+        required
+      />
+      <label for="avatar">avatar</label>
+      <input
+        id="avatar"
+        type="file"
+        v-on:change="setFiles"
+        placeholder="Upload image file"
+      />
+      <label for="location">location</label>
+      <input
+        id="location"
+        type="text"
+        v-model="location"
+        placeholder="Enter nearest town/city"
+        required
+      />
+      <input
+        type="submit"
+        class="input-button"
+        :value="loading ? 'Loading ...' : 'Submit'"
+        :disabled="loading || disable"
+      />
+    </form>
+  </div>
 </template>
 
 <style scoped>
 .register-box {
+  margin-top: 20px;
   padding: 40px;
-  background-color: #E9F1F7;
+  background-color: #e9f1f7;
   box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0,0,0, 0.5);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
 }
 
@@ -124,10 +125,9 @@ export default {
   text-align: center;
 }
 
-.register-form > #username, 
+.register-form > #username,
 .register-form > #location,
-.register-form > #avatar
- {
+.register-form > #avatar {
   width: 100%;
   padding: 10px 0;
   font-size: 16px;
@@ -141,14 +141,13 @@ export default {
 .register-form > label {
   font-size: 16px;
   pointer-events: none;
-  transition: .5s;
+  transition: 0.5s;
 }
 
 .register-box #username:focus ~ label,
 .register-box #username:valid ~ label,
 .register-box #location:focus ~ label,
-.register-box #location:focus ~ label
-  {
+.register-box #location:focus ~ label {
   top: -20px;
   left: 0;
   color: red;

@@ -43,6 +43,7 @@ export default {
 
 <template>
   <!-- Replace 'store.user.username' with the recipients username -->
+  <div class="message-form-box">
   <h3 class="title">Send a message to {{ username }}</h3>
   <form @submit.prevent="handleMessage" class="msg-form">
     <label for="message-body" />
@@ -56,19 +57,26 @@ export default {
     />
     <input type="submit" class="msg-form-btn" />
   </form>
+  </div>
 </template>
 
 <style>
+.message-form-box {
+  margin-top: 20px;
+  padding: 40px;
+  background-color: #e9f1f7;
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+  border-radius: 10px; 
+}
+
 .message-box {
-  /* background-color: var(--custom-bg-color); */
-  /* border: var(--custom-border); */
-  border-radius: 5px;
-  margin-bottom: 10px;
+  /* border-radius: 5px; */
+  /* margin-bottom: 10px; */
   padding: 15px;
   width: 100%;
   height: 150px;
   resize: none;
-  /* border: 1px solid black; */
 }
 
 .msg-form {
@@ -76,9 +84,6 @@ export default {
   flex-direction: column;
   width: 100%;
   padding: 40px;
-  box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0,0,0, 0.5);
-  border-radius: 10px;
 }
 
 .msg-form-btn {
@@ -87,8 +92,7 @@ export default {
   background: #f1f1f1;
   padding: 5px 20px;
   margin: 5px;
-  background-color: #33658a;
-  color: #fff;
+  background: #f1f1f1;
 }
 
 .title {
