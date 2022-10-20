@@ -24,8 +24,10 @@ body * {
 }
 
 body {
-  background-color: #b78681;
   background-color: #d0b8ac;
+  /* padding: 0px 0px 100px; */
+  /* margin-top: 75px; */
+  /* flex-grow: 1; */
 }
 
 * {
@@ -52,6 +54,7 @@ body,
   width: 90%;
   margin-left: auto;
   margin-right: auto;
+  padding-bottom: 30px;
 }
 .row {
   position: relative;

@@ -26,7 +26,6 @@ function logOut() {
 
 <style scoped>
 #header {
-  display: flex;
   /* border: 1px solid #a2a2a2; */
   /* background-color: #f4f4f4; */
   background-color: #243b4a;
@@ -34,13 +33,14 @@ function logOut() {
   /* -moz-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.5); */
   /* box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.5); */
   position: sticky;
+  width: 100%;
   top: 0;
 }
 
 .navbar {
   max-width: 1366px;
-  margin: 0 auto;
-  /* padding: 0 3rem; */
+  display: flex;
+  align-items: center;
 }
 
 .navbar-links > a {
@@ -59,6 +59,7 @@ function logOut() {
   border: none;
   background-color: transparent;
   color: #ff6700;
+  margin-left: 30px;
 }
 
 /* media queries */

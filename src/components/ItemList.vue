@@ -84,13 +84,6 @@ onMounted(() => {
   width: 100%;
 }
 .item {
-  /* text-align: center;
-  border: 1px solid black;
-  margin: 10px 10px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  background-color: #f4f4f4; */
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
   background-color: #f4f4f4;
   border-radius: 10px;

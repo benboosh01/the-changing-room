@@ -11,6 +11,10 @@
   padding: 15px;
   text-align: center;
   background-color: #243b4a;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
 }
 
 .footer-text {

@@ -21,17 +21,13 @@
 
 .hero-text {
   text-align: center;
-  /* position: absolute; */
-  /* top: 50%; */
-  /* left: 50%; */
-  /* transform: translate(-50%, -50%); */
 }
 
 .title {
-  /* padding: 30px;   */
   color: #fff;
   font-size: 60px;
   font-size: 5rem;
+  margin-top: 0;
 } 
 
 .subtitle {

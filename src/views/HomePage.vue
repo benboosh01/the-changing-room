@@ -140,6 +140,6 @@ onMounted(() => {
   font-size: 32px;
   padding: 30px;
   color: #243b4a;
-
+  margin-top: 50px;
 }
 </style>

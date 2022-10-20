@@ -206,9 +206,9 @@ export default {
   background-color: #f4f4f4;
   border-radius: 10px;
   padding: 20px;
-  margin: 10px;
   display: flex;
   justify-content: space-around;
+  margin-top: 30px;
 }
 
 .profile-info {
