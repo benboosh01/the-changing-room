@@ -1,6 +1,6 @@
 <template>
   <div class="swaps-list-wrapper">
-    <h2>Swaps Approved:</h2>
+    <h2>Swaps Approved</h2>
     <ul class="swaps-list">
       <li
         v-for="item in userSent"
@@ -252,14 +252,16 @@ export default {
 }
 
 .approved-swap-card {
-  text-align: center;
-  border: 1px solid black;
-  margin: 10px 10px;
-  padding: 10px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
   display: flex;
   flex-direction: column;
   gap: 5px;
   flex-wrap: wrap;
-  background-color: white;
+  text-align: center;
+  align-items: center;
 }
 </style>

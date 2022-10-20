@@ -1,6 +1,6 @@
 <template>
   <div id="requests-section">
-    <h2>Swap Requests:</h2>
+    <h2>Swap Requests</h2>
     <ul id="requests-list">
       <li
         v-for="request in swapRequests"
@@ -9,7 +9,7 @@
       >
         <p>From: {{ request.users.username }}</p>
         <p>Item Requested: {{ request.items.item_name }}</p>
-        <button :value="request.swap_id" @click="viewRequest">
+        <button class="primary" :value="request.swap_id" @click="viewRequest">
           View Request
         </button>
         <SwapConfirmation
@@ -120,17 +120,17 @@ onMounted(() => {
 }
 
 .request-card {
-  text-align: center;
-  border: 1px solid black;
-  margin: 10px 10px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+  background-color: #f4f4f4;
+  border-radius: 10px;
   padding: 20px;
+  margin: 10px;
   display: flex;
   flex-direction: column;
   gap: 5px;
   flex-wrap: wrap;
-  justify-content: center;
+  text-align: center;
   align-items: center;
-  background-color: white;
 }
 
 .request-card > button {

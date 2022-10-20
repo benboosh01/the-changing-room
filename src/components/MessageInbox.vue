@@ -7,7 +7,11 @@
       class="msg-card"
     >
       From: {{ item.from_username }}
-      <button @click="showChat" :value="item.from[0] + item.from[1]">
+      <button
+        class="primary"
+        @click="showChat"
+        :value="item.from[0] + item.from[1]"
+      >
         {{ userClicked(item) ? "Hide " : "Show " }}chat
       </button>
       <IndividualMessageBox v-if="userClicked(item)" :messages="item" />

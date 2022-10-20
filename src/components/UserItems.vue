@@ -179,16 +179,17 @@ export default {
 }
 
 .user-list-card {
-  margin-top: 30px;
-  margin-bottom: 30px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
   display: flex;
   flex-direction: column;
+  gap: 5px;
+  flex-wrap: wrap;
+  text-align: center;
   align-items: center;
-  padding: 40px;
-  background-color: #f4f4f4;
-  box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
 }
 
 .add-item-btn {
