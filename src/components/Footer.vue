@@ -1,7 +1,7 @@
 <template>
     <footer class="footer">
         <span><i class="fa-regular fa-copyright" style="margin-right: 5px"></i></span>
-        <span>The Changing Room 2022</span>
+        <span class="footer-text">The Changing Room 2022</span>
     </footer>
 </template>
 
@@ -11,5 +11,9 @@
   padding: 15px;
   text-align: center;
   background-color: #243b4a;
+}
+
+.footer-text {
+  color: #fff;
 }
 </style>
