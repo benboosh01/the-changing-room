@@ -23,7 +23,7 @@ export default {
   padding: 15px;
   background-color: var(--custom-bg-color);
   border: var(--custom-border);
-  border-radius: 5px;
+  border-radius: 10px;
   margin: 10px;
   border: 1px solid black;
   display: flex;

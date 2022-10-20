@@ -12,7 +12,7 @@
     <select class="dropdown" name="swapForm" v-model="selectedItem">
       <option v-for="item in userItems">{{ item.item_name }}</option>
     </select>
-    <button @click="createNewSwap(selectedItem)">Request swap</button>
+    <button class="primary swap-btn" @click="createNewSwap(selectedItem)">Request swap</button>
     <p v-if="acceptDonation">
       Alternatively, make a donation to our charity of the week, Refuge, and
       send {{ username }} a message to let them know.
@@ -195,7 +195,15 @@ button {
 }
 
 .dropdown {
-  height: 40px;
-  padding: 
+  padding: 6px 20px;
+  width: 100%;
+  margin: 8px 8px;
+  border: 1px solid #f4f4f4;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.swap-btn {
+  margin-left: 5px;
 }
 </style>

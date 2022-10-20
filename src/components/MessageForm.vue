@@ -76,6 +76,7 @@ export default {
   width: 100%;
   height: 150px;
   resize: none;
+  border: 1px solid #f4f4f4;
 }
 
 .msg-form {

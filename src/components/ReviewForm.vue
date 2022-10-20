@@ -6,7 +6,7 @@
         <!-- <label for="reviewee-user">Username:</label> -->
         <input id="reviewee-user" type="input" v-model="username" disabled />
       </div>
-      <select v-model="reviewScore" required>
+      <select class="dropdown" v-model="reviewScore" required>
         <option disabled value="">Select review rating</option>
         <option value="1">1 star</option>
         <option value="2">2 stars</option>
@@ -15,13 +15,15 @@
         <option value="5">5 stars</option>
       </select>
       <br />
-      <label for="comments">Comments</label>
 
-      <input
+      <textarea
         type="text"
+        class="comment-box"
         v-model="reviewComment"
         placeholder="Enter review comments"
+        required
       />
+
       <input
         type="submit"
         class="button block primary"
@@ -33,21 +35,21 @@
 </template>
 
 <script>
-import { supabase } from '../supabase';
-import { ref } from 'vue';
-import { useStore } from '../store';
+import { supabase } from "../supabase";
+import { ref } from "vue";
+import { useStore } from "../store";
 
 export default {
-  name: 'ReviewForm',
-  props: ['username', 'itemId', 'revieweeId'],
-  emits: ['toggleVisible', 'updateReviews'],
+  name: "ReviewForm",
+  props: ["username", "itemId", "revieweeId"],
+  emits: ["toggleVisible", "updateReviews"],
   setup(props, context) {
     const store = useStore();
     const loading = ref(false);
-    const revieweeUsername = ref('');
-    const revieweeId = ref('');
-    const reviewScore = ref('');
-    const reviewComment = ref('');
+    const revieweeUsername = ref("");
+    const revieweeId = ref("");
+    const reviewScore = ref("");
+    const reviewComment = ref("");
     const loggedInUser = store.user.id;
     const disable = ref(false);
 
@@ -62,7 +64,7 @@ export default {
           reviewee_id: props.revieweeId,
         };
         updateReviews(data);
-        const { error } = await supabase.from('reviews').insert(data);
+        const { error } = await supabase.from("reviews").insert(data);
         if (error) throw error;
       } catch (error) {
         alert(error.message);
@@ -74,11 +76,11 @@ export default {
     }
 
     function toggleVisible() {
-      context.emit('toggleVisible');
+      context.emit("toggleVisible");
     }
 
     function updateReviews(data) {
-      context.emit('updateReviews', data);
+      context.emit("updateReviews", data);
     }
 
     return {
@@ -95,6 +97,15 @@ export default {
 };
 </script>
 <style scoped>
+.dropdown {
+  padding: 6px 20px;
+  width: 100%;
+  margin: 8px 0;
+  border: 1px solid #f4f4f4;
+  text-align: center;
+  margin-bottom: 15px;
+  border-radius: 10px;
+}
 .review-form-box {
   margin-top: 20px;
   padding: 40px;
@@ -102,8 +113,18 @@ export default {
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
+  width: 100%;
 }
 
+.comment-box {
+  border-radius: 10px;
+  margin-bottom: 15px;
+  padding: 15px;
+  width: 100%;
+  height: 150px;
+  resize: none;
+  border: 1px solid #f4f4f4;
+}
 
 .review-form-title {
   padding: 0;
@@ -114,10 +135,10 @@ input[type="text"] {
   padding: 6px 20px;
   width: 100%;
   margin: 8px 0;
-  border: 1px solid black;
+  border: 1px solid #f4f4f4;
   text-align: center;
 }
-input[type='submit'] {
+input[type="submit"] {
   display: flex;
   justify-content: center;
   margin: auto;
