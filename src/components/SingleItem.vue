@@ -23,6 +23,7 @@
       >
         Message {{ itemOwner }}
       </button>
+      
       <div v-show="messageClicked && id">
         <MessageForm
           :username="itemOwner"
@@ -30,6 +31,7 @@
           @onMessageClick="onMessageClick"
         />
       </div>
+
       <button
         v-show="!swapClicked && itemOwnerId !== loggedInUser && store.user.id"
         @click="onSwapClick"
@@ -48,6 +50,7 @@
           :donationAmount="donationAmount"
         />
       </div>
+
     </div>
   </div>
 </template>
@@ -186,8 +189,6 @@ onMounted(() => {
   display: flex;
   align-content: center;
   align-items: center;
-  margin: 10px 0;
-  margin: 10px
 }
 .description-p > p {
   width: 100%;

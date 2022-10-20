@@ -43,7 +43,7 @@ export default {
 
 <template>
   <!-- Replace 'store.user.username' with the recipients username -->
-  <h2>Send a message to {{ username }}</h2>
+  <h3 class="title">Send a message to {{ username }}</h3>
   <form @submit.prevent="handleMessage" class="msg-form">
     <label for="message-body" />
     <textarea
@@ -60,24 +60,38 @@ export default {
 
 <style>
 .message-box {
-  background-color: var(--custom-bg-color);
-  border: var(--custom-border);
+  /* background-color: var(--custom-bg-color); */
+  /* border: var(--custom-border); */
   border-radius: 5px;
   margin-bottom: 10px;
   padding: 15px;
   width: 100%;
   height: 150px;
   resize: none;
-  border: 1px solid black;
+  /* border: 1px solid black; */
 }
 
 .msg-form {
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding: 40px;
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0, 0.5);
+  border-radius: 10px;
 }
 
 .msg-form-btn {
-  border: 1px solid grey;
+  border: 3px solid #333333;
+  text-transform: uppercase;
+  background: #f1f1f1;
+  padding: 5px 20px;
+  margin: 5px;
+  background-color: #33658a;
+  color: #fff;
+}
+
+.title {
+  margin: 10px;
 }
 </style>
