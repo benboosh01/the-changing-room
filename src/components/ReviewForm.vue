@@ -96,6 +96,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .dropdown {
   padding: 6px 20px;
@@ -106,6 +107,7 @@ export default {
   margin-bottom: 15px;
   border-radius: 10px;
 }
+
 .review-form-box {
   margin-top: 20px;
   padding: 40px;
@@ -113,7 +115,7 @@ export default {
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
-  width: 100%;
+  width: 100vh;
 }
 
 .comment-box {

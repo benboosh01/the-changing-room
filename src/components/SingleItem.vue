@@ -21,7 +21,7 @@
           !messageClicked && itemOwnerId !== loggedInUser && store.user.id
         "
         @click="onMessageClick"
-        class="item-btn primary"
+        class="btn primary"
       >
         Message {{ itemOwner }}
       </button>
@@ -38,7 +38,7 @@
         v-show="!swapClicked && itemOwnerId !== loggedInUser && store.user.id"
         @click="onSwapClick"
         :disabled="swapApproved"
-        class="item-btn primary"
+        class="btn primary"
       >
         {{ swapApproved ? "Pending swap" : "Start a swap" }}
       </button>
@@ -57,7 +57,7 @@
         v-if="
           !addReviewClicked && itemOwnerId !== loggedInUser && store.user.id
         "
-        class="primary"
+        class="btn primary"
         @click="onAddReviewClick"
       >
         Add a review
@@ -202,10 +202,10 @@ onMounted(() => {
   color: #b78681;
 }
 
-.item-btn {
+.btn {
   display: flex;
   justify-content: center;
-  width: 225px;
+  width: 230px;
 }
 .description-p {
   width: 260px;

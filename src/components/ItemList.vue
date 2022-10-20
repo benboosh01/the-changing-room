@@ -1,8 +1,12 @@
 <template>
-  <h2 style="text-align: center">Available Items</h2>
+  <h2 class="title" style="text-align: center">Available Items</h2>
   <div id="category">
-    <label htmlFor="categoryName">Category</label>
-    <select v-model="categoryName" @change="getItems(categoryName)">
+    <label class="label" htmlFor="categoryName">Category</label>
+    <select
+      class="dropdown"
+      v-model="categoryName"
+      @change="getItems(categoryName)"
+    >
       <option v-for="element in categoryList">
         {{ element.category_name }}
       </option>
@@ -20,10 +24,10 @@
   </ul>
 </template>
 <script setup>
-import { supabase } from '../supabase';
-import { ref, onMounted } from 'vue';
-import ItemImage from './ItemImage.vue';
-import router from '../router';
+import { supabase } from "../supabase";
+import { ref, onMounted } from "vue";
+import ItemImage from "./ItemImage.vue";
+import router from "../router";
 
 const loading = ref(true);
 const itemList = ref([]);
@@ -31,12 +35,12 @@ const categoryList = ref([]);
 let categoryId = ref(0);
 
 function selectItem(id) {
-  router.push({ name: 'singleItem', params: { id: id } });
+  router.push({ name: "singleItem", params: { id: id } });
 }
 
 async function getCategories() {
   try {
-    const { data, error } = await supabase.from('categories').select();
+    const { data, error } = await supabase.from("categories").select();
     if (data) {
       categoryList.value = data;
     }
@@ -46,14 +50,14 @@ async function getCategories() {
   }
 }
 async function getItems(categoryName) {
-  let query = supabase.from('items').select();
+  let query = supabase.from("items").select();
   if (categoryName) {
     categoryList.value.forEach((category) => {
       if (category.category_name === categoryName) {
         categoryId = category.id;
       }
     });
-    query = query.eq('category_id', categoryId);
+    query = query.eq("category_id", categoryId);
   }
 
   try {
@@ -103,4 +107,20 @@ onMounted(() => {
   margin: 15px;
 }
 
+.dropdown {
+  padding: 6px 20px;
+  margin: 8px 8px;
+  border: 1px solid #f4f4f4;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.title {
+  font-size: 32px;
+  margin-top: 50px;
+}
+
+.label {
+  font-size: 18px;
+}
 </style>
