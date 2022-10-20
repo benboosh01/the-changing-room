@@ -3,12 +3,15 @@
     <ItemImage v-if="itemImage" :url="itemImage" />
     <div class="item-details">
       <div v-if="loading">Loading details...</div>
-      <h2>{{ itemName }}</h2>
-      <p>Category: {{ itemCategory }}</p>
-      <p>Condition: {{ itemCondition }}</p>
-      <p>Posted by: {{ itemOwner }}</p>
+      
+      <h1>{{ itemName }}</h1>
+
+      <p><span>Category: </span>{{ itemCategory }}</p>
+      <p><span>Condition: </span>{{ itemCondition }}</p>
+      <p><span>Posted by: </span>{{ itemOwner }}</p>
+      
       <div class="description-p">
-        <p style="margin: 10px">{{ itemDescription }}</p>
+        <p style="margin: 10px"><span>Description: </span> {{ itemDescription }}</p>
       </div>
 
       <button
@@ -16,7 +19,7 @@
           !messageClicked && itemOwnerId !== loggedInUser && store.user.id
         "
         @click="onMessageClick"
-        class="item-btn"
+        class="item-btn primary"
       >
         Message {{ itemOwner }}
       </button>
@@ -31,7 +34,7 @@
         v-show="!swapClicked && itemOwnerId !== loggedInUser && store.user.id"
         @click="onSwapClick"
         :disabled="swapApproved"
-        class="item-btn"
+        class="item-btn primary"
       >
         {{ swapApproved ? 'Pending swap' : 'Start a swap' }}
       </button>
@@ -147,12 +150,16 @@ onMounted(() => {
 
 <style scoped>
 .single-item-wrapper {
-  margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid black;
-  padding: 20px 0;
+  padding: 40px;
+  background-color: #f4f4f4;
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0, 0.5);
+  border-radius: 10px;
 }
 
 .item-details {
@@ -164,22 +171,30 @@ onMounted(() => {
   gap: 5px;
 }
 
+.item-details > p {
+   color: #b78681;
+}
+
 .item-btn {
   display: flex;
   justify-content: center;
   width: 225px;
 }
 .description-p {
-  border: 1px solid black;
   width: 260px;
   height: 125px;
   display: flex;
   align-content: center;
   align-items: center;
   margin: 10px 0;
+  margin: 10px
 }
 .description-p > p {
   width: 100%;
   text-align: center;
+  color: #b78681;
+  font-weight: 600;
+  height: auto;
 }
+
 </style>
