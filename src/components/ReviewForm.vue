@@ -53,7 +53,7 @@ export default {
           comments: reviewComment.value,
           rating: reviewScore.value,
           item_id: props.itemId,
-          reviewee_id: loggedInUser,
+          reviewee_id: props.itemOwnerId,
         };
         updateReviews(data);
         const { error } = await supabase.from('reviews').insert(data);

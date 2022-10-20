@@ -3,15 +3,17 @@
     <ItemImage v-if="itemImage" :url="itemImage" />
     <div class="item-details">
       <div v-if="loading">Loading details...</div>
-      
+
       <h1>{{ itemName }}</h1>
 
       <p><span>Category: </span>{{ itemCategory }}</p>
       <p><span>Condition: </span>{{ itemCondition }}</p>
       <p><span>Posted by: </span>{{ itemOwner }}</p>
-      
+
       <div class="description-p">
-        <p style="margin: 10px"><span>Description: </span> {{ itemDescription }}</p>
+        <p style="margin: 10px">
+          <span>Description: </span> {{ itemDescription }}
+        </p>
       </div>
 
       <button
@@ -23,7 +25,7 @@
       >
         Message {{ itemOwner }}
       </button>
-      
+
       <div v-show="messageClicked && id">
         <MessageForm
           :username="itemOwner"
@@ -38,7 +40,7 @@
         :disabled="swapApproved"
         class="item-btn primary"
       >
-        {{ swapApproved ? 'Pending swap' : 'Start a swap' }}
+        {{ swapApproved ? "Pending swap" : "Start a swap" }}
       </button>
 
       <div v-if="swapClicked && id">
@@ -51,42 +53,57 @@
         />
       </div>
 
+      <button
+        v-if="
+          !addReviewClicked && itemOwnerId !== loggedInUser && store.user.id
+        "
+        class="primary"
+        @click="onAddReviewClick"
+      >
+        Add a review
+      </button>
+
+      <div v-if="addReviewClicked && id">
+        <ReviewForm :userId="itemOwnerId" :itemId="id" />
+      </div>
     </div>
   </div>
 </template>
 <script setup>
-import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import { supabase } from '../supabase';
-import ItemImage from './ItemImage.vue';
-import MessageForm from './MessageForm.vue';
-import SwapForm from './SwapForm.vue';
-import { useStore } from '../store';
+import { onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
+import { supabase } from "../supabase";
+import ItemImage from "./ItemImage.vue";
+import MessageForm from "./MessageForm.vue";
+import SwapForm from "./SwapForm.vue";
+import { useStore } from "../store";
+import ReviewForm from "./ReviewForm.vue";
 
 const route = useRoute();
 const id = route.params.id;
 const loading = ref(true);
-const itemName = ref('');
-const itemDescription = ref('');
-const itemCondition = ref('');
-const itemCategory = ref('');
-const itemOwnerId = ref('');
-const itemOwner = ref('');
-const itemImage = ref('');
+const itemName = ref("");
+const itemDescription = ref("");
+const itemCondition = ref("");
+const itemCategory = ref("");
+const itemOwnerId = ref("");
+const itemOwner = ref("");
+const itemImage = ref("");
 const messageClicked = ref(false);
 const swapClicked = ref(false);
+const addReviewClicked = ref(false);
 const store = useStore();
 const loggedInUser = store.user.id;
 const swapApproved = ref(false);
 const acceptDonation = ref(false);
-const donationAmount = ref('');
+const donationAmount = ref("");
 
 async function getItemById() {
   try {
     const { data, error } = await supabase
-      .from('items')
-      .select('*, categories (category_name)')
-      .eq('id', id);
+      .from("items")
+      .select("*, categories (category_name)")
+      .eq("id", id);
 
     itemName.value = data[0].item_name;
     itemDescription.value = data[0].description;
@@ -121,15 +138,22 @@ function onSwapClick() {
     swapClicked.value = true;
   }
 }
+function onAddReviewClick() {
+  if (addReviewClicked.value) {
+    addReviewClicked.value = false;
+  } else {
+    addReviewClicked.value = true;
+  }
+}
 
 async function getApprovedSwaps() {
   try {
     loading.value = true;
     const { data, error } = await supabase
-      .from('swaps')
+      .from("swaps")
       .select()
-      .eq('item_id', id)
-      .eq('approved', 'true');
+      .eq("item_id", id)
+      .eq("approved", "true");
 
     if (error) throw error;
 
@@ -161,7 +185,7 @@ onMounted(() => {
   padding: 40px;
   background-color: #f4f4f4;
   box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0,0,0, 0.5);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
 }
 
@@ -175,7 +199,7 @@ onMounted(() => {
 }
 
 .item-details > p {
-   color: #b78681;
+  color: #b78681;
 }
 
 .item-btn {
@@ -197,5 +221,4 @@ onMounted(() => {
   font-weight: 600;
   height: auto;
 }
-
 </style>

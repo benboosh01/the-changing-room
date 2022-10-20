@@ -16,7 +16,7 @@
         <h3>{{ item.item_name }}</h3>
         <p>Condition: {{ item.condition }}</p>
 
-        <div class="flex flex-center button-group">
+        <div id="#button-group" class="flex flex-center">
           <button class="primary" @click="clickEditRemove(item.id)">
             Edit/remove listing
           </button>
@@ -154,7 +154,8 @@ export default {
   text-align: center;
   background-color: #f4f4f4;
 }
-.button-group {
+
+#button-group {
   margin-top: 30px;
   display: flex;
   flex-direction: column;
