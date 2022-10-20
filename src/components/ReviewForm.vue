@@ -111,10 +111,11 @@ export default {
 }
 
 input[type="text"] {
-  padding: 12px 20px;
+  padding: 6px 20px;
+  width: 100%;
   margin: 8px 0;
   border: 1px solid black;
-  justify-content: center;
+  text-align: center;
 }
 input[type='submit'] {
   display: flex;
