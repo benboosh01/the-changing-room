@@ -1,10 +1,12 @@
 <template>
+  <Hero />
   <Login v-if="loginVisible" />
   <Registration v-if="regVisible" @toggleLogin="toggleLogin" />
-  <div class="flex flex-center button-group">
+  
+  <div v-if="!store.user.id" class="flex flex-center button-group">
     <button
       @click="toggleLogin"
-      v-if="!store.user.id"
+
       v-show="loginBtn"
       class="primary"
     >
@@ -12,7 +14,6 @@
     </button>
     <button
       @click="toggleReg"
-      v-if="!store.user.id"
       v-show="regBtn"
       class="primary"
     >
@@ -20,12 +21,12 @@
     </button>
   </div>
 
-  <!-- TODO - move to components -->
-  <div>
+  <div class="section-1">
     <h2 class="home-list-title">Our highest rated swappers</h2>
     <TopUsers />
   </div>
 
+  <div class="section-2">
   <h2 class="home-list-title">Our most recent listings</h2>
   <ul id="home-item-list">
     <li v-for="item in recentItems" :key="item.id" class="home-item-card">
@@ -36,6 +37,7 @@
       </button>
     </li>
   </ul>
+  </div>
 </template>
 <script setup>
 import Login from '../components/Login.vue';
@@ -46,6 +48,7 @@ import TopUsers from '../components/TopUsers.vue';
 import { supabase } from '../supabase';
 import router from '../router/index';
 import ItemImage from '../components/ItemImage.vue';
+import Hero from '../components/Hero.vue';
 
 const store = useStore();
 const loading = ref(false);
@@ -128,6 +131,9 @@ onMounted(() => {
 
 .home-list-title {
   text-align: center;
-  padding-top: 10px;
+  font-size: 32px;
+  padding: 30px;
+  color: #243b4a;
+
 }
 </style>

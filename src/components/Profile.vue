@@ -31,7 +31,7 @@
 
       <p>
         Rating: {{ profileUserRating
-        }}<i class="fa-solid fa-star" style="color: #fec42d"></i>
+        }}<i class="fa-sharp fa-solid fa-star" style="color: #fec42d"></i>
       </p>
 
       <p class="user-location">

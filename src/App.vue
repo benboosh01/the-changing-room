@@ -1,23 +1,14 @@
 <template>
   <TheNavigation />
-  <div class="container" style="padding: 0px 0 100px 0">
-    <Title class="app-title" />
+
+  <div style="padding: 0px 0 100px 0">
     <router-view></router-view>
   </div>
+  <Footer />
 </template>
 
 <script setup>
-import Title from './components/Title.vue';
 import TheNavigation from './components/TheNavigation.vue';
+import Footer from './components/Footer.vue';
 </script>
 
-<style scoped>
-.app-title {
-  border: 1px solid black;
-  text-align: center;
-  font-size: 50px;
-  margin-bottom: 30px;
-  margin-top: 30px;
-  background-color: #f4f4f4;
-}
-</style>
