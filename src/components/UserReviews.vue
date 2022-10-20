@@ -1,5 +1,5 @@
 <template>
-  <div v-if="userReviews" class="user-reviews-wrapper ">
+  <div v-if="userReviews" class="user-reviews-wrapper">
     <ul class="user-reviews-list">
       <li
         class="user-review-item"
@@ -7,36 +7,34 @@
         :key="review.id"
       >
         <div class="user-review-body">
-          <p>Rating: {{ review.rating }}
-            <i class="fa-sharp fa-solid fa-star" style="color: #fec42d">
-            </i></p>
+          <p>
+            Rating: {{ review.rating }}
+            <i class="fa-sharp fa-solid fa-star" style="color: #fec42d"> </i>
+          </p>
           <p class="comments">"{{ review.comments }}"</p>
-       
-        <div class="user">
-          <div>
-            <UserImage :url="review.users.avatar_url" />
-          </div>
-          <div class="user-info">
-            <h5>{{ review.users.username }}</h5>
-            <small>{{ new Date(review.created_at).toLocaleString() }}</small>
-          </div>
-         </div>
-         </div>
 
+          <div class="user">
+            <div>
+              <UserImage :url="review.users.avatar_url" />
+            </div>
+            <div class="user-info">
+              <h5>{{ review.users.username }}</h5>
+              <small>{{ new Date(review.created_at).toLocaleString() }}</small>
+            </div>
+          </div>
+        </div>
       </li>
     </ul>
   </div>
 
-  <div v-if="!userReviews">
-    No reviews yet
-  </div>
+  <div v-if="!userReviews">No reviews yet</div>
 </template>
 
 <script>
-import { supabase } from "../supabase";
-import { onMounted, ref } from "vue";
-import { useStore } from "../store";
-import UserImage from "./UserImage.vue";
+import { supabase } from '../supabase';
+import { onMounted, ref } from 'vue';
+import { useStore } from '../store';
+import UserImage from './UserImage.vue';
 
 export default {
   setup() {
@@ -51,7 +49,7 @@ export default {
         loading.value = true;
 
         const { data: reviews, error } = await supabase
-          .from("reviews")
+          .from('reviews')
           .select(
             `
             comments, rating, created_at, 
@@ -59,10 +57,9 @@ export default {
             items!reviews_item_id_fkey (item_preview_url)
             `
           )
-          .eq("reviewee_id", user.id);
+          .eq('reviewee_id', user.id);
 
         if (reviews) {
-          console.log("reviews", reviews);
           userReviews.value = reviews;
         }
       } catch (error) {
@@ -71,7 +68,7 @@ export default {
         loading.value = false;
       }
     }
-    
+
     onMounted(() => {
       getReviewsForUser();
     });
@@ -79,10 +76,10 @@ export default {
     return {
       loading,
       userReviews,
-      reviewDate
+      reviewDate,
     };
   },
-  components: { UserImage }
+  components: { UserImage },
 };
 </script>
 

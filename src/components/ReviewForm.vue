@@ -15,8 +15,12 @@
     </select>
     <br />
     <label for="comments">Comments</label>
-   
-    <input type="text" v-model="reviewComment" placeholder="Enter review comments" />
+
+    <input
+      type="text"
+      v-model="reviewComment"
+      placeholder="Enter review comments"
+    />
     <input
       type="submit"
       class="button block primary"
@@ -53,7 +57,7 @@ export default {
           comments: reviewComment.value,
           rating: reviewScore.value,
           item_id: props.itemId,
-          reviewee_id: loggedInUser,
+          reviewee_id: revieweeId,
         };
         updateReviews(data);
         const { error } = await supabase.from('reviews').insert(data);
@@ -89,15 +93,15 @@ export default {
 };
 </script>
 <style scoped>
-input[type=text] {
+input[type='text'] {
   padding: 12px 20px;
-    margin: 8px 0;
+  margin: 8px 0;
   border: 1px solid black;
-  justify-content: center
+  justify-content: center;
 }
-input[type=submit] {
+input[type='submit'] {
   display: flex;
   justify-content: center;
-  margin: auto
+  margin: auto;
 }
 </style>

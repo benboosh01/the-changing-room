@@ -118,7 +118,8 @@ export default {
           .select(
             `item_id, users (username, id), items!inner(item_name, item_preview_url)`
           )
-          .eq('items.owner_id', loggedInUser.value);
+          .eq('items.owner_id', loggedInUser.value)
+          .eq('approved', 'true');
 
         if (error) throw error;
 
@@ -141,7 +142,8 @@ export default {
           .select(
             `item_id, items (owner_id, owner_username, item_name, item_preview_url)`
           )
-          .eq('user_to', loggedInUser.value);
+          .eq('user_to', loggedInUser.value)
+          .eq('approved', 'true');
 
         if (error) throw error;
         if (recieved) {
