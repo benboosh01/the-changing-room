@@ -72,6 +72,7 @@ export default {
 /* } */
 
 .dialog {
+  overflow-y: auto;
   background: #f1f1f1;
   width: 70%;
   position: absolute;
