@@ -26,12 +26,7 @@ function logOut() {
 
 <style scoped>
 #header {
-  /* border: 1px solid #a2a2a2; */
-  /* background-color: #f4f4f4; */
   background-color: #243b4a;
-  /* -webkit-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.75); */
-  /* -moz-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.5); */
-  /* box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.5); */
   position: sticky;
   width: 100%;
   top: 0;
@@ -44,7 +39,6 @@ function logOut() {
 }
 
 .navbar-links > a {
-  /* text-transform: uppercase; */
   text-decoration: none;
   font-size: 15px;
   padding: 1rem;
@@ -62,22 +56,10 @@ function logOut() {
   margin-left: 30px;
 }
 
-/* media queries */
-@media (min-width: 769px) {
-  .navbar,
-  .navbar-links {
-    display: flex;
-  }
-  .navbar {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-
-@media (min-width: 1025px) {
-  .navbar {
-    flex-direction: row;
-    justify-content: space-between;
-  }
+.navbar-links {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>
