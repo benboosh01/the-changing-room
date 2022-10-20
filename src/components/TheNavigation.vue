@@ -27,12 +27,14 @@ function logOut() {
 <style scoped>
 #header {
   background-color: #243b4a;
+  min-height: 75px;
   position: sticky;
   width: 100%;
   top: 0;
 }
 
 .navbar {
+  min-height: 75px;
   max-width: 1366px;
   display: flex;
   align-items: center;
