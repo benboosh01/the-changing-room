@@ -148,7 +148,6 @@ export default {
 
 <style scoped>
 .user-items-wrapper {
-  border: 1px solid black;
   padding: 10px;
   margin: 20px 0;
   text-align: center;

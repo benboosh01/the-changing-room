@@ -1,15 +1,15 @@
 <script>
-import { ref } from 'vue';
-import { useStore } from '../store';
-import { supabase } from '../supabase';
+import { ref } from "vue";
+import { useStore } from "../store";
+import { supabase } from "../supabase";
 
 export default {
-  name: 'MessageForm',
-  props: ['username', 'userId'],
-  emits: ['toggleVisible', 'onMessageClick'],
+  name: "MessageForm",
+  props: ["username", "userId"],
+  emits: ["toggleVisible", "onMessageClick"],
   setup(props, context) {
     const store = useStore();
-    const messageBody = ref('');
+    const messageBody = ref("");
 
     async function handleMessage() {
       const data = {
@@ -17,19 +17,19 @@ export default {
         user_to_id: props.userId, // TODO: user_to_id should be dynamic, and be the recipients id
         text: messageBody.value,
       };
-      const { error } = await supabase.from('messages').insert(data);
+      const { error } = await supabase.from("messages").insert(data);
       if (error) {
-        alert('Message failed to send');
+        alert("Message failed to send");
       } else {
-        alert('Succesfully sent message');
-        messageBody.value = '';
+        alert("Succesfully sent message");
+        messageBody.value = "";
         toggleVisible();
       }
     }
 
     function toggleVisible() {
-      context.emit('toggleVisible');
-      context.emit('onMessageClick');
+      context.emit("toggleVisible");
+      context.emit("onMessageClick");
     }
 
     return {
@@ -44,19 +44,19 @@ export default {
 <template>
   <!-- Replace 'store.user.username' with the recipients username -->
   <div class="message-form-box">
-  <h3 class="title">Send a message to {{ username }}</h3>
-  <form @submit.prevent="handleMessage" class="msg-form">
-    <label for="message-body" />
-    <textarea
-      class="message-box"
-      name="message-body"
-      type="text"
-      v-model="messageBody"
-      placeholder="Message body"
-      required
-    />
-    <input type="submit" class="msg-form-btn" />
-  </form>
+    <h2 class="title">Send a message to {{ username }}</h2>
+    <form @submit.prevent="handleMessage" class="msg-form">
+      <label for="message-body" />
+      <textarea
+        class="message-box"
+        name="message-body"
+        type="text"
+        v-model="messageBody"
+        placeholder="Message body"
+        required
+      />
+      <input type="submit" class="msg-form-btn" />
+    </form>
   </div>
 </template>
 
@@ -67,12 +67,11 @@ export default {
   background-color: #e9f1f7;
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
-  border-radius: 10px; 
+  border-radius: 10px;
 }
 
 .message-box {
-  /* border-radius: 5px; */
-  /* margin-bottom: 10px; */
+  margin-bottom: 15px;
   padding: 15px;
   width: 100%;
   height: 150px;
@@ -83,7 +82,9 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 40px;
+  padding: 10px;
+  border: none;
+  align-items: center;
 }
 
 .msg-form-btn {
@@ -96,6 +97,8 @@ export default {
 }
 
 .title {
-  margin: 10px;
+  margin: 0 0 30px;
+  padding: 0;
+  text-align: center;
 }
 </style>

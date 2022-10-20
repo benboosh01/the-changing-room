@@ -1,12 +1,15 @@
 <template>
-  <main v-show="!submitted" class="swap-form-container">
-    <p>
-      Ready to swap with {{ username }}? Complete the form below to submit your
-      swap request
+  <div v-show="!submitted" class="swap-form-box">
+    <h2 class="title">Ready to swap with {{ username }}?</h2>
+    <h3 class="subtitle">
+      Complete the form below to submit your swap request
+    </h3>
+    <p class="text">
+      Hi <em>{{ username }}</em
+      >, I'd like your item. Here's what I can swap:
     </p>
-    <p>Hi {{ username }}, I'd like your item. Here's what I can swap:</p>
     <label htmlFor="swapForm">Choose which item you want to offer: </label>
-    <select name="swapForm" v-model="selectedItem">
+    <select class="dropdown" name="swapForm" v-model="selectedItem">
       <option v-for="item in userItems">{{ item.item_name }}</option>
     </select>
     <button @click="createNewSwap(selectedItem)">Request swap</button>
@@ -21,7 +24,7 @@
       ><img
         src="//widgets.justgiving.com/Button?p=eyJUZXh0IjoiUmVmdWdlIiwiSWQiOiI1YWJkODc0YS01M2YyLTQxOGItOWRmZi1jZWQxZWMzMDE0YTAiLCJDaGFyaXR5SWQiOjExMTk0LCJTaXplIjoicyIsIlJlZmVyZW5jZSI6ImFsaWNlUmVmdWdlIiwiVHlwZSI6IkNoYXJpdHlEb25hdGUifQ=="
     /></a>
-  </main>
+  </div>
 
   <p v-show="submitted">
     Success! {{ username }} will now review your request and approve it if
@@ -30,20 +33,20 @@
 </template>
 
 <script>
-import { isStaticArgOf } from '@vue/compiler-core';
-import { onMounted, ref } from 'vue';
-import { useStore } from '../store';
-import { supabase } from '../supabase';
+import { isStaticArgOf } from "@vue/compiler-core";
+import { onMounted, ref } from "vue";
+import { useStore } from "../store";
+import { supabase } from "../supabase";
 
 export default {
-  name: 'SwapForm',
+  name: "SwapForm",
   props: [
-    'username',
-    'userId',
-    'itemId',
-    'itemName',
-    'acceptDonation',
-    'donationAmount',
+    "username",
+    "userId",
+    "itemId",
+    "itemName",
+    "acceptDonation",
+    "donationAmount",
   ],
 
   setup(props) {
@@ -53,7 +56,7 @@ export default {
     const requestedItemId = props.itemId;
     const userItems = ref([]);
     const loading = ref(false);
-    const selectedItemId = ref('');
+    const selectedItemId = ref("");
     const submitted = ref(false);
     const swapOneData = ref([]);
     const swapTwoData = ref([]);
@@ -63,9 +66,9 @@ export default {
         loading.value = true;
 
         const { data, error } = await supabase
-          .from('items')
-          .select('item_name, id')
-          .eq('owner_id', loggedInUser);
+          .from("items")
+          .select("item_name, id")
+          .eq("owner_id", loggedInUser);
 
         if (error) throw error;
 
@@ -98,7 +101,7 @@ export default {
 
       try {
         const { data, error } = await supabase
-          .from('swaps')
+          .from("swaps")
           .insert(swapOne)
           .select();
 
@@ -113,7 +116,7 @@ export default {
 
       try {
         const { data, error } = await supabase
-          .from('swaps')
+          .from("swaps")
           .insert(swapTwo)
           .select();
 
@@ -137,7 +140,7 @@ export default {
           swap2: swapTwoData.value[0].swap_id,
         };
 
-        const { data, error } = await supabase.from('trades').insert(swapPair);
+        const { data, error } = await supabase.from("trades").insert(swapPair);
 
         if (error) throw error;
       } catch (error) {
@@ -165,16 +168,34 @@ export default {
 };
 </script>
 <style scoped>
-.swap-form-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
+.title {
+  margin-bottom: 5px;
 }
 
-.swap-form-container > select,
+.subtitle {
+  margin-bottom: 20px;
+}
+
+.text {
+  margin-bottom: 20px;
+}
+
+.swap-form-box {
+  margin-top: 20px;
+  padding: 40px;
+  background-color: #e9f1f7;
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}
+
+.swap-form-box > select,
 button {
   width: 225px;
+}
+
+.dropdown {
+  height: 40px;
+  padding: 
 }
 </style>
