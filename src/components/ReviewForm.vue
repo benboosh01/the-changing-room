@@ -1,51 +1,53 @@
 <template>
-  <h1>Review</h1>
-  <form @submit.prevent="submitReview">
-    <div>
-      <label for="reviewee-user">Username:</label>
-      <input id="reviewee-user" type="input" v-model="username" disabled />
-    </div>
-    <select v-model="reviewScore" required>
-      <option disabled value="">Select review score</option>
-      <option value="1">1 star</option>
-      <option value="2">2 stars</option>
-      <option value="3">3 stars</option>
-      <option value="4">4 stars</option>
-      <option value="5">5 stars</option>
-    </select>
-    <br />
-    <label for="comments">Comments</label>
+  <div class="review-form-box">
+    <h2 class="review-form">Review</h2>
+    <form @submit.prevent="submitReview">
+      <div>
+        <label for="reviewee-user">Username:</label>
+        <input id="reviewee-user" type="input" v-model="username" disabled />
+      </div>
+      <select v-model="reviewScore" required>
+        <option disabled value="">Select review score</option>
+        <option value="1">1 star</option>
+        <option value="2">2 stars</option>
+        <option value="3">3 stars</option>
+        <option value="4">4 stars</option>
+        <option value="5">5 stars</option>
+      </select>
+      <br />
+      <label for="comments">Comments</label>
 
-    <input
-      type="text"
-      v-model="reviewComment"
-      placeholder="Enter review comments"
-    />
-    <input
-      type="submit"
-      class="button block primary"
-      :value="disable ? 'Review Submitted' : 'Submit Review'"
-      :disabled="disable"
-    />
-  </form>
+      <input
+        type="text"
+        v-model="reviewComment"
+        placeholder="Enter review comments"
+      />
+      <input
+        type="submit"
+        class="button block primary"
+        :value="disable ? 'Review Submitted' : 'Submit Review'"
+        :disabled="disable"
+      />
+    </form>
+  </div>
 </template>
 
 <script>
-import { supabase } from '../supabase';
-import { ref } from 'vue';
-import { useStore } from '../store';
+import { supabase } from "../supabase";
+import { ref } from "vue";
+import { useStore } from "../store";
 
 export default {
-  name: 'ReviewForm',
-  props: ['username', 'itemId'],
-  emits: ['toggleVisible', 'updateReviews'],
+  name: "ReviewForm",
+  props: ["username", "itemId"],
+  emits: ["toggleVisible", "updateReviews"],
   setup(props, context) {
     const store = useStore();
     const loading = ref(false);
-    const revieweeUsername = ref('');
-    const revieweeId = ref('');
-    const reviewScore = ref('');
-    const reviewComment = ref('');
+    const revieweeUsername = ref("");
+    const revieweeId = ref("");
+    const reviewScore = ref("");
+    const reviewComment = ref("");
     const loggedInUser = store.user.id;
     const disable = ref(false);
 
@@ -57,10 +59,10 @@ export default {
           comments: reviewComment.value,
           rating: reviewScore.value,
           item_id: props.itemId,
-          reviewee_id: props.itemOwnerId,
+          reviewee_id: reviewee_id,
         };
         updateReviews(data);
-        const { error } = await supabase.from('reviews').insert(data);
+        const { error } = await supabase.from("reviews").insert(data);
         if (error) throw error;
       } catch (error) {
         alert(error.message);
@@ -72,11 +74,11 @@ export default {
     }
 
     function toggleVisible() {
-      context.emit('toggleVisible');
+      context.emit("toggleVisible");
     }
 
     function updateReviews(data) {
-      context.emit('updateReviews', data);
+      context.emit("updateReviews", data);
     }
 
     return {
@@ -93,13 +95,21 @@ export default {
 };
 </script>
 <style scoped>
-input[type='text'] {
+.review-form-box {
+  padding: 40px;
+  background-color: #e9f1f7;
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}
+
+input[type="text"] {
   padding: 12px 20px;
   margin: 8px 0;
   border: 1px solid black;
   justify-content: center;
 }
-input[type='submit'] {
+input[type="submit"] {
   display: flex;
   justify-content: center;
   margin: auto;
