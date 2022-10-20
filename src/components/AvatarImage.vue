@@ -44,7 +44,7 @@ onMounted(() => {
   justify-content: center;
 }
 .profile-image {
-    border: 2px solid #03bfcb;
-    padding: 5px;
+  border: 3px solid #b78681;
+  padding: 5px;
 }
 </style>

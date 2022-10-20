@@ -13,7 +13,7 @@
     <li v-for="item in itemList" :key="item.id" class="item">
       <h2>{{ item.item_name }}</h2>
       <ItemImage v-if="item" :url="item.item_preview_url" />
-      <button @click="selectItem(item.id)" class="select-button">
+      <button @click="selectItem(item.id)" class="select-button primary">
         View item details
       </button>
     </li>
@@ -84,13 +84,23 @@ onMounted(() => {
   width: 100%;
 }
 .item {
-  text-align: center;
+  /* text-align: center;
   border: 1px solid black;
   margin: 10px 10px;
   padding: 20px;
   display: flex;
   flex-direction: column;
+  background-color: #f4f4f4; */
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
   background-color: #f4f4f4;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex-wrap: wrap;
+  text-align: center;
 }
 
 #category {
@@ -100,10 +110,4 @@ onMounted(() => {
   margin: 15px;
 }
 
-.select-button {
-  background-color: white;
-  border: 1px solid black;
-  margin-top: 8px;
-  padding: 4px 7px;
-}
 </style>

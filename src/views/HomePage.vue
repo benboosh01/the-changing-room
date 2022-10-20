@@ -35,7 +35,7 @@
     <li v-for="item in recentItems" :key="item.id" class="home-item-card">
       <ItemImage v-if="item" :url="item.item_preview_url" />
       <h3>{{ item.item_name }}</h3>
-      <button @click="selectItem(item.id)" class="select-button">
+      <button @click="selectItem(item.id)" class="select-button primary">
         View item details
       </button>
     </li>
@@ -119,19 +119,20 @@ onMounted(() => {
   justify-content: center;
   flex-wrap: wrap;
   max-width: 100%;
-  gap: 5px;
+  gap: 10px;
 }
 
 .home-item-card {
-  text-align: center;
-  border: 1px solid black;
-  margin: 10px 10px;
-  padding: 10px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
   display: flex;
   flex-direction: column;
   gap: 5px;
   flex-wrap: wrap;
-  background-color: white;
+  text-align: center;
 }
 
 .home-list-title {

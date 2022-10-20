@@ -203,13 +203,12 @@ export default {
 <style scoped>
 .profile-card {
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
-  background-color: #f1f1f1;
+  background-color: #f4f4f4;
   border-radius: 10px;
   padding: 20px;
   margin: 10px;
   display: flex;
   justify-content: space-around;
-  background-color: #f4f4f4;
 }
 
 .profile-info {

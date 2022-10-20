@@ -8,7 +8,7 @@
       />
       <p>
         {{ user.username }}: {{ user.ave_review_score }}
-        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star" style="color: #fec42d; margin-left: 5px;"></i>
       </p>
     </li>
   </ul>
@@ -62,14 +62,14 @@ onMounted(() => {
 
 .user-card {
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
-  background-color: #fff;
+  background-color: #f4f4f4;
   border-radius: 10px;
   padding: 20px;
   margin: 10px;
-  text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
   flex-wrap: wrap;
+  text-align: center;
 }
 </style>
