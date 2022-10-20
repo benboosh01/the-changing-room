@@ -33,21 +33,21 @@
 </template>
 
 <script>
-import { supabase } from "../supabase";
-import { ref } from "vue";
-import { useStore } from "../store";
+import { supabase } from '../supabase';
+import { ref } from 'vue';
+import { useStore } from '../store';
 
 export default {
-  name: "ReviewForm",
-  props: ["username", "itemId"],
-  emits: ["toggleVisible", "updateReviews"],
+  name: 'ReviewForm',
+  props: ['username', 'itemId', 'revieweeId'],
+  emits: ['toggleVisible', 'updateReviews'],
   setup(props, context) {
     const store = useStore();
     const loading = ref(false);
-    const revieweeUsername = ref("");
-    const revieweeId = ref("");
-    const reviewScore = ref("");
-    const reviewComment = ref("");
+    const revieweeUsername = ref('');
+    const revieweeId = ref('');
+    const reviewScore = ref('');
+    const reviewComment = ref('');
     const loggedInUser = store.user.id;
     const disable = ref(false);
 
@@ -59,10 +59,10 @@ export default {
           comments: reviewComment.value,
           rating: reviewScore.value,
           item_id: props.itemId,
-          reviewee_id: reviewee_id,
+          reviewee_id: props.revieweeId,
         };
         updateReviews(data);
-        const { error } = await supabase.from("reviews").insert(data);
+        const { error } = await supabase.from('reviews').insert(data);
         if (error) throw error;
       } catch (error) {
         alert(error.message);
@@ -74,11 +74,11 @@ export default {
     }
 
     function toggleVisible() {
-      context.emit("toggleVisible");
+      context.emit('toggleVisible');
     }
 
     function updateReviews(data) {
-      context.emit("updateReviews", data);
+      context.emit('updateReviews', data);
     }
 
     return {
@@ -103,6 +103,7 @@ export default {
   border-radius: 10px;
 }
 
+
 .review-form-title {
   padding: 0;
   text-align: center;
@@ -114,7 +115,7 @@ input[type="text"] {
   border: 1px solid black;
   justify-content: center;
 }
-input[type="submit"] {
+input[type='submit'] {
   display: flex;
   justify-content: center;
   margin: auto;
