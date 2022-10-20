@@ -25,6 +25,7 @@
           v-if="reviewVisible && item.item_id === itemId"
           :username="item.users.username"
           :itemId="itemId"
+          :revieweeId="item.users.id"
           @toggleVisible="toggleVisible"
           @updateReviews="updateReviews"
         />
@@ -59,6 +60,7 @@
           v-if="reviewVisible && item.item_id === itemId"
           :username="item.items.owner_username"
           :itemId="itemId"
+          :revieweeId="item.items.owner_id"
           @toggleVisible="toggleVisible"
           @updateReviews="updateReviews"
         />
@@ -146,6 +148,7 @@ export default {
           .eq('approved', 'true');
 
         if (error) throw error;
+        console.log(recieved);
         if (recieved) {
           userRecieved.value = recieved;
         }
