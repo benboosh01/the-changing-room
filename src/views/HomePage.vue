@@ -1,5 +1,8 @@
 <template>
   <Hero />
+
+  <div class="container">
+
   <Login v-if="loginVisible" />
   <Registration v-if="regVisible" @toggleLogin="toggleLogin" />
   
@@ -37,6 +40,8 @@
       </button>
     </li>
   </ul>
+  </div>
+
   </div>
 </template>
 <script setup>

@@ -1,5 +1,7 @@
 <template>
+  <div class="container">
   <SingleItem />
+</div>
 </template>
 
 <script setup>

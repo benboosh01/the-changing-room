@@ -1,5 +1,5 @@
 <template>
-  <div class="items-list-wrapper">
+  <div class="items-list-wrapper container">
     <ItemList />
   </div>
 </template>

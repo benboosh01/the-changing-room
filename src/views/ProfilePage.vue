@@ -1,4 +1,5 @@
 <template>
+  <div class="container">
   <Profile />
   <div class="flex flex-center button-group">
     <button @click="toggleItems" class="primary">Items</button>
@@ -10,6 +11,8 @@
   <UserItems v-if="itemsVisible" />
   <SwapsList v-if="swapsVisible" />
   <MessageInbox v-if="messagesVisible" />
+
+</div>
 </template>
 
 <script setup>
