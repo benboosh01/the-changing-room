@@ -2,9 +2,9 @@
   <header id="header">
     <nav class="navbar">
       <ul class="navbar-links">
-        <router-link to="/home">Home</router-link>
-        <router-link to="/items">Items</router-link>
-        <router-link to="/profile" v-if="store.user.id">Profile</router-link>
+        <router-link to="/home">home</router-link>
+        <router-link to="/items">items</router-link>
+        <router-link to="/profile" v-if="store.user.id">profile</router-link>
         <button v-if="store.user.id" @click="logOut" class="logout-btn">
           Log Out
         </button>
@@ -27,11 +27,12 @@ function logOut() {
 <style scoped>
 #header {
   display: flex;
-  border: 1px solid #a2a2a2;
-  background-color: #f4f4f4;
-  -webkit-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.5);
-  box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.5);
+  /* border: 1px solid #a2a2a2; */
+  /* background-color: #f4f4f4; */
+  background-color: #243b4a;
+  /* -webkit-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.75); */
+  /* -moz-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.5); */
+  /* box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.5); */
   position: sticky;
   top: 0;
 }
@@ -39,14 +40,15 @@ function logOut() {
 .navbar {
   max-width: 1366px;
   margin: 0 auto;
-  padding: 0 3rem;
+  /* padding: 0 3rem; */
 }
 
 .navbar-links > a {
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   text-decoration: none;
-  font-size: 20px;
-  padding: 2rem;
+  font-size: 15px;
+  padding: 1rem;
+  color: #fff;
 }
 
 .navbar-links > a:hover {

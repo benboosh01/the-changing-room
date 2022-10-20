@@ -20,10 +20,12 @@ body * {
   padding: 0;
   margin: 0;
   /* font-family: var(--custom-font-family); */
-  /* background-color: var(--custom-bg-color); */
+  /* background-color: var(--custom-bg-color); */  
+}
 
-  
-  
+body {
+  background-color: #b78681;
+  background-color: #d0b8ac;
 }
 
 * {
@@ -40,7 +42,7 @@ body,
   width: 100vw;
   overflow-x: hidden;
   margin: 0;
-  background-image: linear-gradient(to right, #BFD4DB, #BFD4DB);
+  /* background-image: linear-gradient(to right, #BFD4DB, #BFD4DB); */
 
 }
 
@@ -298,7 +300,7 @@ button.primary,
   border-radius: 5px;
 }
 
-.footer {
+/* .footer {
   position: absolute;
   max-width: 100%;
   bottom: 0;
@@ -307,9 +309,9 @@ button.primary,
   display: flex;
   flex-flow: row;
   border-top: var(--custom-border);
-  /* background-color: var(--custom-bg-color); */
-}
-.footer div {
+  background-color: var(--custom-bg-color);
+} */
+/* .footer div {
   padding: var(--custom-spacing);
   display: flex;
   align-items: center;
@@ -318,13 +320,13 @@ button.primary,
 .footer div > img {
   height: 20px;
   margin-left: 10px;
-}
-.footer > div:first-child {
+} */
+/* .footer > div:first-child {
   display: none;
-}
-.footer > div:nth-child(2) {
+} */
+/* .footer > div:nth-child(2) {
   justify-content: left;
-}
+} */
 
 @media only screen and (min-width: 60em) {
   /* 960px */
